@@ -1,0 +1,44 @@
+﻿@model ECommerceApp.ViewModel.HomeViewModel;
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+
+<h1 class="text-2xl font-semibold underline text-center my-6">
+    @Model.Products.FirstOrDefault().Category?.Name
+</h1>
+
+<div class="w-full h-[60vh] flex items-center justify-center flex-wrap gap-4 ">
+    @foreach (var product in Model.Products)
+    {
+
+        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.Id" class="block mt-6 hover:text-white w-[20%]  transition-all duration-400 ease-in-out hover:scale-105 h-full border rounded-md overflow-hidden hover:shadow-lg hover:shadow-gray-500 transition-all duration-400 ease-out">
+
+            <div class="w-full h-[75%] flex items-center justify-center bg-gray-100">
+                <img src="@product.ImageUrl" alt="Product Image" class="w-full h-full object-contain">
+            </div>
+
+
+            <div class="w-full h-[25%] flex flex-col items-start justify-center space-y-1 px-2">
+                <h1 class="text-lg">@product.Name</h1>
+                @if (product.Discount > 0)
+                {
+                    <div class="flex items-center justify-center space-x-2">
+                        <h1 class="text-green-500">&#x20B9; @product.DiscountedPrice</h1>
+                        <h2 class="line-through">&#x20B9; @product.Price</h2>
+                        <h5 class="text-green-500">@product.Discount% off</h5>
+                    </div>
+                }
+                else
+                {
+                    <h5 class="text-md">Rs. @product.Price</h5>
+                }
+            </div>
+        </a>
+    }
+</div>

@@ -24,16 +24,16 @@ namespace ECommerceApp.Models
         public IFormFile? ImageFile { get; set; }
 
         [Range(0, 100, ErrorMessage = "Discount must be between 0 and 100.")]
-        public int? Discount { get; set; }
+        public int Discount { get; set; } = 0;
 
         [NotMapped]
         public decimal DiscountedPrice
         {
             get
             {
-                if (Discount.HasValue && Discount > 0)
+                if (Discount > 0) 
                 {
-                    return Price - (Price * (Discount.Value / 100));
+                    return Price - (Price * (Discount / 100));
                 }
                 return Price;
             }
@@ -42,7 +42,7 @@ namespace ECommerceApp.Models
 
         [ForeignKey("Category")]
         [Display(Name = "Category")]
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public Category Category { get; set; }
     }

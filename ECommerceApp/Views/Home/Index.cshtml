@@ -77,7 +77,7 @@
 
         @foreach (var i in Model.Categories)
         {
-            <a asp-controller="ProductsViewModels" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
+            <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
                 <div class="text-xl">@i.Name</div>
                 <img src="~/images/icons8-next-32.png" class="w-5 opacity-50">
             </a>

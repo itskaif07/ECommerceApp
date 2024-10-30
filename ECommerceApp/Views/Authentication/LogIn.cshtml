@@ -4,7 +4,10 @@
     ViewData["Title"] = "Log In";
 }
 
-<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block py-2 px-10 mt-6 ml-6">Back</a>
+
+<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
 
 <div class="flex items-center justify-center space-x-8 mt-2 mb-8">
     <a asp-controller="SignUp" asp-action="SignUp" id="registerButton" class="block hover:text-white transition-all duration-100 ease-out cursor-pointer">

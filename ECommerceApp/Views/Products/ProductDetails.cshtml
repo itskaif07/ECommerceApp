@@ -1,0 +1,60 @@
+﻿@model ECommerceApp.Models.Product;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="flex items-center justify-between py-10 px-10">
+    <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@Model.CategoryId" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-lg py-2 px-10">Back</a>
+
+    @if (User.IsInRole("siteOwner"))
+    {
+        <div class="flex items-center justify-end space-x-2">
+            <a asp-controller="ProductsViewModels" asp-action="Edit" asp-route-id="@Model.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="ProductsViewModels" asp-action="Delete" asp-route-id="@Model.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
+        </div>
+    }
+</div>
+
+<div class="w-full flex items-start justify-center mt-10">
+    <div class="w-full flex items-start justify-center space-y-6 mt-3">
+        <div class="w-1/2 flex flex-col items-center justify-center space-y-6">
+            <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair">
+                <img id="productImage" src="@Model.ImageUrl" class="w-[70%] h-96 object-contain object-center transition-all duration-400 ease-out">
+                <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
+            </div>
+            <div class="w-1/2 flex items-center justify-center space-x-4">
+                <a class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full hover:text-white rounded-lg py-2 text-center font-medium text-lg flex items-center justify-center space-x-4">
+                    <img src="~/images/icons8-lightning-50.png" alt="Buy" class="w-8">
+                    <h1>Buy</h1>
+                </a>
+                <a class="bg-blue-500 hover:bg-blue-600 w-full hover:text-white rounded-lg py-2 text-center font-medium text-lg flex items-center justify-center space-x-4">
+                    <img src="~/images/icons8-cart-80.png" alt="Cart" class="w-8">
+                    <h1>Add to Cart</h1>
+                </a>
+            </div>
+        </div>
+        <div class="w-1/2 flex items-start flex-col justify-center space-y-6">
+            <h1 class="text-xl font-medium">@Model.Name</h1>
+            <div class="w-full h-[25%] flex flex-col items-start justify-center">
+                @if (Model.Discount > 0)
+                {
+                    <div class="flex items-center justify-center space-x-2">
+                        <h1 class="text-green-500">&#x20B9; @Model.DiscountedPrice</h1>
+                        <h2 class="line-through">&#x20B9; @Model.Price</h2>
+                        <h5 class="text-green-500">@Model.Discount% off</h5>
+                    </div>
+                }
+                else
+                {
+                    <h5 class="text-md">&#x20B9; @Model.Price</h5>
+                }
+            </div>
+            <h5 class="pr-32">@Model.Description</h5>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/productDetails.js"></script>
+}
