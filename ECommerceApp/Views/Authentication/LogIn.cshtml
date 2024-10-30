@@ -1,0 +1,67 @@
+﻿@model ECommerceApp.ViewModels.Authentication.LogIn;
+
+@{
+    ViewData["Title"] = "Log In";
+}
+
+<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block py-2 px-10 mt-6 ml-6">Back</a>
+
+<div class="flex items-center justify-center space-x-8 mt-2 mb-8">
+    <a asp-controller="SignUp" asp-action="SignUp" id="registerButton" class="block hover:text-white transition-all duration-100 ease-out cursor-pointer">
+        <h1 class="text-xl font-semibold tracking-wider">Register</h1>
+        <div class="bg-white py-[2px] rounded-xl"></div>
+    </a>
+
+    <a asp-controller="LogIn" asp-action="LogIn" id="loginButton" class="block hover:text-white transition-all duration-100 ease-out cursor-pointer">
+        <h1 class="text-xl font-semibold tracking-wider">Log In</h1>
+        <div class="bg-white py-[2px] rounded-xl"></div>
+    </a>
+
+</div>
+
+<form asp-action="LogIn" method="post" class="w-1/2 h-[90vh] mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
+    @Html.AntiForgeryToken()
+
+
+    <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center">
+        <img src="~/images/login.png" alt="Alternate Text" class="w-8/12">
+
+    </div>
+
+    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+        <label asp-for="@Model.UserName">Username</label>
+        <input asp-for="@Model.UserName" class="w-full py-1 rounded-md text-black px-2 text-center">
+        <span asp-validation-for="@Model.UserName" class="text-red-500"></span>
+    </div>
+
+    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+        <label asp-for="@Model.Email">Email</label>
+        <input asp-for="@Model.Email" class="w-full py-1 rounded-md text-black px-2 text-center">
+        <span asp-validation-for="@Model.Email" class="text-red-500"></span>
+    </div>
+
+    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+        <label asp-for="@Model.Password">Password</label>
+        <div class="relative w-full">
+            <input asp-for="@Model.Password" id="password" class="w-full py-1 rounded-md text-black text-center px-2" type="password">
+            <div class="flex items-center justify-center">
+                <img src="~/images/icons8-eye-50.png" alt="Show" id="openEye" class="absolute right-2 top-0 w-8">
+                <img src="~/images/icons8-closed-eye-50.png" alt="Show" id="closedEye" class="hidden absolute right-2 top-0 w-8">
+            </div>
+        </div>
+        <span asp-validation-for="@Model.Password" class="text-red-500"></span>
+    </div>
+
+    <div class="w-4/5 flex items-center justify-center space-x-2">
+        <input type="checkbox" asp-for="@Model.RememberMe">
+        <label asp-for="@Model.RememberMe">Remember Me</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-1/4">Login</button>
+</form>
+
+
+@section Scripts {
+    <script src="~/js/login.js"></script>
+}
+

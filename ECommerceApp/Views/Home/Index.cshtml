@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewData["Title"] = "Shop Cart - Shop Everything";
+}
+
+
+<header class="w-full h-full">
+
+    <nav id="nav1" class="w-full h-full flex items-center justify-between px-6 bg-blue-500 text-white py-2">
+         <div>
+             @if (User.IsInRole("SiteOwner"))
+             {
+                 <a asp-controller="ProductsViewModels" asp-action="AddItems">Add Items</a>
+
+             }
+         </div>
+
+        <div class="flex items-center justify-center space-x-4 text-base">
+            <a asp-controller="Home" asp-action="Index" class="hover:text-yellow-200 text-white">WishList</a>
+
+            <a asp-controller="Profiles" asp-action="ProfileIndex" class="hover:text-yellow-200 text-white">Profile</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-controller="LogIn" asp-action="LogOut" method="post">
+                    <button type="submit" class="text-white">Log out</button>
+                </form>
+            }
+        </div>
+    </nav>
+
+    <nav id="nav2" class="w-full h-full text-white bg-blue-500 flex items-center justify-between px-6 py-2">
+
+        <div class="flex items-center justify-center">
+            <a asp-controller="Home" asp-action="Index" class="font-bold text-4xl w-1/4"><img src="~/images/logo.png" alt="Logo" class="w-48"></a>
+            <h1 class="text-3xl font-bold">ShopCart</h1>
+        </div>
+
+        <div class="w-1/2 flex items-center justify-center h-12 ">
+            <input class="h-full w-full rounded-l-xl px-3 outline-none text-black" type="text" placeholder="Search Here...">
+
+            <div class="h-full px-3 flex items-center justify-center bg-yellow-400 rounded-r-xl cursor-pointer">
+                <img src="~/images/search.png" class="w-4">
+            </div>
+        </div>
+
+        <div class="h-full flex items-center justify-center space-x-2">
+            <img src="~/images/icons8-cart-80.png" class="w-14">
+            <div>
+                <h1>My Cart</h1>
+                <h5 class="font-semibold">0</h5>
+            </div>
+        </div>
+
+        <a asp-controller="SignUp" asp-action="Signup" class="block hover:text-white flex items-center justify-center space-x-2">
+            <img src="~/images/user.png" alt="Account" class="w-12">
+            <div class="flex items-center justify-center">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <h1>@User.Identity.Name</h1>
+                }
+                else
+                {
+                    <h1>Sign In</h1>
+                }
+            </div>
+        </a>
+    </nav>
+
+</header>
+
+
+<div class="w-full h-[80vh] flex items-center justify-center my-6 space-x-4 ">
+
+    <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black rounded-xl overflow-auto">
+
+        <div class="text-xl text-black font-medium bg-yellow-300 py-2 border-[1px] border-black rounded-t-xl px-2">Categories</div>
+
+        @foreach (var i in Model.Categories)
+        {
+            <a asp-controller="ProductsViewModels" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
+                <div class="text-xl">@i.Name</div>
+                <img src="~/images/icons8-next-32.png" class="w-5 opacity-50">
+            </a>
+        }
+    </div>
+
+    <div id="slideShow" class="relative w-[75%] h-full rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in shadow-xl hover:shadow-gray-500">
+        <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
+        <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
+        <h1 class="relative font-bold text-white text-4xl tracking-wider">NEW COLLECTIONS</h1>
+        <p class="relative text-white">Explore our trendy new clothing collections!</p>
+        <div class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
+            <p>Shop Now</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="w-full h-[80vh] flex items-center justify-center my-6 space-x-4 ">
+</div>
+@section Scripts {
+    <script src="~/js/index.js"></script>
+}
