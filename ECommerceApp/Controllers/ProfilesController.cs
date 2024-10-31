@@ -39,130 +39,99 @@ namespace ECommerceApp.Controllers
             return View(user);
         }
 
-
-        // GET: Profiles/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var profile = await _context.Profile
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (profile == null)
-            {
-                return NotFound();
-            }
-
-            return View(profile);
-        }
-
-        // GET: Profiles/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Profiles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserName,Email,PhoneNumber,Address,City,State,Pincode")] Profile profile)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(profile);
-        }
-
         // GET: Profiles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<IActionResult> ProfileEdit(string id)
         {
-            if (id == null)
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-
-            var profile = await _context.Profile.FindAsync(id);
-            if (profile == null)
-            {
-                return NotFound();
-            }
-            return View(profile);
+            return View(user);
         }
 
-        // POST: Profiles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserName,Email,PhoneNumber,Address,City,State,Pincode")] Profile profile)
-        {
-            if (id != profile.Id)
-            {
-                return NotFound();
-            }
 
+        [HttpPost]
+        public async Task<IActionResult> ProfileEdit(ApplicationUser model)
+        {
             if (ModelState.IsValid)
             {
-                try
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
                 {
-                    _context.Update(profile);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProfileExists(profile.Id))
+                    bool emailChanged = user.Email != model.Email;
+
+                    user.Name = model.Name;
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.Address = model.Address;
+                    user.City = model.City;
+                    user.State = model.State;
+                    user.PinCode = model.PinCode;
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
                     {
-                        return NotFound();
+                        // Sign out the user if the email was changed
+                        if (emailChanged)
+                        {
+                            await _signInManager.SignOutAsync();
+                            TempData["EmailChangeWarning"] = "Email changed. Please log in with your new email.";
+                            return RedirectToAction("Login", "Login"); 
+                        }
+
+                        return RedirectToAction("ProfileIndex", "Profiles");
                     }
-                    else
+
+                    foreach (var error in result.Errors)
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(model);
         }
 
-        // GET: Profiles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+
+        [HttpGet]
+        public async Task<IActionResult> ProfileDelete(string id)
         {
-            if (id == null)
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user); 
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProfileDeleteConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            var profile = await _context.Profile
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (profile == null)
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
             {
-                return NotFound();
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
             }
 
-            return View(profile);
-        }
-
-        // POST: Profiles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var profile = await _context.Profile.FindAsync(id);
-            if (profile != null)
+            foreach (var error in result.Errors)
             {
-                _context.Profile.Remove(profile);
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("Error");
         }
+
+
 
         private bool ProfileExists(int id)
         {

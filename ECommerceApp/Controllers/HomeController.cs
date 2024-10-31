@@ -18,8 +18,9 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
+
             var products = await _context.Products.ToListAsync();
             var categories = await _context.Categories.ToListAsync();
 

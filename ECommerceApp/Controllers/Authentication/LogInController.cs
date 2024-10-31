@@ -33,6 +33,8 @@ namespace ECommerceApp.Controllers.Authentication
                 return View("~/Views/Authentication/LogIn.cshtml", model); 
             }
 
+            ViewBag.EmailChangeWarning = TempData["EmailChangeWarning"];
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {

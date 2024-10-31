@@ -3,6 +3,7 @@ using ECommerceApp.Models;
 using ECommerceApp.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace ECommerceApp.Controllers
 {
@@ -21,6 +22,8 @@ namespace ECommerceApp.Controllers
             {
                 return NotFound("Category not found.");
             }
+
+            
 
             var categories = await _context.Categories.ToListAsync();
             var products = await _context.Products.Include(p => p.Category)
@@ -46,6 +49,7 @@ namespace ECommerceApp.Controllers
         {
           
             var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(c => c.Id == id);
+
 
             if (product == null)
             {

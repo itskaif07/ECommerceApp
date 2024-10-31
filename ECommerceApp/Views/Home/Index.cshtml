@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Shop Cart - Shop Everything";
 }
 
@@ -7,13 +6,13 @@
 <header class="w-full h-full">
 
     <nav id="nav1" class="w-full h-full flex items-center justify-between px-6 bg-blue-500 text-white py-2">
-         <div>
-             @if (User.IsInRole("SiteOwner"))
-             {
-                 <a asp-controller="ProductsViewModels" asp-action="AddItems">Add Items</a>
+        <div>
+            @if (User.IsInRole("SiteOwner"))
+            {
+                <a asp-controller="ProductsViewModels" asp-action="AddItems">Admin</a>
 
-             }
-         </div>
+            }
+        </div>
 
         <div class="flex items-center justify-center space-x-4 text-base">
             <a asp-controller="Home" asp-action="Index" class="hover:text-yellow-200 text-white">WishList</a>
@@ -89,9 +88,9 @@
         <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
         <h1 class="relative font-bold text-white text-4xl tracking-wider">NEW COLLECTIONS</h1>
         <p class="relative text-white">Explore our trendy new clothing collections!</p>
-        <div class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
-            <p>Shop Now</p>
-        </div>
+        <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="3" class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
+            Shop Now
+        </a>
     </div>
 
 </div>

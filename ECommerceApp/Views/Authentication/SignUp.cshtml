@@ -49,6 +49,11 @@
     </div>
 
     <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+        <input asp-for="@Model.PhoneNumber" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Phone">
+        <span asp-validation-for="@Model.PhoneNumber" class="text-red-500"></span>
+    </div>
+
+    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
         <input asp-for="@Model.Address" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Address">
         <span asp-validation-for="@Model.Address" class="text-red-500"></span>
     </div>

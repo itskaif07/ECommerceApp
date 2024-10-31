@@ -24,12 +24,18 @@
 
 <form asp-action="LogIn" method="post" class="w-1/2 h-[90vh] mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
     @Html.AntiForgeryToken()
-
+    @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
 
     <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center">
         <img src="~/images/login.png" alt="Alternate Text" class="w-8/12">
-
     </div>
+
+    @if (ViewBag.EmailChangeWarning != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.EmailChangeWarning
+        </div>
+    }
 
     <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
         <label asp-for="@Model.UserName">Username</label>
