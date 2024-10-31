@@ -2,6 +2,7 @@
 using ECommerceApp.Models;
 using ECommerceApp.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -59,5 +60,50 @@ namespace ECommerceApp.Controllers
            
             return View("~/Views/Products/ProductDetails.cshtml", product); 
         }
+
+        [HttpGet]
+        public IActionResult ProductAdd()
+        {
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+
+            return View("~/Views/Products/ProductAdd.cshtml");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductAdd(Product product)
+        {
+
+            if (!ModelState.IsValid)
+            {
+
+                foreach (var state in ModelState)
+                {
+                    Console.WriteLine($"Key: {state.Key} - Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
+            }
+
+            if (product.ImageFile != null)
+            {
+                var filePath = Path.Combine("wwwroot/images", product.ImageFile.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await product.ImageFile.CopyToAsync(stream);
+                }
+                product.ImageUrl = "/images/" + product.ImageFile.FileName;
+            }
+            else if(!string.IsNullOrEmpty(product.WebUrl))
+            {
+                product.ImageUrl = product.WebUrl;
+            }
+
+       
+            _context.Add(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
     }
 }

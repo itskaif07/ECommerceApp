@@ -23,6 +23,9 @@ namespace ECommerceApp.Models
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
 
+        [NotMapped]
+        public string? WebUrl { get; set; }
+
         [Range(0, 100, ErrorMessage = "Discount must be between 0 and 100.")]
         public int Discount { get; set; } = 0;
 
@@ -42,6 +45,7 @@ namespace ECommerceApp.Models
 
         [ForeignKey("Category")]
         [Display(Name = "Category")]
+        [Required(ErrorMessage = "Category is Required")]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
