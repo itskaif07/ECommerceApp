@@ -266,6 +266,5 @@ new Product
 
    );
         }
-        public DbSet<ECommerceApp.ViewModels.Profile> Profile { get; set; } = default!;
     }
 };

@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Admin";
+}
+
+<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<h1 class="text-xl font-semibold text-center mt-10 mb-24 underline">Admin</h1>
+
+<div class="w-full flex items-center justify-center flex-col flex-wrap space-y-14">
+
+    <div class="w-full flex items-center justify-center space-x-6">
+
+        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Products List
+        </div>
+
+
+        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Categories List
+        </div>
+
+        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Users List
+        </div>
+
+
+    </div>
+
+    <div class="w-full flex items-center justify-center space-x-6">
+
+        <div class="w-fit bg-yellow-500 hover:bg-yellow-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Add Categories
+        </div>
+      
+        <div class="w-fit bg-yellow-500 hover:bg-yellow-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Add Products
+        </div>
+    </div>
+
+    <div class="w-full flex items-center justify-center space-x-6">
+        <div class="w-fit bg-red-600 hover:bg-red-700 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+            Assign Admin
+        </div>
+    </div>
+</div>
+

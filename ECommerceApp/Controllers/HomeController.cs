@@ -33,6 +33,11 @@ namespace ECommerceApp.Controllers
             return View(model);
         }
 
+        public IActionResult Admin()
+        {
+            return View();
+        }
+
 
 
 

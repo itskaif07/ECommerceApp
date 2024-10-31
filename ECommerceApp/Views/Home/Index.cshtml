@@ -9,13 +9,13 @@
         <div>
             @if (User.IsInRole("SiteOwner"))
             {
-                <a asp-controller="ProductsViewModels" asp-action="AddItems">Admin</a>
+                <a asp-controller="Home" asp-action="Admin" class="hover:text-white">Admin</a>
 
             }
         </div>
 
         <div class="flex items-center justify-center space-x-4 text-base">
-            <a asp-controller="Home" asp-action="Index" class="hover:text-yellow-200 text-white">WishList</a>
+            <a asp-controller="Home" asp-action="Index" class="text-white">WishList</a>
 
             <a asp-controller="Profiles" asp-action="ProfileIndex" class="hover:text-yellow-200 text-white">Profile</a>
             @if (User.Identity.IsAuthenticated)

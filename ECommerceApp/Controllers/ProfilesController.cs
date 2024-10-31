@@ -131,11 +131,5 @@ namespace ECommerceApp.Controllers
             return View("Error");
         }
 
-
-
-        private bool ProfileExists(int id)
-        {
-            return _context.Profile.Any(e => e.Id == id);
-        }
     }
 }
