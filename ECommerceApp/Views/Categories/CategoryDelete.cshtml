@@ -1,0 +1,25 @@
+﻿@model ECommerceApp.Models.Category 
+
+
+<a asp-controller="Categories" asp-action="DeleteCategoryList" class="mt-4 ml-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<div class="w-full flex items-center justify-start mt-20 flex-col h-screen space-y-10 text-center">
+
+    <div class="space-y-6">
+
+    <h1 class="text-xl font-semibold">Confirm Deletion</h1>
+    <p>Are you sure you want to delete the category: @Model.Name</p> 
+    <p class="text-red-500">This will also delete all the products related to @Model.Name</p>
+    </div>
+
+    <form asp-action="ConfirmCategoryDelete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="w-fit bg-red-600 hover:bg-red-700 py-2 px-8 rounded-xl hover:text-white transition-all duration-200 ease-in">
+            Yes, Delete
+        </button>
+    </form>
+
+    <a asp-controller="Home" asp-action="Index" class="mt-4 text-black py-2 px-6 rounded-md bg-gray-300">Cancel</a> 
+</div>
