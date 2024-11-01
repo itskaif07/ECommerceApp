@@ -12,16 +12,16 @@
 
     <div class="w-full flex items-center justify-center space-x-6">
 
-        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+        <a asp-controller="Products" asp-action="AllProducts" class="w-fit hover:text-white bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
             Products List
-        </div>
+        </a>
 
 
-        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+        <a asp-controller="Categories" asp-action="CategoryIndex" class="w-fit hover:text-white bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
             Categories List
-        </div>
+        </a>
 
-        <div class="w-fit bg-green-500 hover:bg-green-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+        <div class="w-fit bg-green-500 hover:bg-green-600 hover:text-white py-3 px-8 rounded-xl transition-all duration-200 ease-in">
             Users List
         </div>
 
@@ -30,9 +30,9 @@
 
     <div class="w-full flex items-center justify-center space-x-6">
 
-        <div class="w-fit bg-yellow-500 hover:bg-yellow-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+        <a asp-controller="Categories" asp-action="CategoryAdd" class="w-fit hover:text-white bg-yellow-500 hover:bg-yellow-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
             Add Categories
-        </div>
+        </a>
       
        
         <a asp-controller="Products" asp-action="ProductAdd" class="hover:text-white w-fit bg-yellow-500 hover:bg-yellow-600 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
@@ -41,7 +41,7 @@
     </div>
 
     <div class="w-full flex items-center justify-center space-x-6">
-        <div class="w-fit bg-red-600 hover:bg-red-700 py-3 px-8 rounded-xl transition-all duration-200 ease-in">
+        <div class="w-fit bg-red-600 hover:bg-red-700 py-3 px-8 rounded-xl hover:text-white transition-all duration-200 ease-in">
             Assign Admin
         </div>
     </div>

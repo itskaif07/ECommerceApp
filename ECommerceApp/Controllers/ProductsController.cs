@@ -17,6 +17,12 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> AllProducts()
+        {
+            var products = await _context.Products.ToListAsync();
+            return View(products);
+        }
+
         public async Task<IActionResult> ProductsIndex(int categoryId)
         {
             if (!await _context.Categories.AnyAsync(c => c.Id == categoryId))
