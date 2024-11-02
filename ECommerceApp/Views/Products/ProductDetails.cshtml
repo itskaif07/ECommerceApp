@@ -23,7 +23,7 @@
     <div class="w-full flex items-start justify-center space-y-6 mt-3">
         <div class="w-1/2 flex flex-col items-center justify-center space-y-6">
             <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair">
-                <img id="productImage" src="@Model.ImageUrl" class="w-[70%] h-96 object-contain object-center transition-all duration-400 ease-out">
+                <img id="productImage" src="@(Model.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-96 object-contain object-center transition-all duration-400 ease-out">
                 <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
             </div>
 

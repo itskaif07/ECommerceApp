@@ -8,14 +8,19 @@
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<a asp-controller="Categories" asp-action="CategoryAdd" class="block w-36 h-12 absolute right-4 top-0 rounded-lg bg-yellow-300 hover:text-white text-black flex items-center justify-center">
+<a asp-controller="Categories" asp-action="CategoryAdd" class="block w-36 h-12 absolute right-4 top-2 rounded-lg bg-green-500 hover:text-white text-black flex items-center justify-center">
     Add Category
 </a>
 
 
 <h1 class="text-xl font-semibold text-center mt-10 mb-16">Available Categories</h1>
 
-@foreach(var i in Model)
+<div class="w-full h-full space-y-6 flex items-center justify-center flex-col">
+
+@foreach (var i in Model)
 {
-    <h1 class="text-center text-xl text-yellow-400 mb-4 font-medium">@i.Name</h1>
+    <a class="border border-[1px] h-full w-1/4 rounded-md d-flex align-items-center justify-content-center py-3">
+        <h1 class="text-center text-xl font-medium">@i.Name</h1>
+    </a>
 }
+</div>

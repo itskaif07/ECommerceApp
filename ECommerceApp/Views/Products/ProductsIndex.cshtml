@@ -22,7 +22,7 @@
         {
             <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.Id" class="block mt-6 hover:text-white w-[20%] transition-all duration-400 ease-in-out hover:scale-105 h-full border rounded-md overflow-hidden hover:shadow-lg hover:shadow-gray-500 transition-all duration-400 ease-out">
                 <div class="w-full h-[75%] flex items-center justify-center bg-gray-100">
-                    <img src="@product.ImageUrl" alt="Product Image" class="w-full h-full object-contain">
+                    <img src="@(product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="w-full h-full object-contain">
                 </div>
                 <div class="w-full h-[25%] flex flex-col items-start justify-center space-y-1 px-2">
                     <h1 class="text-lg">@product.Name</h1>
