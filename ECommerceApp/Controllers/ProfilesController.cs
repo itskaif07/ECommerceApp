@@ -131,5 +131,33 @@ namespace ECommerceApp.Controllers
             return View("Error");
         }
 
+        public async Task<IActionResult> AllProfiles()
+        {
+            var profiles = await _userManager.Users.ToListAsync();
+            return View(profiles);
+        }
+
+        public async Task<IActionResult> ProfileDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+
+            var profile = await _userManager.FindByIdAsync(id);
+
+            if(profile == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(profile);
+            var role = roles.FirstOrDefault(); 
+
+            ViewBag.UserRole = role;
+
+            return View(profile);           
+        }
+
     }
 }

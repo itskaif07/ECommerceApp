@@ -4,16 +4,16 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="flex items-center justify-between py-10 px-10">
-    <a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<div class="flex items-center justify-between px-10 my-6">
+    <a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
-    @if (User.IsInRole("siteOwner"))
+    @if (User.IsInRole("SiteOwner"))
     {
         <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="ProductsViewModels" asp-action="Edit" asp-route-id="@Model.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
-            <a asp-controller="ProductsViewModels" asp-action="Delete" asp-route-id="@Model.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
+            <a asp-controller="Products" asp-action="ProductEdit" asp-route-id="@Model.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
         </div>
     }
 </div>
@@ -22,8 +22,8 @@
 
     <div class="w-full flex items-start justify-center space-y-6 mt-3">
         <div class="w-1/2 flex flex-col items-center justify-center space-y-6">
-            <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair">
-                <img id="productImage" src="@(Model.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-96 object-contain object-center transition-all duration-400 ease-out">
+            <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair h-96">
+                <img id="productImage" src="@(Model.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-scale-down object-center transition-all duration-400 ease-out">
                 <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
             </div>
 

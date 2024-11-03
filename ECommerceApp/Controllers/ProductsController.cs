@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
+
 namespace ECommerceApp.Controllers
 {
     public class ProductsController : Controller
@@ -109,6 +110,77 @@ namespace ECommerceApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ProductEdit(int id)
+        {
+            // Debugging: Log the product ID being edited
+            Debug.WriteLine($"ProductEdit GET: Fetching product with ID: {id}");
+
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                Debug.WriteLine("ProductEdit GET: Product not found.");
+                return NotFound("Product not found.");
+            }
+
+            // Debugging: Log product details
+            Debug.WriteLine($"ProductEdit GET: Loaded product details - Name: {product.Name}, CategoryId: {product.CategoryId}");
+
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductEdit(Product product)
+        {
+            Debug.WriteLine($"ProductEdit POST: Starting edit for Product ID: {product.Id}");
+
+            if (!ModelState.IsValid)
+            {
+                // Debugging: Log validation errors
+                Debug.WriteLine("ProductEdit POST: Model state is invalid. Errors:");
+                foreach (var state in ModelState)
+                {
+                    Debug.WriteLine($"Key: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
+
+                ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                return View("~/Views/Products/ProductEdit.cshtml", product); // Return to the view with the model
+            }
+
+            // Retrieve the existing product from the database
+            var existingProduct = await _context.Products.FindAsync(product.Id);
+            if (existingProduct == null)
+            {
+                Debug.WriteLine("ProductEdit POST: Existing product not found in the database.");
+                ModelState.AddModelError("", "Product not found.");
+                return View("~/Views/Products/ProductEdit.cshtml", product); // Return with an error
+            }
+
+            // (Rest of the existing code...)
+
+            try
+            {
+                _context.Update(existingProduct);
+                await _context.SaveChangesAsync();
+                Debug.WriteLine("ProductEdit POST: Changes saved successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                Debug.WriteLine($"ProductEdit POST: Error saving changes - {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while saving changes. Please try again.");
+                ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                return View("~/Views/Products/ProductEdit.cshtml", product); // Return with an error
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
     }
+
 }
+
+

@@ -1,0 +1,64 @@
+﻿@model ECommerceApp.Models.ApplicationUser;
+@{
+    ViewData["Title"] = "ProfileDetails";
+}
+
+<div class="flex items-center justify-between  mt-10 mb-10 px-6">
+
+    <a asp-controller="Profiles" asp-action="AllProfiles" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24  flex items-center justify-center">
+        <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+    </a>
+
+    <h1 class="font-semibold text-xl mr-20">Details</h1>
+
+    <div></div>
+</div>
+
+<div class="w-full h-full flex items-center justify-center flex-col space-y-10">
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Role:</h1>
+        <h1>@(ViewBag.UserRole ?? "User")</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Name:</h1>
+        <h1>@Model.Name</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Username:</h1>
+        <h1>@Model.UserName</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Email:</h1>
+        <h1>@Model.Email</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Phone:</h1>
+        <h1>@Model.PhoneNumber</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Address:</h1>
+        <h1>@Model.Address</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>City:</h1>
+        <h1>@Model.City</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>State:</h1>
+        <h1>@Model.State</h1>
+    </div>
+
+    <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center text-xl justify-between">
+        <h1>Pin:</h1>
+        <h1>@Model.PinCode</h1>
+    </div>
+
+</div>
