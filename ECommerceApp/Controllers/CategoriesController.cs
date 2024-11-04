@@ -100,7 +100,7 @@ namespace ECommerceApp.Controllers
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("DeleteCategoryList");
+            return RedirectToAction("Index", "Home");
         }
 
 

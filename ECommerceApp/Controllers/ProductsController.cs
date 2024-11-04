@@ -178,6 +178,35 @@ namespace ECommerceApp.Controllers
         }
 
 
+        public async Task<IActionResult> ProductDelete(int id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmProductDelete(int id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+           
+            return RedirectToAction("Index", "Home"); 
+        }
+
 
     }
 
