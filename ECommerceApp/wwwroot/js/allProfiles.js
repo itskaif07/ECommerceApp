@@ -6,31 +6,15 @@ const noProfileFoundMessage = document.querySelector("#NoProfileFoundMessage");
 function search() {
     const searchValue = SearchInput.value.toLowerCase();
 
-    if (searchValue === "") {
-        profiles.forEach(profile => {
-            profile.style.visibility = "visible";
-        });
-        noProfileFoundMessage.classList.add("hidden"); 
-        return;
-    }
-
-    let hasResults = false;
-
     profiles.forEach(profile => {
         const profileName = profile.getAttribute("data-profile-name").toLowerCase();
         if (profileName.includes(searchValue)) {
-            profile.style.visibility = "visible";
-            hasResults = true; 
+            profile.style.display = "flex";
         } else {
-            profile.style.visibility = "hidden";
+            profile.style.display = "none";
         }
     });
 
-    if (hasResults) {
-        noProfileFoundMessage.classList.add("hidden");
-    } else {
-        noProfileFoundMessage.classList.remove("hidden");
-    }
 }
 
 SearchInput.addEventListener("input", search);

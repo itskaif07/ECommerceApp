@@ -5,13 +5,13 @@
 
 <div class="flex items-center justify-between  mt-10 mb-10 px-6">
 
-    <a asp-controller="Profiles" asp-action="AllProfiles" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24  flex items-center justify-center">
+    <a asp-controller="Profiles" asp-action="AllProfiles" class="block bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md  py-1 w-24  flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
-    <h1 class="font-semibold text-xl mr-20">Details</h1>
+    <h1 class="font-semibold text-2xl ml-10">Details</h1>
 
-    <div></div>
+    <a asp-controller="Profiles" asp-action="AssignAdmin" asp-route-id="@Model.Id" class="block bg-red-500 hover:bg-red-600 w-36 py-2.5 px-4 rounded-md">Make Admin</a>
 </div>
 
 <div class="w-full h-full flex items-center justify-center flex-col space-y-10">

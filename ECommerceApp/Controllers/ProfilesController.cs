@@ -159,5 +159,54 @@ namespace ECommerceApp.Controllers
             return View(profile);           
         }
 
+        public async Task<IActionResult> AdminsList()
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("SiteOwner");
+
+            return View(admins);
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> AssignAdmin(string id)
+        {
+            var admin = await _userManager.FindByIdAsync(id);
+
+            if(admin == null)
+            {
+                return NotFound();
+            }
+
+            return View(admin);
+        }
+
+        [HttpPost] 
+
+        public async Task<IActionResult> ConfirmAssignAdmin(string id)
+        {
+
+            var admin = await _userManager.FindByIdAsync(id);
+
+            if(admin == null)
+            {
+                return NotFound();
+            }
+
+
+            var result = await _userManager.AddToRoleAsync(admin, "SiteOwner");
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach(var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(admin);
+        }
+
     }
 }
