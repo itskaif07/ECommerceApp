@@ -208,5 +208,45 @@ namespace ECommerceApp.Controllers
             return View(admin);
         }
 
+        public async Task<IActionResult> AssignUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmAssignUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.RemoveFromRoleAsync(user, "SiteOwner"); 
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User"); 
+
+                return RedirectToAction("Index", "Home", new { id = user.Id });
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(user); // Show the same view again with error messages if needed
+        }
+
+
     }
 }

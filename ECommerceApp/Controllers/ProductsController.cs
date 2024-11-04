@@ -12,10 +12,12 @@ namespace ECommerceApp.Controllers
     public class ProductsController : Controller
     {
         public readonly ApplicationDbContext _context;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -113,69 +115,57 @@ namespace ECommerceApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductEdit(int id)
         {
-            // Debugging: Log the product ID being edited
-            Debug.WriteLine($"ProductEdit GET: Fetching product with ID: {id}");
-
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
-                Debug.WriteLine("ProductEdit GET: Product not found.");
-                return NotFound("Product not found.");
+                return NotFound();
             }
 
-            // Debugging: Log product details
-            Debug.WriteLine($"ProductEdit GET: Loaded product details - Name: {product.Name}, CategoryId: {product.CategoryId}");
-
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
+            return View("~/Views/Products/ProductEdit.cshtml", product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductEdit(Product product)
         {
-            Debug.WriteLine($"ProductEdit POST: Starting edit for Product ID: {product.Id}");
+            // Log CategoryId from the submitted form
+            Console.WriteLine($"CategoryId from form: {product.CategoryId}");
 
             if (!ModelState.IsValid)
             {
-                // Debugging: Log validation errors
-                Debug.WriteLine("ProductEdit POST: Model state is invalid. Errors:");
                 foreach (var state in ModelState)
                 {
-                    Debug.WriteLine($"Key: {state.Key}, Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                    Console.WriteLine($"Key: {state.Key} - Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
                 }
 
+                // Repopulate categories for the view
                 ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-                return View("~/Views/Products/ProductEdit.cshtml", product); // Return to the view with the model
+                return View("~/Views/Products/ProductEdit.cshtml", product);
             }
 
-            // Retrieve the existing product from the database
-            var existingProduct = await _context.Products.FindAsync(product.Id);
-            if (existingProduct == null)
+            // Handle image upload
+            if (product.ImageFile != null)
             {
-                Debug.WriteLine("ProductEdit POST: Existing product not found in the database.");
-                ModelState.AddModelError("", "Product not found.");
-                return View("~/Views/Products/ProductEdit.cshtml", product); // Return with an error
+                var filePath = Path.Combine("wwwroot/images", product.ImageFile.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await product.ImageFile.CopyToAsync(stream);
+                }
+                product.ImageUrl = "/images/" + product.ImageFile.FileName;
             }
-
-            // (Rest of the existing code...)
-
-            try
+            else if (!string.IsNullOrEmpty(product.WebUrl))
             {
-                _context.Update(existingProduct);
-                await _context.SaveChangesAsync();
-                Debug.WriteLine("ProductEdit POST: Changes saved successfully.");
-            }
-            catch (DbUpdateException ex)
-            {
-                Debug.WriteLine($"ProductEdit POST: Error saving changes - {ex.Message}");
-                ModelState.AddModelError("", "An error occurred while saving changes. Please try again.");
-                ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-                return View("~/Views/Products/ProductEdit.cshtml", product); // Return with an error
+                product.ImageUrl = product.WebUrl;
             }
 
+            // Update the product in the database
+            _context.Update(product);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
 
 
         public async Task<IActionResult> ProductDelete(int id)

@@ -61,11 +61,13 @@
 
         <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
             <label asp-for="CategoryId" class="text-left w-full">Select Category</label>
-            <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black" required>
+            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black" required>
                 <option value="">Select Category</option>
+                <!-- The asp-items will automatically populate the options here -->
             </select>
             <span asp-validation-for="CategoryId" class="text-red-400"></span>
         </div>
+
 
         <input type="submit" value="Save Changes" class="block bg-blue-500 hover:bg-blue-600 text-white py-3 w-44 rounded-md">
     </div>
