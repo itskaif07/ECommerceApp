@@ -1,6 +1,8 @@
 ﻿using ECommerceApp.Data;
 using ECommerceApp.Models;
 using ECommerceApp.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +15,15 @@ namespace ECommerceApp.Controllers
     {
         public readonly ApplicationDbContext _context;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -59,6 +65,8 @@ namespace ECommerceApp.Controllers
         {
           
             var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(c => c.Id == id);
+
+            
 
 
             if (product == null)
@@ -112,61 +120,101 @@ namespace ECommerceApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
         public async Task<IActionResult> ProductEdit(int id)
         {
-            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View("~/Views/Products/ProductEdit.cshtml", product);
+            return View(product);
         }
 
+
+        // POST: ProductEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProductEdit(Product product)
+        public async Task<IActionResult> ProductEdit(Product model)
         {
-            // Log CategoryId from the submitted form
-            Console.WriteLine($"CategoryId from form: {product.CategoryId}");
+            _logger.LogInformation("Editing product with ID: {Id}", model.Id);
+            _logger.LogInformation("Received model - Name: {Name}, Price: {Price}, CategoryId: {CategoryId}", model.Name, model.Price, model.CategoryId);
+
 
             if (!ModelState.IsValid)
             {
+                // Log all model state errors
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogWarning("Model state error for product ID: {Id}, Error: {ErrorMessage}", model.Id, error.ErrorMessage);
+                }
+
+                ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", model.CategoryId);
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Log model state errors
                 foreach (var state in ModelState)
                 {
-                    Console.WriteLine($"Key: {state.Key} - Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                    foreach (var error in state.Value.Errors)
+                    {
+                        _logger.LogWarning("Model state error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
+                    }
                 }
 
-                // Repopulate categories for the view
-                ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-                return View("~/Views/Products/ProductEdit.cshtml", product);
-            }
 
-            // Handle image upload
-            if (product.ImageFile != null)
-            {
-                var filePath = Path.Combine("wwwroot/images", product.ImageFile.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var product = await _context.Products.FindAsync(model.Id);
+                if (product == null)
                 {
-                    await product.ImageFile.CopyToAsync(stream);
+                    _logger.LogWarning("Product with ID: {Id} not found for editing", model.Id);
+                    return NotFound();
                 }
-                product.ImageUrl = "/images/" + product.ImageFile.FileName;
-            }
-            else if (!string.IsNullOrEmpty(product.WebUrl))
-            {
-                product.ImageUrl = product.WebUrl;
+
+                // Update properties
+                product.Name = model.Name;
+                product.Price = model.Price;
+                product.Description = model.Description;
+                product.Discount = model.Discount;
+                product.CategoryId = model.CategoryId;
+
+                // Image handling
+                if (model.ImageFile != null)
+                {
+                    _logger.LogInformation("Uploading new image for product ID: {Id}", model.Id);
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Delete the old image if a new one is uploaded
+                    if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            _logger.LogInformation("Deleting old image at path: {OldFilePath}", oldFilePath);
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+                    product.ImageUrl = "/images/" + uniqueFileName;
+                }
+
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Product ID: {Id} updated successfully", model.Id);
+                return RedirectToAction("Details", new { id = product.Id });
             }
 
-            // Update the product in the database
-            _context.Update(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", model.CategoryId);
+            return View(model);
+
         }
-
-
-
 
         public async Task<IActionResult> ProductDelete(int id)
         {

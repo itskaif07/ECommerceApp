@@ -61,6 +61,7 @@
 
         <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
             <label asp-for="CategoryId" class="text-left w-full">Select Category</label>
+            <input type="hidden" asp-for="CategoryId" />
             <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black" required>
                 <option value="">Select Category</option>
                 <!-- The asp-items will automatically populate the options here -->
@@ -76,6 +77,6 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-                <script src="/js/productEdit.js"></script>
+        <script src="/js/productEdit.js"></script>
     }
 }

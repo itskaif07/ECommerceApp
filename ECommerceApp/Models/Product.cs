@@ -34,7 +34,7 @@ namespace ECommerceApp.Models
         {
             get
             {
-                if (Discount > 0) 
+                if (Discount > 0)
                 {
                     return Price - (Price * (Discount / 100m));
                 }
@@ -49,5 +49,7 @@ namespace ECommerceApp.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+
     }
 }

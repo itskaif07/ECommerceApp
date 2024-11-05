@@ -17,7 +17,7 @@
         <div class="flex items-center justify-center space-x-4 text-base">
             <a asp-controller="Home" asp-action="Index" class="text-white">WishList</a>
 
-            <a asp-controller="Profiles" asp-action="ProfileIndex" class="hover:text-yellow-200 text-white">Profile</a>
+            <a asp-controller="Profiles" asp-action="ProfileIndex" class="text-white">Profile</a>
             @if (User.Identity.IsAuthenticated)
             {
                 <form asp-controller="LogIn" asp-action="LogOut" method="post">
@@ -29,10 +29,10 @@
 
     <nav id="nav2" class="w-full h-full text-white bg-blue-500 flex items-center justify-between px-6 py-2">
 
-        <div class="flex items-center justify-center">
-            <a asp-controller="Home" asp-action="Index" class="font-bold text-4xl w-1/4"><img src="~/images/logo.png" alt="Logo" class="w-48"></a>
+        <a asp-controller="Home" asp-action="Index" class="flex items-center justify-center">
+            <h1 class="font-bold text-4xl w-1/4"><img src="~/images/logo.png" alt="Logo" class="w-48"></h1>
             <h1 class="text-3xl font-bold">ShopCart</h1>
-        </div>
+        </a>
 
         <div class="w-1/2 flex items-center justify-center h-12 ">
             <input class="h-full w-full rounded-l-xl px-3 outline-none text-black" type="text" placeholder="Search Here...">
@@ -72,11 +72,11 @@
 
     <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black rounded-xl overflow-auto">
 
-        <div class="text-xl text-black font-medium bg-yellow-300 py-2 border-[1px] border-black rounded-t-xl px-2">Categories</div>
+        <div class="text-xl text-black font-medium bg-yellow-300 py-2 border-[1px] border-black px-2">Categories</div>
 
         @foreach (var i in Model.Categories)
         {
-            <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
+            <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black hover:text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
                 <div class="text-xl">@i.Name</div>
                 <img src="~/images/icons8-next-32.png" class="w-5 opacity-50">
             </a>
