@@ -1,12 +1,14 @@
 ﻿using ECommerceApp.Data;
 using ECommerceApp.Models;
 using ECommerceApp.ViewModel;
+using ECommerceApp.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 
 
 namespace ECommerceApp.Controllers
@@ -61,22 +63,38 @@ namespace ECommerceApp.Controllers
             return View("~/Views/Products/ProductsIndex.cshtml", viewModel);
         }
 
+
         public async Task<IActionResult> ProductDetails(int id)
         {
-          
-            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(c => c.Id == id);
-
-            
-
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (product == null)
             {
-                return NotFound("Product not found."); 
+                return NotFound("Product not found.");
             }
 
-           
-            return View("~/Views/Products/ProductDetails.cshtml", product); 
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
+            bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
+
+            var viewModel = new ProductUserViewModel
+            {
+                Product = product,
+                ApplicationUser = user,
+                IsInWishlist = isInWishList
+            };
+
+            return View("~/Views/Products/ProductDetails.cshtml", viewModel); 
         }
+
 
         [HttpGet]
         public IActionResult ProductAdd()

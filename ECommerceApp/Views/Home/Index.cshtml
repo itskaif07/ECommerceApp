@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex items-center justify-center space-x-4 text-base">
-            <a asp-controller="Home" asp-action="Index" class="text-white">WishList</a>
+            <a asp-controller="WishList" asp-action="WishListIndex" class="text-white">WishList</a>
 
             <a asp-controller="Profiles" asp-action="ProfileIndex" class="text-white">Profile</a>
             @if (User.Identity.IsAuthenticated)

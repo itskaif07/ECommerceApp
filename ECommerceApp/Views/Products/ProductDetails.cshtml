@@ -1,4 +1,4 @@
-﻿@model ECommerceApp.Models.Product;
+﻿@model ECommerceApp.ViewModels.ProductUserViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -12,8 +12,8 @@
     @if (User.IsInRole("SiteOwner"))
     {
         <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="Products" asp-action="ProductEdit" asp-route-id="@Model.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
-            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
+            <a asp-controller="Products" asp-action="ProductEdit" asp-route-id="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
         </div>
     }
 </div>
@@ -23,7 +23,7 @@
     <div class="w-full flex items-start justify-center space-y-6 mt-3">
         <div class="w-1/2 flex flex-col items-center justify-center space-y-6">
             <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair h-96">
-                <img id="productImage" src="@(Model.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
+                <img id="productImage" src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
                 <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
             </div>
 
@@ -39,25 +39,87 @@
             </div>
         </div>
         <div class="w-1/2 flex items-start flex-col justify-center space-y-6">
-            <h1 class="text-xl font-medium">@Model.Name</h1>
+            <h1 class="text-xl font-medium">@Model.Product.Name</h1>
             <div class="w-full h-[25%] flex flex-col items-start justify-center">
-                @if (Model.Discount > 0)
+                @if (Model.Product.Discount > 0)
                 {
                     <div class="flex items-center justify-center space-x-2">
-                        <h1 class="text-green-500">&#x20B9; @Model.DiscountedPrice</h1>
-                        <h2 class="line-through">&#x20B9; @Model.Price</h2>
-                        <h5 class="text-green-500">@Model.Discount% off</h5>
+                        <h1 class="text-green-500">&#x20B9; @Model.Product.DiscountedPrice</h1>
+                        <h2 class="line-through">&#x20B9; @Model.Product.Price</h2>
+                        <h5 class="text-green-500">@Model.Product.Discount% off</h5>
                     </div>
                 }
                 else
                 {
-                    <h5 class="text-md">&#x20B9; @Model.Price</h5>
+                    <h5 class="text-md">&#x20B9; @Model.Product.Price</h5>
                 }
             </div>
-            <h5 class="pr-32">@Model.Description</h5>
+            <h5 class="pr-32">@Model.Product.Description</h5>
+
+            <div>
+                <div class="flex items-start justify-center flex-col">
+
+                    <div id="shortAddress" class="flex items-start justify-center flex-col cursor-pointer">
+                        <div class="flex items-center space-x-2 justify-center">
+                            <img src="~/images/icons8-location-50.png" alt="Alternate Text" class="w-4 invert grayscale">
+                            <p>Deliver to:</p>
+                        </div>
+
+                        <h5>@Model.ApplicationUser?.Name @Model.ApplicationUser?.City - @Model.ApplicationUser?.PinCode</h5>
+                    </div>
+
+
+                    <div id="fullAddress" class="relative flex items-start justify-center flex-col hidden cursor-pointer">
+                        <div class="flex items-center space-x-2 justify-center">
+                            <img src="~/images/icons8-location-50.png" alt="Alternate Text" class="w-4 invert grayscale">
+                            <p>Default Address:</p>
+                            <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.ApplicationUser?.Id"> <img src="~/images/edit.png" alt="Edit" class="w-4 invert grayscale absolute right-0 top-0"> </a>
+                        </div>
+
+                        <div>
+                            <p>@Model.ApplicationUser?.Name</p>
+                            <p>@Model.ApplicationUser?.Address</p>
+                            <p>@Model.ApplicationUser?.City - @Model.ApplicationUser?.PinCode</p>
+                            <p>@Model.ApplicationUser?.State</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            @if (Model.IsInWishlist)
+            {
+                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px] rounded-md  py-1.5  text-center ">
+                    <button type="submit">Added</button>
+                </form>
+            }
+            else
+            {
+                <form asp-controller="WishList" asp-action="AddToWishlist" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px] rounded-md  py-1.5  text-center ">
+                    <button type="submit">Add to Wishlist</button>
+                </form>
+            }
+
         </div>
     </div>
 </div>
+
+<script>
+    const short = document.querySelector("#shortAddress");
+    const full = document.querySelector("#fullAddress");
+
+    short.addEventListener('click', function () {
+    full.classList.remove("hidden");
+    short.classList.add("hidden");
+    });
+
+    full.addEventListener('click', function () {
+     short.classList.remove("hidden");
+    full.classList.add("hidden");
+    });
+
+</script>
 
 @section Scripts {
     <script src="~/js/productDetails.js"></script>

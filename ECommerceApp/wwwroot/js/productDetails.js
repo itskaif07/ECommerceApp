@@ -20,3 +20,4 @@ productImage.addEventListener("mouseleave", () => {
 productImage.addEventListener("mouseenter", () => {
     zoomOverlay.classList.remove("hidden");
 });
+
