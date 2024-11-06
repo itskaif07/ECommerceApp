@@ -102,16 +102,7 @@ namespace ECommerceApp.Controllers
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
 
             var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product != null)
-            {
-                ViewBag.Quantity = new SelectList(Enumerable.Range(1, 10).Select(x => new { Value = x, Text = x }), "Value", "Text");
-                ViewBag.ProductId = product.Id;
-            }
-            else
-            {
-                ViewBag.Quantity = new SelectList(Enumerable.Range(1, 10).Select(x => new { Value = x, Text = x }), "Value", "Text");
-                ViewBag.ProductId = 0;
-            }
+
 
             return View("~/Views/Products/ProductAdd.cshtml");
         }

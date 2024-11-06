@@ -90,7 +90,7 @@
 
             @if(Model.Product.Quantity > 0)
             {
-                <h1 class="bg-green-500 text-black font-semibold text-lg w-1/5 py-2 pl-2">In Stock</h1>
+                <h1 class="bg-green-500 text-black font-semibold text-lg w-fit px-4 py-1 pl-2">In Stock</h1>
 
                 <h1 class="text-xl">Total Quantity:
                     @if(Model.Product.Quantity <= 3)
@@ -110,7 +110,7 @@
             }
             else
             {
-                <h1 class="bg-red-500 font-semibold text-lg w-1/5 py-2 pl-2">Out of Stock</h1>
+                <h1 class="bg-red-500 font-semibold text-lg w-fit px-4 py-1 pl-2">Out of Stock</h1>
             }
 
           
