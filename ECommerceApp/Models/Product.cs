@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ECommerceApp.Models
 {
@@ -52,6 +53,7 @@ namespace ECommerceApp.Models
 
         public int CategoryId { get; set; }
 
+        [ValidateNever]
         public Category Category { get; set; }
 
 

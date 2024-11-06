@@ -12,7 +12,7 @@
     @if (User.IsInRole("SiteOwner"))
     {
         <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="Products" asp-action="ProductEdit" asp-route-id="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
             <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
         </div>
     }
@@ -91,7 +91,21 @@
             @if(Model.Product.Quantity > 0)
             {
                 <h1 class="bg-green-500 text-black font-semibold text-lg w-1/5 py-2 pl-2">In Stock</h1>
-                <h1 class="text-xl">Total Quantity: <span class="font-medium text-yellow-400">@Model.Product?.Quantity</span></h1>
+
+                <h1 class="text-xl">Total Quantity:
+                    @if(Model.Product.Quantity <= 3)
+                    {
+                        <span class="font-medium text-red-400">@Model.Product?.Quantity</span>
+                    }
+                    else if(Model.Product.Quantity <= 9)
+                    {
+                        <span class="font-medium text-yellow-400">@Model.Product?.Quantity</span>
+                    }
+                    else
+                    {
+                        <span class="font-medium text-green-400">@Model.Product?.Quantity</span>                    }
+
+                </h1>
 
             }
             else

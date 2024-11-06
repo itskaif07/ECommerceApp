@@ -41,7 +41,7 @@ namespace ECommerceApp.Controllers
                 return NotFound("Category not found.");
             }
 
-            
+
 
             var categories = await _context.Categories.ToListAsync();
             var products = await _context.Products.Include(p => p.Category)
@@ -92,7 +92,7 @@ namespace ECommerceApp.Controllers
                 IsInWishlist = isInWishList
             };
 
-            return View("~/Views/Products/ProductDetails.cshtml", viewModel); 
+            return View("~/Views/Products/ProductDetails.cshtml", viewModel);
         }
 
 
@@ -142,26 +142,31 @@ namespace ECommerceApp.Controllers
 
                 product.ImageUrl = "/images/" + product.ImageFile.FileName;
             }
-            else if(!string.IsNullOrEmpty(product.WebUrl))
+            else if (!string.IsNullOrEmpty(product.WebUrl))
             {
                 product.ImageUrl = product.WebUrl;
             }
 
-       
+
             _context.Add(product);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> ProductEdit(int id)
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProductEdit(int productId)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(productId);
             if (product == null)
             {
                 return NotFound();
             }
 
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+
             return View(product);
         }
 
@@ -170,67 +175,47 @@ namespace ECommerceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductEdit(Product model)
         {
-            _logger.LogInformation("Editing product with ID: {Id}", model.Id);
-            _logger.LogInformation("Received model - Name: {Name}, Price: {Price}, CategoryId: {CategoryId}", model.Name, model.Price, model.CategoryId);
 
             if (!ModelState.IsValid)
             {
-                // Log all model state errors
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    _logger.LogWarning("Model state error for product ID: {Id}, Error: {ErrorMessage}", model.Id, error.ErrorMessage);
-                }
 
                 ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", model.CategoryId);
                 return View(model);
             }
 
-            // Find the existing product
-            var product = await _context.Products.FindAsync(model.Id);
-            if (product == null)
+            if (model.ImageFile != null)
             {
-                _logger.LogWarning("Product with ID: {Id} not found for editing", model.Id);
+                var filePath = Path.Combine("wwwroot/images", model.ImageFile.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(stream);
+                }
+
+                model.ImageUrl = "/images/" + model.ImageFile.FileName;
+            }
+            else if (!string.IsNullOrEmpty(model.WebUrl))
+            {
+                model.ImageUrl = model.WebUrl;
+            }
+
+            var productToUpdate = await _context.Products.FindAsync(model.Id);
+            if (productToUpdate == null)
+            {
                 return NotFound();
             }
 
-            // Update product properties
-            product.Name = model.Name;
-            product.Price = model.Price;
-            product.Description = model.Description;
-            product.Discount = model.Discount;
-            product.CategoryId = model.CategoryId;
+            productToUpdate.Name = model.Name;
+            productToUpdate.Price = model.Price;
+            productToUpdate.Description = model.Description;
+            productToUpdate.Discount = model.Discount;
+            productToUpdate.Quantity = model.Quantity;
+            productToUpdate.CategoryId = model.CategoryId;
+            productToUpdate.ImageUrl = model.ImageUrl;
 
-            // Image handling
-            if (model.ImageFile != null)
-            {
-                _logger.LogInformation("Uploading new image for product ID: {Id}", model.Id);
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ImageFile.CopyToAsync(fileStream);
-                }
-
-                // Delete old image if a new one is uploaded
-                if (!string.IsNullOrEmpty(product.ImageUrl))
-                {
-                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(oldFilePath))
-                    {
-                        _logger.LogInformation("Deleting old image at path: {OldFilePath}", oldFilePath);
-                        System.IO.File.Delete(oldFilePath);
-                    }
-                }
-
-                product.ImageUrl = "/images/" + uniqueFileName;
-            }
-
+            _context.Products.Update(productToUpdate);
             await _context.SaveChangesAsync();
-            _logger.LogInformation("Product ID: {Id} updated successfully", model.Id);
 
-            return RedirectToAction("Index", "Home", new { id = product.Id });
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -259,8 +244,8 @@ namespace ECommerceApp.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-           
-            return RedirectToAction("Index", "Home"); 
+
+            return RedirectToAction("Index", "Home");
         }
 
 
