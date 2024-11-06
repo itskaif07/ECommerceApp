@@ -73,7 +73,7 @@
                         <div class="flex items-center space-x-2 justify-center">
                             <img src="~/images/icons8-location-50.png" alt="Alternate Text" class="w-4 invert grayscale">
                             <p>Default Address:</p>
-                            <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.ApplicationUser?.Id"> <img src="~/images/edit.png" alt="Edit" class="w-4 invert grayscale absolute right-0 top-0"> </a>
+                            <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.ApplicationUser?.Id"> <img src="~/images/edit.png" alt="Edit" class="w-4 invert grayscale absolute -right-24 top-0"> </a>
                         </div>
 
                         <div>
@@ -88,10 +88,22 @@
                 </div>
             </div>
 
+            @if(Model.Product.Quantity > 0)
+            {
+                <h1 class="bg-green-500 text-black font-semibold text-lg w-1/5 py-2 pl-2">In Stock</h1>
+                <h1 class="text-xl">Total Quantity: <span class="font-medium text-yellow-400">@Model.Product?.Quantity</span></h1>
+
+            }
+            else
+            {
+                <h1 class="bg-red-500 font-semibold text-lg w-1/5 py-2 pl-2">Out of Stock</h1>
+            }
+
+          
             @if (Model.IsInWishlist)
             {
-                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px] rounded-md  py-1.5  text-center ">
-                    <button type="submit">Added</button>
+                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 bg-white text-black border border-[1px] rounded-md  py-1.5  text-center ">
+                    <button type="submit">Added to Wishlist</button>
                 </form>
             }
             else
@@ -110,13 +122,13 @@
     const full = document.querySelector("#fullAddress");
 
     short.addEventListener('click', function () {
-    full.classList.remove("hidden");
-    short.classList.add("hidden");
+        full.classList.remove("hidden");
+        short.classList.add("hidden");
     });
 
     full.addEventListener('click', function () {
-     short.classList.remove("hidden");
-    full.classList.add("hidden");
+        short.classList.remove("hidden");
+        full.classList.add("hidden");
     });
 
 </script>

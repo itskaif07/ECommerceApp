@@ -42,10 +42,14 @@ namespace ECommerceApp.Models
             }
         }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity cannot be negative.")]
+        public int Quantity { get; set; } = 0;
+
 
         [ForeignKey("Category")]
         [Display(Name = "Category")]
         [Required(ErrorMessage = "Category is Required")]
+
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }

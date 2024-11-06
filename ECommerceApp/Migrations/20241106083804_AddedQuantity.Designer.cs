@@ -4,6 +4,7 @@ using ECommerceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241106083804_AddedQuantity")]
+    partial class AddedQuantity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +223,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://rajshahitech.com/wp-content/uploads/2023/12/2101-60481.jpg",
                             Name = "Samsung Galaxy S21",
                             Price = 79999m,
-                            Quantity = 5
+                            Quantity = 0
                         },
                         new
                         {
@@ -231,7 +234,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnQ472uYK5UOemhgGD7wk3xpWJr4oDbsuY-A&s",
                             Name = "To Kill a Mockingbird",
                             Price = 599m,
-                            Quantity = 2
+                            Quantity = 0
                         },
                         new
                         {
@@ -242,7 +245,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://dimg.dillards.com/is/image/DillardsZoom/main/levis-type-iii-sherpa-trucker-jacket/05120005_zi_mustard_wash.jpg",
                             Name = "Levi's Denim Jacket",
                             Price = 4999m,
-                            Quantity = 10
+                            Quantity = 0
                         },
                         new
                         {
@@ -253,7 +256,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/b/f/a/-original-imagx9kwcjzzjkej.jpeg?q=90&crop=false",
                             Name = "Nike Air Max 270",
                             Price = 10999m,
-                            Quantity = 14
+                            Quantity = 0
                         },
                         new
                         {
@@ -264,7 +267,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://cdn.mos.cms.futurecdn.net/gPvyaz76tASn87RCGuSdDc-1200-80.jpg",
                             Name = "Apple MacBook Air M1",
                             Price = 99999m,
-                            Quantity = 6
+                            Quantity = 0
                         },
                         new
                         {
@@ -275,7 +278,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://rukminim2.flixcart.com/image/850/1000/xif0q/remote-control-toy/v/2/g/rock-crawler-rc-monster-truck-4wd-off-road-vehicle-multicolor-3-original-imafvhr45wdh2pry.jpeg?q=90&crop=false",
                             Name = "Remote-Control Off-Road Monster Truck",
                             Price = 2999m,
-                            Quantity = 10
+                            Quantity = 0
                         },
                         new
                         {
@@ -286,7 +289,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/M/MV5BYTJkNGQyZDgtZDQ0NC00MDM0LWEzZWQtYzUzZDEwMDljZWNjXkEyXkFqcGc@._V1_.jpg",
                             Name = "The Godfather (DVD)",
                             Price = 999m,
-                            Quantity = 30
+                            Quantity = 0
                         },
                         new
                         {
@@ -297,7 +300,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCtQU2Pf3U32qKKJLQB0tY83xthaYEYTatRw&s",
                             Name = "French Fries",
                             Price = 299m,
-                            Quantity = 25
+                            Quantity = 0
                         },
                         new
                         {
@@ -308,7 +311,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://www.jiomart.com/images/product/original/491208775/pepsi-750-ml-product-images-o491208775-p491208775-0-202203170727.jpg?im=Resize=(1000,1000)",
                             Name = "Pepsi",
                             Price = 30m,
-                            Quantity = 40
+                            Quantity = 0
                         },
                         new
                         {
@@ -319,7 +322,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://cdn.mos.cms.futurecdn.net/LaBALQRveyNDQjrac9HjC9.jpg",
                             Name = "Fitbit Charge 4",
                             Price = 14999m,
-                            Quantity = 14
+                            Quantity = 0
                         },
                         new
                         {
@@ -330,7 +333,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/I/71howy7q+HL.jpg",
                             Name = "Acer Aspire 5 Slim Laptop",
                             Price = 49999m,
-                            Quantity = 5
+                            Quantity = 0
                         },
                         new
                         {
@@ -341,7 +344,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://5.imimg.com/data5/SELLER/Default/2020/10/XD/SN/JS/51517768/samsung-tab-s7-27-81-cm-11-inch-6-gb-128-gb-wifi-mystic-black--500x500.jpg",
                             Name = "Samsung Galaxy Tab S7",
                             Price = 61999m,
-                            Quantity = 8
+                            Quantity = 0
                         },
                         new
                         {
@@ -352,7 +355,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://za.puma.com/dw/image/v2/BDSF_PRD/on/demandware.static/-/Sites-ZA-Library/default/dwb6844bf2/Fast-R2.jpg?q=80&sw=720",
                             Name = "Puma Running Shoes",
                             Price = 5999m,
-                            Quantity = 10
+                            Quantity = 0
                         },
                         new
                         {
@@ -363,7 +366,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://images-na.ssl-images-amazon.com/images/I/81iqZ2HHD-L.jpg",
                             Name = "Harry Potter and the Sorcerer's Stone",
                             Price = 499m,
-                            Quantity = 4
+                            Quantity = 0
                         },
                         new
                         {
@@ -374,7 +377,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/I/71qbOU164lL._AC_UF1000,1000_QL80_.jpg",
                             Name = "Asus ROG Zephyrus G14",
                             Price = 149999m,
-                            Quantity = 6
+                            Quantity = 0
                         },
                         new
                         {
@@ -385,7 +388,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3M-xR4PTf-oldWP8s2UWBCDxtZatNqXs1NA&s",
                             Name = "Coca Cola",
                             Price = 15m,
-                            Quantity = 20
+                            Quantity = 0
                         },
                         new
                         {
@@ -414,7 +417,7 @@ namespace ECommerceApp.Migrations
                             Id = 19,
                             CategoryId = 6,
                             Description = "Hershey's chocolate is a beloved treat that is perfect for any occasion. Enjoy its rich and creamy taste in various flavors.",
-                            Discount = 8,
+                            Discount = 5,
                             ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmatVcE5DIhAEjMm69GwVJu0Ge_UqwKVkvSQ&s",
                             Name = "Hershey's Chocolate",
                             Price = 150m,
@@ -429,7 +432,7 @@ namespace ECommerceApp.Migrations
                             ImageUrl = "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg",
                             Name = "Inception",
                             Price = 999m,
-                            Quantity = 6
+                            Quantity = 0
                         });
                 });
 

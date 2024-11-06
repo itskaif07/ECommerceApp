@@ -97,12 +97,26 @@ namespace ECommerceApp.Controllers
 
 
         [HttpGet]
-        public IActionResult ProductAdd()
+        public IActionResult ProductAdd(int productId)
         {
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
 
+            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+            if (product != null)
+            {
+                ViewBag.Quantity = new SelectList(Enumerable.Range(1, 10).Select(x => new { Value = x, Text = x }), "Value", "Text");
+                ViewBag.ProductId = product.Id;
+            }
+            else
+            {
+                ViewBag.Quantity = new SelectList(Enumerable.Range(1, 10).Select(x => new { Value = x, Text = x }), "Value", "Text");
+                ViewBag.ProductId = 0;
+            }
+
             return View("~/Views/Products/ProductAdd.cshtml");
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -125,6 +139,7 @@ namespace ECommerceApp.Controllers
                 {
                     await product.ImageFile.CopyToAsync(stream);
                 }
+
                 product.ImageUrl = "/images/" + product.ImageFile.FileName;
             }
             else if(!string.IsNullOrEmpty(product.WebUrl))
@@ -151,14 +166,12 @@ namespace ECommerceApp.Controllers
         }
 
 
-        // POST: ProductEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductEdit(Product model)
         {
             _logger.LogInformation("Editing product with ID: {Id}", model.Id);
             _logger.LogInformation("Received model - Name: {Name}, Price: {Price}, CategoryId: {CategoryId}", model.Name, model.Price, model.CategoryId);
-
 
             if (!ModelState.IsValid)
             {
@@ -172,67 +185,54 @@ namespace ECommerceApp.Controllers
                 return View(model);
             }
 
-            if (!ModelState.IsValid)
+            // Find the existing product
+            var product = await _context.Products.FindAsync(model.Id);
+            if (product == null)
             {
-                // Log model state errors
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        _logger.LogWarning("Model state error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
-                    }
-                }
-
-
-                var product = await _context.Products.FindAsync(model.Id);
-                if (product == null)
-                {
-                    _logger.LogWarning("Product with ID: {Id} not found for editing", model.Id);
-                    return NotFound();
-                }
-
-                // Update properties
-                product.Name = model.Name;
-                product.Price = model.Price;
-                product.Description = model.Description;
-                product.Discount = model.Discount;
-                product.CategoryId = model.CategoryId;
-
-                // Image handling
-                if (model.ImageFile != null)
-                {
-                    _logger.LogInformation("Uploading new image for product ID: {Id}", model.Id);
-                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.ImageFile.CopyToAsync(fileStream);
-                    }
-
-                    // Delete the old image if a new one is uploaded
-                    if (!string.IsNullOrEmpty(product.ImageUrl))
-                    {
-                        var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
-                        if (System.IO.File.Exists(oldFilePath))
-                        {
-                            _logger.LogInformation("Deleting old image at path: {OldFilePath}", oldFilePath);
-                            System.IO.File.Delete(oldFilePath);
-                        }
-                    }
-                    product.ImageUrl = "/images/" + uniqueFileName;
-                }
-
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Product ID: {Id} updated successfully", model.Id);
-                return RedirectToAction("Details", new { id = product.Id });
+                _logger.LogWarning("Product with ID: {Id} not found for editing", model.Id);
+                return NotFound();
             }
 
-            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", model.CategoryId);
-            return View(model);
+            // Update product properties
+            product.Name = model.Name;
+            product.Price = model.Price;
+            product.Description = model.Description;
+            product.Discount = model.Discount;
+            product.CategoryId = model.CategoryId;
 
+            // Image handling
+            if (model.ImageFile != null)
+            {
+                _logger.LogInformation("Uploading new image for product ID: {Id}", model.Id);
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(fileStream);
+                }
+
+                // Delete old image if a new one is uploaded
+                if (!string.IsNullOrEmpty(product.ImageUrl))
+                {
+                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        _logger.LogInformation("Deleting old image at path: {OldFilePath}", oldFilePath);
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                product.ImageUrl = "/images/" + uniqueFileName;
+            }
+
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Product ID: {Id} updated successfully", model.Id);
+
+            return RedirectToAction("Index", "Home", new { id = product.Id });
         }
+
 
         public async Task<IActionResult> ProductDelete(int id)
         {
