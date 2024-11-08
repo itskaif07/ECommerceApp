@@ -1,22 +1,12 @@
 ﻿@model ECommerceApp.ViewModels.ProductUserViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Cart Details";
 }
 
-<div class="flex items-center justify-between px-10 my-6">
-    <a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
-        <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
-    </a>
-
-    @if (User.IsInRole("SiteOwner"))
-    {
-        <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
-            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
-        </div>
-    }
-</div>
+<a asp-controller="Carts" asp-action="CartsIndex" class=" bg-blue-400 hover:bg-blue-600 mt-4 ml-6  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
 
 <div class="w-full flex items-start justify-center mt-10">
 
@@ -154,5 +144,5 @@
 </script>
 
 @section Scripts {
-    <script src="~/js/productDetails.js"></script>
+    <script src="~/js/cartDetails.js"></script>
 }

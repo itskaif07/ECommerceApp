@@ -21,14 +21,27 @@
             {
                 <div class="flex items-start justify-center space-x-12">
 
-                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="w-1/4 h-full flex items-center justify-center  hover:opacity-90">
+                    <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="w-1/4 h-full flex items-center justify-center  hover:opacity-90">
                         <img src="@item.product?.ImageUrl" alt="@item.product?.Name" class="object-contain object-center w-full h-full">
                     </a>
 
                     <div class="space-y-4">
-                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">@item.product?.Name</a>
-                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block font-medium">Price: <span class="text-yellow-400">@item.product?.Price</span></a>
-                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">Quantity: @item.Quantity</a>
+                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">@item.product?.Name</a>
+                        <div class="flex items-center justify-start space-x-4">
+                            <form asp-controller="Carts" asp-action="ReductQuantity" asp-route-id="@item.Id" method="post" class="bg-white text-black hover:text-black w-8  h-8 flex items-center justify-center text-xl rounded-full">
+                                <button type="submit">-</button>
+                            </form>
+
+                            <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
+                                Quantity: @item.Quantity
+                            </a>
+
+                            <form asp-controller="Carts" asp-action="AppendQuantity" asp-route-id="@item.Id" method="post" class="bg-white text-black hover:text-black w-8  h-8 flex items-center justify-center text-xl rounded-full">
+                                <button type="submit">+</button>
+                            </form>
+                        </div>
+
+                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block font-medium">Total Price: <span class="text-yellow-400">@(item.product?.Price * @item.Quantity)</span></a>
                         <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-44 py-2 bg-red-500 hover:bg-red-500 flex items-center justify-start pl-4">
                             Remove
                         </a>

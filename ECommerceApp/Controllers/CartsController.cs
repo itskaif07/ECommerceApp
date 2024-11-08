@@ -9,16 +9,20 @@ using ECommerceApp.Data;
 using ECommerceApp.Models;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis;
+using ECommerceApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace ECommerceApp.Controllers
 {
     public class CartsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CartsController(ApplicationDbContext context)
+        public CartsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> CartsIndex(int id)
@@ -29,33 +33,6 @@ namespace ECommerceApp.Controllers
 
             return View(cartItems);
         }
-
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Carts
-                .Include(c => c.product)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // GET: Carts/Create
-        public IActionResult Create()
-        {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
-            return View();
-        }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,60 +77,39 @@ namespace ECommerceApp.Controllers
             return RedirectToAction("CartsIndex", "Carts");
         }
 
-        // GET: Carts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+        public async Task<IActionResult> CartDetails(int id)
         {
-            if (id == null)
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (product == null)
             {
-                return NotFound();
+                return NotFound("Product not found.");
             }
 
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
             {
-                return NotFound();
+                return Unauthorized("User not found");
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", cart.ProductId);
-            return View(cart);
+
+            bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
+
+            var viewModel = new ProductUserViewModel
+            {
+                Product = product,
+                ApplicationUser = user,
+                IsInWishlist = isInWishList
+            };
+
+            return View("~/Views/Carts/CartDetails.cshtml", viewModel);
         }
 
-        // POST: Carts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ProductId,Quantity,DateAdded")] Cart cart)
-        {
-            if (id != cart.Id)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", cart.ProductId);
-            return View(cart);
-        }
 
-        // GET: Carts/Delete/5
         public async Task<IActionResult> DeleteCart(int id)
         {
             var cart = await _context.Carts
@@ -165,12 +121,10 @@ namespace ECommerceApp.Controllers
                 return NotFound();
             }
 
-            return View(cart); // Displays the confirmation view
+            return View(cart); 
         }
 
 
-
-        // POST: Carts/Delete/5
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -184,6 +138,48 @@ namespace ECommerceApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReductQuantity(int id)
+        {
+            var product = await _context.Carts.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if(product.Quantity <= 1)
+            {
+                _context.Carts.Remove(product);
+            }
+            else
+            {
+                product.Quantity--;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CartsIndex", "Carts");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AppendQuantity(int id)
+        {
+            var cartItem = await _context.Carts.FindAsync(id);
+
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            cartItem.Quantity++;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CartsIndex", "Carts");
+        }
+
 
         private bool CartExists(int id)
         {
