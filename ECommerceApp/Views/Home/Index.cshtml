@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ECommerceApp.ViewModel.HomeViewModel;
+
+@{
     ViewData["Title"] = "Shop Cart - Shop Everything";
 }
 
@@ -42,13 +44,14 @@
             </div>
         </div>
 
-        <div class="h-full flex items-center justify-center space-x-2">
+        <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
             <img src="~/images/icons8-cart-80.png" class="w-14">
-            <div>
-                <h1>My Cart</h1>
-                <h5 class="font-semibold">0</h5>
+          
+            <div >
+                <h1>Cart</h1>
+                <h5 class="font-semibold">@(ViewData["CartQuantity"] ?? 0)</h5>
             </div>
-        </div>
+        </a>
 
         <a asp-controller="SignUp" asp-action="Signup" class="block hover:text-white flex items-center justify-center space-x-2">
             <img src="~/images/user.png" alt="Account" class="w-12">

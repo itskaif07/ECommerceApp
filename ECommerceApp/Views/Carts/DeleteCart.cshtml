@@ -1,0 +1,18 @@
+﻿@model ECommerceApp.Models.Cart
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="flex flex-col items-center justify-center my-32 space-y-6">
+
+<h2 class="text-xl">Are you sure you want to Remove this item from your cart?</h2>
+<p class="text-lg">Product: <span class="text-yellow-400">@Model.product.Name</span></p>
+<p class="text-lg">Quantity: <span class="text-yellow-400">@Model.Quantity</span></p>
+
+    <form asp-controller="Carts" asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-500">Yes, Remove</button>
+    <a asp-action="Index" class="bg-gray-300 text-black hover:text-black px-4 py-2 rounded">Cancel</a>
+</form>
+
+</div>

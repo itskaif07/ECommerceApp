@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ECommerceApp.Models.Cart>
+
+@{
+    ViewData["Title"] = "Cart Items";
+}
+
+<a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<div class="h-full w-full flex flex-col items-center justify-center space-y-10">
+
+
+    <h1 class="text-center font-semibold text-xl mb-10">Cart Items</h1>
+
+    @if (Model.Any())
+    {
+
+        <div class="space-y-24 w-full h-full flex items-center justify-center flex-col">
+            @foreach (var item in Model)
+            {
+                <div class="flex items-start justify-center space-x-12">
+
+                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="w-1/4 h-full flex items-center justify-center  hover:opacity-90">
+                        <img src="@item.product?.ImageUrl" alt="@item.product?.Name" class="object-contain object-center w-full h-full">
+                    </a>
+
+                    <div class="space-y-4">
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">@item.product?.Name</a>
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block font-medium">Price: <span class="text-yellow-400">@item.product?.Price</span></a>
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">Quantity: @item.Quantity</a>
+                        <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-44 py-2 bg-red-500 hover:bg-red-500 flex items-center justify-start pl-4">
+                            Remove
+                        </a>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <p class="text-xl">No Products in your Cart</p>
+    }
+</div>
