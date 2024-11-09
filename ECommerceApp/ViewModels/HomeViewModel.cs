@@ -9,5 +9,7 @@ namespace ECommerceApp.ViewModel
         public IEnumerable<Category> Categories { get; set; }
 
         public IEnumerable<Cart> Carts { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

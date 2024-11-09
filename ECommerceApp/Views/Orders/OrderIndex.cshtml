@@ -1,21 +1,32 @@
 ﻿@model IEnumerable<ECommerceApp.Models.Order>
 
-<h1 class="text-xl font-medium text-center mt-10 mb-20">Orders</h1>
+<a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600 mt-4 ml-4  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<h1 class="text-xl font-medium text-center mb-20">Orders</h1>
+
 
 <div class="w-full h-full space-y-6 flex items-center justify-center flex-col">
 
     @foreach (var i in Model)
     {
-        <div class=" w-1/2 h-96 flex items-center justify-center ">
+        <div class=" w-1/2 h-48 flex items-center justify-center ">
 
-            <div class="w-1/4 h-full flex items-center justify-start">
-                <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="w-full h-full object-cover object-center">
+            <div class="w-1/2 h-full flex items-center justify-start">
+                <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="w-full h-full object-scale-down object-center">
             </div>
 
-            <div class="w-full h-full">
-                <h1>@i.Product.Name</h1>
-                <h1>@i.Quantity</h1>
-                <h1>@i.TotalPrice</h1>
+            <div class="w-1/2 h-full space-y-1">
+                <h1 class="text-xl">@i.Product.Name</h1>
+                <h1>Total Price: <span class="text-green-400 font-medium">@i.TotalPrice</span></h1>
+                <h1>Order Date: <span class="text-yellow-400 font-medium">@i.OrderDate.Day/@i.OrderDate.Month/@i.OrderDate.Year</span></h1>
+                <h1 class="text-lg">Quantity: <span class="text-yellow-400 font-medium">@i.Quantity</span></h1>
+                <h1>Staus: <span class="text-[#e85c05]">@i.Status</span></h1>
+                <a asp-controller="Orders" asp-action="DeleteOrder" asp-route-orderId="@i.OrderId" class="block bg-red-500 hover:bg-red-600 py-2 w-1/4 flex items-center justify-center">
+                    Delete
+                </a>
+
             </div>
 
         </div>

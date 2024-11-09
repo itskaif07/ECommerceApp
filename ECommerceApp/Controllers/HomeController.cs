@@ -23,23 +23,34 @@ namespace ECommerceApp.Controllers
             var products = categoryId == null
                 ? await _context.Products.ToListAsync()
                 : await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+
             var categories = await _context.Categories.ToListAsync();
             var carts = await _context.Carts.ToListAsync();
+            var orders = await _context.Orders.ToListAsync();
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+
             var userCartItems = await _context.Carts
                 .Where(c => c.UserId == userId) 
                 .ToListAsync();
 
-            var totalQuantity = userCartItems.Sum(i => i.Quantity); 
+            var userOrderItems = await _context.Orders
+                .Where(o => o.UserId == userId)
+                .ToListAsync();
 
-            ViewData["CartQuantity"] = totalQuantity;
+            var totalCartQuantity = userCartItems.Sum(i => i.Quantity); 
+            var totalOrderQuantity = userOrderItems.Sum(i => i.Quantity); 
+
+
+            ViewData["CartQuantity"] = totalCartQuantity;
+            ViewData["OrderQuantity"] = totalOrderQuantity;
 
             var model = new HomeViewModel
             {
                 Products = products,
                 Categories = categories,
-                Carts = carts
+                Carts = carts,
+                Orders = orders,
             };
 
             return View(model);

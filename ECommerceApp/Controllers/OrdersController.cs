@@ -32,6 +32,19 @@ namespace ECommerceApp.Controllers
             return View(await orders.ToListAsync());
         }
 
+        [HttpPost]
+
+        public async Task<IActionResult> DeleteAll()
+        {
+            var orderItem = await _context.Orders.Include(p => p.Product).ToListAsync();
+
+            _context.Orders.RemoveRange(orderItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
 
         [HttpGet]
@@ -149,22 +162,33 @@ namespace ECommerceApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+    
+        public async Task<IActionResult> DeleteOrder(int orderId)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
+
+            var orderItem = await _context.Orders.Include(p => p.Product).FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (orderItem == null)
             {
-                _context.Orders.Remove(order);
+                return NotFound();
             }
 
+            return View(orderItem);
+        }
+
+        public async Task<IActionResult> ConfirmDeleteOrder(int orderId)
+        {
+            var orderItem = await _context.Orders.FindAsync(orderId);
+
+            if (orderItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.Orders.Remove(orderItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("OrderIndex", "Orders");
         }
 
         private bool OrderExists(int id)

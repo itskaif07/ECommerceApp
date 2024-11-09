@@ -1,0 +1,26 @@
+﻿@model ECommerceApp.Models.Order
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<a asp-controller="Orders" asp-action="OrderIndex" class=" bg-blue-400 hover:bg-blue-600 mt-4 ml-4  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<h1 class="text-center mt-24">
+    @if (Model.Product != null)
+    {
+        @:Are you sure you want to delete your order for <span class="text-red-500 text-xl">@Model.Product.Name?</span>
+    }
+    else
+    {
+        @: <span class="text-red-500 text-xl">Product not available.</span>
+    }
+</h1>
+
+<form asp-action="ConfirmDeleteOrder" method="post" class="flex items-center justify-center space-x-6 mt-8">
+    <input type="hidden" name="orderId" value="@Model.OrderId" /> 
+    <input type="submit" value="Yes, Delete" class="bg-red-500 hover:bg-red-600 rounded-md py-2 w-24 cursor-pointer">
+    <a asp-controller="Orders" asp-action="OrderIndex" class="text-black bg-gray-200 hover:text-black py-2 w-24 rounded-md block text-center">Cancel</a>
+</form>
