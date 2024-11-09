@@ -25,7 +25,7 @@
 
             <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
                 <label for="Quantity" class=" font-semibold">Quantity</label>
-                <input type="number" min="1" id="input" class="text-center w-16 text-xl text-black font-semibold bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" asp-for="Quantity">
+                <input type="number" min="1" max="@Model.Product.Quantity" id="input" class="text-center w-16 text-xl text-black font-semibold bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" asp-for="Quantity">
                 <span asp-validation-for="Quantity" class="text-red-400"></span>
             </div>
 

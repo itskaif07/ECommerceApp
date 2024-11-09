@@ -114,6 +114,9 @@ namespace ECommerceApp.Controllers
                     existingOrder.TrackingNumber = Guid.NewGuid().ToString(); 
                     existingOrder.PaymentMethod = order.PaymentMethod;
 
+                    existingOrder.Product.Quantity -= order.Quantity;
+
+                    _context.Update(existingOrder.Product); 
                     _context.Update(existingOrder); 
                 }
                 else
@@ -124,7 +127,8 @@ namespace ECommerceApp.Controllers
             }
             else
             {
-                order.TotalPrice = order.Quantity * order.Product.DiscountedPrice;  
+                order.TotalPrice = order.Quantity * order.Product.DiscountedPrice;
+                order.Product.Quantity -= order.Quantity;
                 order.TrackingNumber = Guid.NewGuid().ToString(); 
 
                 _context.Add(order); 
