@@ -8,5 +8,7 @@ namespace ECommerceApp.ViewModels
         public ApplicationUser ApplicationUser { get; set; }
 
         public bool IsInWishlist { get; set; }
+
+        public Order Order { get; set; }
     }
 }

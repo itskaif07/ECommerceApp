@@ -30,6 +30,10 @@ a:hover{
     color:white;
 }
 
+input{
+    color:black;
+}
+
 /* Scrollbar width and height */
 ::-webkit-scrollbar {
     width: 5px;

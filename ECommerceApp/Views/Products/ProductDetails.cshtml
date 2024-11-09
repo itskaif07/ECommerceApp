@@ -30,18 +30,22 @@
             @if (Model.Product?.Quantity != 0)
             {
                 <div class="w-1/2 flex items-center justify-center space-x-4">
-                    <a class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full hover:text-white rounded-lg py-2 text-center font-medium text-lg flex items-center justify-center space-x-4">
-                        <img src="~/images/icons8-lightning-50.png" alt="Buy" class="w-8">
-                        <h1>Buy</h1>
+
+                    <a asp-controller="Orders" asp-action="OrderDetails" asp-route-orderId="@Model.Order?.OrderId" asp-route-productId="@Model.Product?.Id" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full hover:text-white rounded-lg py-2 text-center font-medium text-center flex items-center justify-center ">
+                            <img src="~/images/icons8-lightning-50.png" alt="Buy" class="w-8">
+                            <h1>Buy</h1>
                     </a>
+
                     <form asp-controller="Carts" asp-action="CartAdd" asp-route-id="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 w-full hover:text-white rounded-lg py-2 text-center font-medium text-lg flex items-center justify-center space-x-4">
                         <img src="~/images/icons8-cart-80.png" alt="Cart" class="w-8">
                         <button type="submit">Add to Cart</button>
                     </form>
+
                 </div>
             }
 
         </div>
+
         <div class="w-1/2 flex items-start flex-col justify-center space-y-6">
             <h1 class="text-xl font-medium">@Model.Product.Name</h1>
             <div class="w-full h-[25%] flex flex-col items-start justify-center">

@@ -17,6 +17,8 @@ namespace ECommerceApp.Data
 
         public DbSet<Cart> Carts { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,6 +26,10 @@ namespace ECommerceApp.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<ApplicationUser>().
                 HasIndex(u => u.Email)
