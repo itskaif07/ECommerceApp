@@ -45,29 +45,30 @@
         </div>
 
         <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
-            <img src="~/images/icons8-order-list-64.png" class="w-14 invert grayscale w-9">
-
-            <div>
-                <h1>Orders</h1>
-                <h5 class="font-semibold">@(ViewData["OrderQuantity"] ?? 0)</h5>
+            <div class="relative">
+                <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["OrderQuantity"] ?? 0)</h5>
+                <img src="~/images/icons8-order-list-64.png" class="w-8">
             </div>
+            <h1 class="font-medium text-lg">Order</h1>
         </a>
 
+
         <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
-            <img src="~/images/icons8-cart-80.png" class="w-14">
-          
-            <div >
-                <h1>Cart</h1>
-                <h5 class="font-semibold">@(ViewData["CartQuantity"] ?? 0)</h5>
+
+            <div class="relative">
+                <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["CartQuantity"] ?? 0)</h5>
+                <img src="~/images/icons8-cart-80.png" class="invert grayscale w-8">
             </div>
+            <h1 class="font-medium text-lg">Cart</h1>
+
         </a>
 
         <a asp-controller="SignUp" asp-action="Signup" class="block hover:text-white flex items-center justify-center space-x-2">
-            <img src="~/images/user.png" alt="Account" class="w-12">
+            <img src="~/images/user.png" alt="Account" class="w-8">
             <div class="flex items-center justify-center">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <h1>@User.Identity.Name</h1>
+                    <h1 class="font-medium">@User.Identity.Name</h1>
                 }
                 else
                 {

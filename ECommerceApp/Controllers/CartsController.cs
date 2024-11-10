@@ -34,6 +34,25 @@ namespace ECommerceApp.Controllers
             return View(cartItems);
         }
 
+        public async Task<IActionResult> DeleteAll()
+        {
+            var cartItems = await _context.Carts.Include(p => p.product).ToListAsync();
+            return View(cartItems);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAllConfirm()
+        {
+            var cartItems = await _context.Carts.Include(p => p.product).ToListAsync();
+
+            _context.Carts.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CartAdd([Bind("Id,UserId,ProductId,Quantity,DateAdded")] Cart cart, int id)

@@ -21,3 +21,15 @@ productImage.addEventListener("mouseenter", () => {
     zoomOverlay.classList.remove("hidden");
 });
 
+const short = document.querySelector("#shortAddress");
+const full = document.querySelector("#fullAddress");
+
+short.addEventListener('click', function () {
+    full.classList.remove("hidden");
+    short.classList.add("hidden");
+});
+
+full.addEventListener('click', function () {
+    short.classList.remove("hidden");
+    full.classList.add("hidden");
+});

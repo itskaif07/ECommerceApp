@@ -77,10 +77,12 @@ namespace ECommerceApp.Controllers
                     OrderDate = DateTime.UtcNow,
                     TotalPrice = product.DiscountedPrice,
                     Status = "Pending",
-                    ShippingAddress = $"{user?.Address}, {user?.City}, {user?.State}, {user?.PinCode}",
+                    ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
                     TrackingNumber = Guid.NewGuid().ToString(),
                     PaymentStatus = "Unpaid",
-                    PaymentMethod = "CashOnDelivery" 
+                    PaymentMethod = "CashOnDelivery",
+                    Product = product,
+                    ApplicationUser = user
                 };
 
                 _context.Orders.Add(order);
@@ -92,54 +94,62 @@ namespace ECommerceApp.Controllers
 
 
 
+
         [HttpPost]
         public async Task<IActionResult> OrderDetails(Order order)
         {
             if (!ModelState.IsValid)
             {
-                return View(order); 
+                return View(order);
+            }
+
+            var product = await _context.Products.FindAsync(order.ProductId);
+            if (product == null)
+            {
+                ModelState.AddModelError("", "Product not found.");
+                return View(order);
             }
 
             var existingOrder = await _context.Orders
-                                  .Include(o => o.Product)  
-                                  .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
+                               .Include(o => o.Product)
+                               .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
 
             if (existingOrder != null)
             {
-                if (existingOrder.Product != null)
-                {
-                    existingOrder.Quantity = order.Quantity;  
-                    existingOrder.TotalPrice = order.Quantity * existingOrder.Product.DiscountedPrice; 
-                    existingOrder.ShippingAddress = order.ShippingAddress;
-                    existingOrder.TrackingNumber = Guid.NewGuid().ToString(); 
-                    existingOrder.PaymentMethod = order.PaymentMethod;
-
-                    existingOrder.Product.Quantity -= order.Quantity;
-
-                    _context.Update(existingOrder.Product); 
-                    _context.Update(existingOrder); 
-                }
-                else
+                if (existingOrder.Product == null)
                 {
                     ModelState.AddModelError("", "Product not found for this order.");
                     return View(order);
                 }
+
+                existingOrder.Quantity = order.Quantity;
+                existingOrder.TotalPrice = order.Quantity * existingOrder.Product.DiscountedPrice;
+                existingOrder.ShippingAddress = order.ShippingAddress;
+                existingOrder.TrackingNumber = Guid.NewGuid().ToString();
+                existingOrder.PaymentMethod = order.PaymentMethod;
+
+                existingOrder.Product.Quantity -= order.Quantity;
+
+                _context.Update(existingOrder.Product);
+                _context.Update(existingOrder);
             }
             else
             {
-                order.TotalPrice = order.Quantity * order.Product.DiscountedPrice;
-                order.Product.Quantity -= order.Quantity;
-                order.TrackingNumber = Guid.NewGuid().ToString(); 
+                order.TotalPrice = order.Quantity * product.DiscountedPrice;
+                product.Quantity -= order.Quantity;
+                order.TrackingNumber = Guid.NewGuid().ToString();
 
-                _context.Add(order); 
+                order.Product = product;
+                _context.Add(order);
+                _context.Update(product);
             }
 
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home", new { orderId = order.OrderId });  
-
-
+            return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
+
+
 
 
 
