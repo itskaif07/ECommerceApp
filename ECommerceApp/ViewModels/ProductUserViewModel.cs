@@ -10,5 +10,7 @@ namespace ECommerceApp.ViewModels
         public bool IsInWishlist { get; set; }
 
         public Order Order { get; set; }
+
+        public Category Category { get; set; }
     }
 }

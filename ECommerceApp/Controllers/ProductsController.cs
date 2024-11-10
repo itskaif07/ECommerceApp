@@ -64,7 +64,7 @@ namespace ECommerceApp.Controllers
         }
 
 
-        public async Task<IActionResult> ProductDetails(int id)
+        public async Task<IActionResult> ProductDetails(int id, int? categoryId)
         {
             var product = await _context.Products
                 .Include(p => p.Category)
@@ -85,12 +85,16 @@ namespace ECommerceApp.Controllers
 
             bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
 
+
             var viewModel = new ProductUserViewModel
             {
                 Product = product,
                 ApplicationUser = user,
-                IsInWishlist = isInWishList
+                IsInWishlist = isInWishList,
+                Category = product.Category
             };
+
+            ViewData["CategoryId"] = categoryId ?? product.CategoryId;
 
             return View("~/Views/Products/ProductDetails.cshtml", viewModel);
         }
