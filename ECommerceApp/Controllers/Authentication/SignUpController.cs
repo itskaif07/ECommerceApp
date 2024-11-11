@@ -28,7 +28,7 @@ namespace ECommerceApp.Controllers.Authentication
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Authentication/SignUp.cshtml", model);
             }
 
             var user = new ApplicationUser

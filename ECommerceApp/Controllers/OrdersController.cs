@@ -27,7 +27,9 @@ namespace ECommerceApp.Controllers
 
         public async Task<IActionResult> OrderIndex()
         {
-            var orders = await _context.Orders.Include(o => o.Product).OrderByDescending(o => o.OrderDate).ToListAsync();
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orders = await _context.Orders.Include(o => o.Product).Where(u => u.UserId == user).OrderByDescending(o => o.OrderDate).ToListAsync();
 
             ViewBag.TotalAmount = orders.Sum(o => o.TotalPrice);
             return View(orders);
@@ -71,9 +73,13 @@ namespace ECommerceApp.Controllers
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
 
+
+
             if (order == null)
             {
-                // Return a new order object without adding it to the database
+                var addressParts = new List<string> { user.Address, user.City, user.State, user.PinCode };
+                var shippingAddress = string.Join(", ", addressParts.Where(part => !string.IsNullOrEmpty(part)));
+
                 order = new Order
                 {
                     UserId = userId,
@@ -81,7 +87,7 @@ namespace ECommerceApp.Controllers
                     OrderDate = DateTime.UtcNow,
                     TotalPrice = product.DiscountedPrice,
                     Status = "Pending",
-                    ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
+                    ShippingAddress = shippingAddress,
                     TrackingNumber = Guid.NewGuid().ToString(),
                     PaymentStatus = "Unpaid",
                     PaymentMethod = "CashOnDelivery",
