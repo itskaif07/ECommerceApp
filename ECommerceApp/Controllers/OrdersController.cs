@@ -27,8 +27,10 @@ namespace ECommerceApp.Controllers
 
         public async Task<IActionResult> OrderIndex()
         {
-            var orders = _context.Orders.Include(o => o.Product);
-            return View(await orders.ToListAsync());
+            var orders = await _context.Orders.Include(o => o.Product).OrderByDescending(o => o.OrderDate).ToListAsync();
+
+            ViewBag.TotalAmount = orders.Sum(o => o.TotalPrice);
+            return View(orders);
         }
 
 
@@ -65,11 +67,13 @@ namespace ECommerceApp.Controllers
                 return NotFound("User not found.");
             }
 
+            // Check if an existing order already exists
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
 
             if (order == null)
             {
+                // Return a new order object without adding it to the database
                 order = new Order
                 {
                     UserId = userId,
@@ -84,13 +88,11 @@ namespace ECommerceApp.Controllers
                     Product = product,
                     ApplicationUser = user
                 };
-
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
             }
 
             return View(order);
         }
+
 
 
 
@@ -111,23 +113,15 @@ namespace ECommerceApp.Controllers
             }
 
             var existingOrder = await _context.Orders
-                               .Include(o => o.Product)
-                               .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
+                                   .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
 
             if (existingOrder != null)
             {
-                if (existingOrder.Product == null)
-                {
-                    ModelState.AddModelError("", "Product not found for this order.");
-                    return View(order);
-                }
-
                 existingOrder.Quantity = order.Quantity;
                 existingOrder.TotalPrice = order.Quantity * existingOrder.Product.DiscountedPrice;
                 existingOrder.ShippingAddress = order.ShippingAddress;
                 existingOrder.TrackingNumber = Guid.NewGuid().ToString();
                 existingOrder.PaymentMethod = order.PaymentMethod;
-
                 existingOrder.Product.Quantity -= order.Quantity;
 
                 _context.Update(existingOrder.Product);
@@ -139,7 +133,6 @@ namespace ECommerceApp.Controllers
                 product.Quantity -= order.Quantity;
                 order.TrackingNumber = Guid.NewGuid().ToString();
 
-                order.Product = product;
                 _context.Add(order);
                 _context.Update(product);
             }
@@ -148,6 +141,7 @@ namespace ECommerceApp.Controllers
 
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
+
 
 
 
