@@ -19,32 +19,6 @@ namespace ECommerceApp.Controllers
             _context = context;
         }
 
-        // GET: Reviews
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Reviews.Include(r => r.Product).Include(r => r.User);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Reviews/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var review = await _context.Reviews
-                .Include(r => r.Product)
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
-        }
 
         // GET: Reviews/Create
         public IActionResult AddReview(string userId, int productId)

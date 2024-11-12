@@ -1,7 +1,11 @@
 ﻿@model ECommerceApp.Models.Order
 
+@{
+    ViewData["Title"] = "Order Details";
+}
+
 <div class="flex items-center justify-between px-10 mt-3">
-    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Product.Id" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Product.Id" class="fixed left-6 top-6 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
  </div>
@@ -15,14 +19,17 @@
         @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
 
 
-        <div class="w-1/2 h-full flex items-start justify-center">
-            <div class="w-1/2 h-full flex flex-col items-center justify-center space-y-6">
+        <div class="w-full fixed left-0 top-20 h-4/5 flex items-start justify-start">
+            <div class="w-[50%] h-full flex flex-col items-center justify-center space-y-6">
                 <div class="w-full h-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair">
                     <img id="productImage" src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
                     <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
                 </div>
             </div>
         </div>
+
+
+        <div class="w-1/2 h-full"></div>
 
         <div class="w-1/2 h-full flex items-start flex-col justify-center space-y-6">
             <h1 class="text-xl font-medium">@Model.Product.Name</h1>

@@ -63,6 +63,8 @@ namespace ECommerceApp.Controllers
                 return NotFound("Product not found.");
             }
 
+           
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
