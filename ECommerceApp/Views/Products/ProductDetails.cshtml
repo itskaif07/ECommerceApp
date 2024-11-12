@@ -196,8 +196,9 @@
                                     @if (User.Identity.IsAuthenticated && User.Identity.Name == i.User.UserName)
                                     {
                                         <div class="w-full">
-                                            <a asp-controller="Reviews" asp-action="EditReview" class="bg-blue-500 w-28 py-1  inline-block text-center">Edit Review</a>
-                                            <a asp-controller="Reviews" asp-action="DeleteReview" class="bg-red-500 w-28 py-1  inline-block text-center">Delete Review</a>
+                                            <a asp-controller="Reviews" asp-action="EditReview" asp-route-id="@i.Id" class="bg-blue-500 w-28 py-1 inline-block text-center">Edit Review</a>
+
+                                            <a asp-controller="Reviews" asp-action="DeleteReview" asp-route-id="@i.Id" class="bg-red-500 w-28 py-1  inline-block text-center">Delete Review</a>
                                         </div>
                                     }
 

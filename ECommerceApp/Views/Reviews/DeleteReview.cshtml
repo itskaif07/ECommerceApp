@@ -1,0 +1,20 @@
+﻿@model ECommerceApp.Models.Review
+
+@{
+    ViewData["Title"] = "Delete Review";
+}
+
+<div class=" mt-44 space-y-14 w-full h-full">
+
+
+<h1 class="text-center text-xl">Are you sure you want to delete your review of <span class="text-green-500"> @Model.ReviewName</span> ?</h1>
+
+    
+    <form asp-action="DeleteReviewConfirmed" class="flex items-center justify-center w-1/2 space-x-4 mx-auto">
+        <input type="hidden" asp-for="Id">
+        <input type="submit" value="Delete" class="bg-red-500 hover:bg-red-600 w-1/6 py-2 flex items-center justify-center cursor-pointer">
+        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Product.Id" class="bg-gray-200 text-black flex items-center justify-center hover:text-black w-1/6 py-2">Cancel</a>
+    </form>
+
+
+</div>

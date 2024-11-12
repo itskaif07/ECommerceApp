@@ -71,7 +71,7 @@ namespace ECommerceApp.Controllers
 
                     review.ImageUrl = "/images/" + review.ImageFile.FileName;
                 }
-                Console.WriteLine("Image Url:", review.ImageUrl);
+
                 _context.Add(review);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ProductDetails", "Products", new { id = review.ProductId });
@@ -81,7 +81,8 @@ namespace ECommerceApp.Controllers
         }
 
         // GET: Reviews/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: EditReview
+        public async Task<IActionResult> EditReview(int? id) // Renamed from Edit to EditReview
         {
             if (id == null)
             {
@@ -91,52 +92,83 @@ namespace ECommerceApp.Controllers
             var review = await _context.Reviews.FindAsync(id);
             if (review == null)
             {
-                return NotFound();
+                return NotFound("Review Not Found");
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", review.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", review.UserId);
+
+            var productId = review.ProductId;
+
+            ViewBag.ProductId = productId;
+
             return View(review);
         }
 
-        // POST: Reviews/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: EditReview
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,UserId,Rating,Comment,ImageUrl,CreatedAt")] Review review)
+        public async Task<IActionResult> EditReview(int id, [Bind("Id,ProductId,UserId,Rating,ReviewName,Comment,ImageUrl,ImageFile,CreatedAt")] Review review)
         {
+            Console.WriteLine($"Received Review ID: {review.Id}");
+            Console.WriteLine($"Product ID: {review.ProductId}, User ID: {review.UserId}");
+            Console.WriteLine($"Rating: {review.Rating}, Comment: {review.Comment}");
+
             if (id != review.Id)
             {
-                return NotFound();
+                Console.WriteLine("Review ID mismatch.");
+                return NotFound("Review ID mismatch.");
             }
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("Model state is invalid:");
+                foreach (var error in ModelState)
+                {
+                    Console.WriteLine($"Key: {error.Key}, Error: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
+                return View(review); // Return view with the model to see validation errors
+            }
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (review.ImageFile != null)
+                    {
+                        var filePath = Path.Combine("wwwroot/images", review.ImageFile.FileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await review.ImageFile.CopyToAsync(stream);
+                        }
+                        Console.WriteLine("Review updated successfully.");
+
+
+                        review.ImageUrl = "/images/" + review.ImageFile.FileName;
+                    }
+
                     _context.Update(review);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    Console.WriteLine($"Concurrency error: {ex.Message}");
                     if (!ReviewExists(review.Id))
                     {
-                        return NotFound();
+                        return NotFound("Review not found in the database.");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // Redirect to ProductDetails after editing
+                return RedirectToAction("ProductDetails", "Products", new { id = review.ProductId });
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", review.ProductId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", review.UserId);
+
             return View(review);
         }
 
         // GET: Reviews/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> DeleteReview(int? id)
         {
             if (id == null)
             {
@@ -155,10 +187,9 @@ namespace ECommerceApp.Controllers
             return View(review);
         }
 
-        // POST: Reviews/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteReviewConfirmed(int id)
         {
             var review = await _context.Reviews.FindAsync(id);
             if (review != null)
@@ -167,7 +198,8 @@ namespace ECommerceApp.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("ProductDetails", "Products", new { id = review.ProductId });
+
         }
 
         private bool ReviewExists(int id)

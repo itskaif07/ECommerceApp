@@ -1,7 +1,7 @@
 ﻿@model ECommerceApp.Models.Review
 
 @{
-    ViewData["Title"] = "Add Review";
+    ViewData["Title"] = "Edit";
 }
 
 <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@ViewBag.ProductId" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
@@ -11,12 +11,12 @@
 <div class="w-full h-full flex items-center justify-center flex-col">
 
 
-    <form asp-action="AddReview" method="post" enctype="multipart/form-data" class="w-full h-full flex items-center justify-center flex-col  space-y-14">
+    <form asp-action="EditReview" method="post" enctype="multipart/form-data" class="w-full h-full flex items-center justify-center flex-col  space-y-14">
 
+         <input type="hidden" asp-for="Id">
+        <input type="hidden" asp-for="ProductId" /> 
+        <input type="hidden" asp-for="UserId" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <input asp-for="ProductId" class="text-black hidden" value="@ViewBag.ProductId">
-        <input asp-for="UserId" class="text-black hidden" value="@ViewBag.UserId">
 
         <div class="w-full flex flex-col items-center justify-center space-y-6">
             <img id="defaultImage" src="~/images/uploadImage.jpg" class="cursor-pointer w-full h-48 object-contain object-center">
@@ -39,13 +39,13 @@
             <div class="w-full flex-col space-y-2 flex items-center justify-center">
                 <label asp-for="Rating" class="w-full font-medium text-center"></label>
                 <div class="flex items-center space-x-4">
-                @for(int i = 1; i<= 5; i++)
-                {
-                    <label class="cursor-pointer text-3xl">
-                        <input type="radio" name="Rating" value="@i" class="hidden peer">
-                        <span class="text-gray-400 hover:text-yellow-500 peer-checked:text-yellow-500">&#9733;</span>
-                    </label>
-                }
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <label class="cursor-pointer text-3xl">
+                            <input type="radio" name="Rating" value="@i" class="hidden peer">
+                            <span class="text-gray-400 hover:text-yellow-500 peer-checked:text-yellow-500">&#9733;</span>
+                        </label>
+                    }
                 </div>
                 <span asp-validation-for="Rating" class="text-red-500"></span>
             </div>
@@ -69,6 +69,6 @@
 
 </div>
 
-@section Scripts{
-    <script src="~/js/reviewAdd.js"></script>
+@section Scripts {
+    <script src="~/js/reviewEdit.js"></script>
 }
