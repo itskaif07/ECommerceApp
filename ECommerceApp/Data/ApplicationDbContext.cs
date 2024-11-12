@@ -19,6 +19,8 @@ namespace ECommerceApp.Data
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -38,6 +40,7 @@ namespace ECommerceApp.Data
             modelBuilder.Entity<ApplicationUser>()
        .HasIndex(u => u.PhoneNumber)
        .IsUnique();
+
 
             modelBuilder.Entity<Category>().HasData(
                new Category { Id = 1, Name = "Electronics" },

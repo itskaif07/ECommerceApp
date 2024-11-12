@@ -12,5 +12,7 @@ namespace ECommerceApp.ViewModels
         public Order Order { get; set; }
 
         public Category Category { get; set; }
+
+        public List<Review> Reviews { get; set; }
     }
 }

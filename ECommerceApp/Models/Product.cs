@@ -56,6 +56,8 @@ namespace ECommerceApp.Models
         [ValidateNever]
         public Category Category { get; set; }
 
+        [ValidateNever]
+        public List<Review> Reviews { get; set; } = new List<Review>();
 
     }
 }

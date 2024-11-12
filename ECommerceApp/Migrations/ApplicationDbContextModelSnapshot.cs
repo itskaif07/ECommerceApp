@@ -522,6 +522,48 @@ namespace ECommerceApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ECommerceApp.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReviewName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("ECommerceApp.Models.Wishlist", b =>
                 {
                     b.Property<int>("Id")
@@ -724,6 +766,25 @@ namespace ECommerceApp.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("ECommerceApp.Models.Review", b =>
+                {
+                    b.HasOne("ECommerceApp.Models.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ECommerceApp.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ECommerceApp.Models.Wishlist", b =>
                 {
                     b.HasOne("ECommerceApp.Models.Product", "Product")
@@ -797,6 +858,11 @@ namespace ECommerceApp.Migrations
             modelBuilder.Entity("ECommerceApp.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ECommerceApp.Models.Product", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

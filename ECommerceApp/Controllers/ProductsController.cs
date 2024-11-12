@@ -68,6 +68,8 @@ namespace ECommerceApp.Controllers
         {
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Reviews)
+                .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (product == null)
@@ -85,13 +87,21 @@ namespace ECommerceApp.Controllers
 
             bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
 
+            var averageRating = product.Reviews.Any() ? product.Reviews.Average(a => a.Rating) : 0;
+
+            var totalRating = product.Reviews.Any() ? product.Reviews.Count() : 0;
+
+            ViewBag.totalRating = totalRating;
+            ViewBag.AverageRating = averageRating.ToString("0.0");
 
             var viewModel = new ProductUserViewModel
             {
                 Product = product,
                 ApplicationUser = user,
                 IsInWishlist = isInWishList,
-                Category = product.Category
+                Category = product.Category,
+                Reviews = product.Reviews,
+                
             };
 
             ViewData["CategoryId"] = categoryId ?? product.CategoryId;
