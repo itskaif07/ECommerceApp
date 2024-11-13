@@ -31,9 +31,9 @@ namespace ECommerceApp.Controllers
 
             var cartItems = await _context.Carts.Include(p => p.product).Where(w => w.UserId == userId).OrderByDescending(p => p.DateAdded).ToListAsync();
 
-            var totalAmount = cartItems.Sum(p => p.product.DiscountedPrice);
+            var totalAmount = cartItems.Sum(p => p.product.DiscountedPrice * p.Quantity);
 
-            ViewBag.TotalAmount = totalAmount;
+            ViewBag.TotalAmount = totalAmount.ToString("0.00");
 
             return View(cartItems);
         }

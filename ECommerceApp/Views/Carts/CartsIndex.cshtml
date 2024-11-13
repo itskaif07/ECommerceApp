@@ -21,18 +21,18 @@
 
     </div>
 
-    @foreach (var i in Model)
-    {
-        <div class="h-20 w-60 bg-transparent fixed right-10 top-[40%] border border-white pt-2 ">
+    <div class="relative">
+        <div class=" h-32 w-60 bg-transparent fixed right-10 top-[40%] border border-white pt-2">
             <h1 class="text-center">Total Amount:</h1>
             <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
-            <h1 class="text-green-500 text-center mt-2 font-medium">₹ @((ViewBag.TotalAmount * @i.Quantity).ToString("0.00"))</h1>
+            <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
+            <a asp-controller="Orders" asp-action="OrderDetails" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 absolute bottom-0 text-black w-full font-medium">Place Order</a>
         </div>
-    }
+    </div>
 
 
 
-    <div class="h-full w-full flex flex-col items-center justify-center space-y-10">
+    <div class="h-full w-full flex flex-col items-center justify-center space-y-10 mt-20">
 
         <div class="space-y-24 w-full h-full flex items-center justify-center flex-col">
             @foreach (var item in Model)
@@ -63,8 +63,12 @@
                             Total Price: <span class="text-yellow-400">@($"{item.product?.DiscountedPrice * item.Quantity:0.00}")</span>
                         </a>
 
-                        <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-44 py-2 bg-red-500 hover:bg-red-500 flex items-center justify-start pl-4">
+                        <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-full py-2 bg-red-500 hover:bg-red-500 font-medium flex items-center justify-start pl-4">
                             Remove
+                        </a>
+
+                        <a asp-controller="Orders" asp-action="OrderDetails" asp-route-orderId="" asp-route-productId="" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 pl-4 space-x-4 hover:text-white  text-center font-medium flex items-center justify-start ">
+                            <h1>Buy Now</h1>
                         </a>
 
                     </div>
