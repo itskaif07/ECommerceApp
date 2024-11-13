@@ -11,15 +11,15 @@
 <div class="w-full h-full flex items-center justify-center flex-col">
 
 
-    <form asp-action="EditReview" method="post" enctype="multipart/form-data" class="w-full h-full flex items-center justify-center flex-col  space-y-14">
+    <form asp-action="EditReview" method="post" enctype="multipart/form-data" class="w-full h-full flex items-center justify-center flex-col space-y-14">
 
-         <input type="hidden" asp-for="Id">
-        <input type="hidden" asp-for="ProductId"> 
+        <input type="hidden" asp-for="Id">
+        <input type="hidden" asp-for="ProductId">
         <input type="hidden" asp-for="UserId">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="w-full flex flex-col items-center justify-center space-y-6">
-            <img id="defaultImage" src="~/images/uploadImage.jpg" class="cursor-pointer w-full h-48 object-contain object-center">
+            <img id="defaultImage" src="@(Model.ImageUrl ?? Url.Content("~/images/uploadImage.jpg"))" class="cursor-pointer w-full h-48 object-contain object-center">
 
             <div class="flex items-center justify-center w-full space-x-6">
                 <div>
@@ -31,18 +31,16 @@
 
                 <div id="removeImageButton" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 w-44 rounded-xl cursor-pointer transition-all duration-400 ease-in-out">Remove Image</div>
             </div>
-
         </div>
 
         <div class="flex items-center justify-center flex-col space-y-6 w-1/4">
-
             <div class="w-full flex-col space-y-2 flex items-center justify-center">
                 <label asp-for="Rating" class="w-full font-medium text-center"></label>
                 <div class="flex items-center space-x-4">
                     @for (int i = 1; i <= 5; i++)
                     {
                         <label class="cursor-pointer text-3xl">
-                            <input type="radio" name="Rating" value="@i" class="hidden peer">
+                            <input type="radio" name="Rating" value="@i" class="hidden peer" @(i == Model.Rating ? "checked" : "")>
                             <span class="text-gray-400 hover:text-yellow-500 peer-checked:text-yellow-500">&#9733;</span>
                         </label>
                     }
@@ -62,9 +60,10 @@
                 <span asp-validation-for="Comment" class="text-red-500"></span>
             </div>
 
-            <input type="submit" value="Add Review" class="bg-blue-500 py-2 w-full cursor-pointer">
+            <input type="submit" value="Update Review" class="bg-blue-500 py-2 w-full cursor-pointer">
         </div>
     </form>
+
 
 
 </div>

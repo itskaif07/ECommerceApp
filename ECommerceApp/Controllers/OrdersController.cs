@@ -51,7 +51,6 @@ namespace ECommerceApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder()
         {
-            // Get the logged-in user's ID
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var user = await _userManager.GetUserAsync(User);
