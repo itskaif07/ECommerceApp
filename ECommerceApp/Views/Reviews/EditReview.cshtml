@@ -14,8 +14,8 @@
     <form asp-action="EditReview" method="post" enctype="multipart/form-data" class="w-full h-full flex items-center justify-center flex-col  space-y-14">
 
          <input type="hidden" asp-for="Id">
-        <input type="hidden" asp-for="ProductId" /> 
-        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="ProductId"> 
+        <input type="hidden" asp-for="UserId">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="w-full flex flex-col items-center justify-center space-y-6">

@@ -21,10 +21,18 @@
 
     </div>
 
+    @foreach (var i in Model)
+    {
+        <div class="h-20 w-60 bg-transparent fixed right-10 top-[40%] border border-white pt-2 ">
+            <h1 class="text-center">Total Amount:</h1>
+            <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
+            <h1 class="text-green-500 text-center mt-2 font-medium">₹ @((ViewBag.TotalAmount * @i.Quantity).ToString("0.00"))</h1>
+        </div>
+    }
+
+
+
     <div class="h-full w-full flex flex-col items-center justify-center space-y-10">
-
-
-
 
         <div class="space-y-24 w-full h-full flex items-center justify-center flex-col">
             @foreach (var item in Model)
@@ -51,7 +59,10 @@
                             </form>
                         </div>
 
-                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block font-medium">Total Price: <span class="text-yellow-400">@(item.product?.Price * @item.Quantity)</span></a>
+                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block font-medium">
+                            Total Price: <span class="text-yellow-400">@($"{item.product?.DiscountedPrice * item.Quantity:0.00}")</span>
+                        </a>
+
                         <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-44 py-2 bg-red-500 hover:bg-red-500 flex items-center justify-start pl-4">
                             Remove
                         </a>
