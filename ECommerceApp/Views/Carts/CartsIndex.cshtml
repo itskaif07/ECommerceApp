@@ -1,87 +1,90 @@
-﻿@model IEnumerable<ECommerceApp.Models.Cart>
+﻿@model IEnumerable<ECommerceApp.ViewModels.CartViewModel>
 
 @{
     ViewData["Title"] = "Cart Items";
 }
 
-
 @if (Model.Any())
 {
-
+    <!-- Header with Back and Delete All Options -->
     <div class="flex items-center justify-between mt-10 px-10">
-
-        <a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+        <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
             <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
         </a>
 
         <h1 class="text-xl font-medium text-center">Cart Items</h1>
 
-
         <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-44 text-center block">Delete All</a>
-
     </div>
 
+    <!-- Total Amount Box -->
     <div class="relative">
-        <div class=" h-32 w-60 bg-transparent fixed right-10 top-[40%] border border-white pt-2">
+        <div class="fixed right-10 top-[40%] w-60 h-32 bg-transparent border border-white pt-2">
             <h1 class="text-center">Total Amount:</h1>
             <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
             <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
-            <a asp-controller="Orders" asp-action="OrderDetails" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 absolute bottom-0 text-black w-full font-medium">Place Order</a>
+            <form asp-controller="Orders" asp-action="PlaceOrder" method="post" class="absolute bottom-0 w-full">
+                <button type="submit" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 text-black w-full font-medium">
+                    Place Order
+                </button>
+            </form>
+
         </div>
     </div>
 
+    <!-- Cart Items -->
+    <div class="flex flex-col items-center mt-20 space-y-10">
+        @foreach (var item in Model)
+        {
+            <div class="flex items-start justify-center space-x-12 w-full">
+                <!-- Product Image -->
+                <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.Product?.Id" class="w-1/4 flex items-center justify-center hover:opacity-90">
+                    <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name" class="object-contain w-full h-full">
+                </a>
 
-
-    <div class="h-full w-full flex flex-col items-center justify-center space-y-10 mt-20">
-
-        <div class="space-y-24 w-full h-full flex items-center justify-center flex-col">
-            @foreach (var item in Model)
-            {
-                <div class="flex items-start justify-center space-x-12">
-
-                    <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="w-1/4 h-full flex items-center justify-center  hover:opacity-90">
-                        <img src="@item.product?.ImageUrl" alt="@item.product?.Name" class="object-contain object-center w-full h-full">
+                <!-- Product Details and Actions -->
+                <div class="space-y-4">
+                    <!-- Product Name -->
+                    <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
+                        @item.Product?.Name
                     </a>
 
-                    <div class="space-y-4">
-                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">@item.product?.Name</a>
-                        <div class="flex items-center justify-start space-x-4">
-                            <form asp-controller="Carts" asp-action="ReductQuantity" asp-route-id="@item.Id" method="post" class="bg-white text-black hover:text-black w-8  h-8 flex items-center justify-center text-xl rounded-full">
-                                <button type="submit">-</button>
-                            </form>
+                    <!-- Quantity Controls -->
+                    <div class="flex items-center space-x-4">
+                        <form asp-controller="Carts" asp-action="ReductQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
+                            <button type="submit">-</button>
+                        </form>
 
-                            <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
-                                Quantity: @item.Quantity
-                            </a>
+                        <span class="text-xl font-semibold">Quantity: @item.Cart.Quantity</span>
 
-                            <form asp-controller="Carts" asp-action="AppendQuantity" asp-route-id="@item.Id" method="post" class="bg-white text-black hover:text-black w-8  h-8 flex items-center justify-center text-xl rounded-full">
-                                <button type="submit">+</button>
-                            </form>
-                        </div>
-
-                        <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.product?.Id" class="block font-medium">
-                            Total Price: <span class="text-yellow-400">@($"{item.product?.DiscountedPrice * item.Quantity:0.00}")</span>
-                        </a>
-
-                        <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Id" class="w-full py-2 bg-red-500 hover:bg-red-500 font-medium flex items-center justify-start pl-4">
-                            Remove
-                        </a>
-
-                        <a asp-controller="Orders" asp-action="OrderDetails" asp-route-orderId="" asp-route-productId="" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 pl-4 space-x-4 hover:text-white  text-center font-medium flex items-center justify-start ">
-                            <h1>Buy Now</h1>
-                        </a>
-
+                        <form asp-controller="Carts" asp-action="AppendQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
+                            <button type="submit">+</button>
+                        </form>
                     </div>
+
+                    <!-- Total Price -->
+                    <p class="font-medium">
+                        Total Price: <span class="text-yellow-400">@($"{item.Product?.DiscountedPrice * item.Cart.Quantity:0.00}")</span>
+                    </p>
+
+                    <!-- Remove Button -->
+                    <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">
+                        Remove
+                    </a>
+
+                    <!-- Buy Now Button -->
+                    <a asp-controller="Orders" asp-action="OrderDetails" asp-route-productId="@item.Product?.Id" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
+                        Buy Now
+                    </a>
                 </div>
-            }
-
-        </div>
-
+            </div>
+        }
     </div>
 }
 else
 {
-    <a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <!-- Back Button and No Products Message -->
+    <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
@@ -89,3 +92,4 @@ else
         <p class="text-xl">No Products in your Cart</p>
     </div>
 }
+

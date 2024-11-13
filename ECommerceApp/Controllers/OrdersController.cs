@@ -9,6 +9,7 @@ using ECommerceApp.Data;
 using ECommerceApp.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using NuGet.ProjectModel;
 
 namespace ECommerceApp.Controllers
 {
@@ -45,6 +46,57 @@ namespace ECommerceApp.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder()
+        {
+            // Get the logged-in user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await _userManager.GetUserAsync(User);
+
+
+            // Retrieve all cart items for the user
+            var cartItems = await _context.Carts
+                .Include(c => c.product)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            if (!cartItems.Any())
+            {
+                return RedirectToAction("CartsIndex", "Carts");
+            }
+
+            // Process each cart item as an order
+            foreach (var cartItem in cartItems)
+            {
+                var addressParts = new List<string> { user.Address, user.City, user.State, user.PinCode };
+                var shippingAddress = string.Join(", ", addressParts.Where(part => !string.IsNullOrEmpty(part)));
+
+                var order = new Order
+                {
+                    UserId = userId,
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    TotalPrice = cartItem.product.DiscountedPrice * cartItem.Quantity,
+                    OrderDate = DateTime.UtcNow,
+                    TrackingNumber = Guid.NewGuid().ToString(),
+                    ShippingAddress = shippingAddress,
+                    PaymentMethod = "CashOnDelivery",
+
+                }; 
+
+                _context.Orders.Add(order);
+            }
+
+            // Clear the user's cart after placing the order
+            _context.Carts.RemoveRange(cartItems);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CartsIndex", "Carts");
         }
 
         [HttpGet]

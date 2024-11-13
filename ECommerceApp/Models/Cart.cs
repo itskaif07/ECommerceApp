@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerceApp.Models
 {
@@ -18,9 +19,13 @@ namespace ECommerceApp.Models
 
         [Required]
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;
-
+         
         public Product product { get; set; }
 
        public ApplicationUser applicationUser { get; set; }
+
+        public int? OrderId { get; set; }
+        public Order Order { get; set; }
+
     }
 }

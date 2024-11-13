@@ -25,13 +25,24 @@ namespace ECommerceApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> CartsIndex(int id)
+        public async Task<IActionResult> CartsIndex(int? id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var cartItems = await _context.Carts.Include(p => p.product).Where(w => w.UserId == userId).OrderByDescending(p => p.DateAdded).ToListAsync();
+            var cartItems = await _context.Carts
+      .Include(c => c.product)
+      .Include(c => c.Order) 
+      .Where(c => c.UserId == userId)
+      .OrderByDescending(c => c.DateAdded)
+      .Select(c => new CartViewModel
+      {
+          Cart = c,
+          Product = c.product,
+          Order = c.Order 
+      })
+      .ToListAsync();
 
-            var totalAmount = cartItems.Sum(p => p.product.DiscountedPrice * p.Quantity);
+            var totalAmount = cartItems.Sum(item => item.Product.DiscountedPrice * item.Cart.Quantity);
 
             ViewBag.TotalAmount = totalAmount.ToString("0.00");
 
@@ -144,7 +155,7 @@ namespace ECommerceApp.Controllers
                 return NotFound();
             }
 
-            return View(cart); 
+            return View(cart);
         }
 
 
@@ -172,7 +183,7 @@ namespace ECommerceApp.Controllers
                 return NotFound();
             }
 
-            if(product.Quantity <= 1)
+            if (product.Quantity <= 1)
             {
                 _context.Carts.Remove(product);
             }
