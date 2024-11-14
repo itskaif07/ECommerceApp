@@ -39,5 +39,10 @@ namespace ECommerceApp.Models
 
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
+
+        public int? CategoryId { get; set; }
+
+        [ValidateNever]
+        public Category Category { get; set; }
     }
 }

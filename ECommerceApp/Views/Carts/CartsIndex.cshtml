@@ -73,7 +73,7 @@
                     </a>
 
                     <!-- Buy Now Button -->
-                    <a asp-controller="Orders" asp-action="OrderDetails" asp-route-productId="@item.Product?.Id" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
+                    <a asp-controller="Orders" asp-action="OrderDetails" asp-route-productId="@item.Product?.Id" asp-route-quantity="@item.Cart.Quantity" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
                         Buy Now
                     </a>
                 </div>

@@ -1,0 +1,83 @@
+﻿@model ECommerceApp.Models.Order;
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<a asp-controller="Orders" asp-action="OrderIndex" class=" mt-6 ml-6 bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md inline-block py-1 w-24 flex items-center justify-center">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+</a>
+
+<div class="w-full h-full flex items-center justify-center flex-col">
+
+
+    <div class="w-1/3 flex items-center justify-center">
+        <img src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-scale-down">
+    </div>
+
+    <div class="w-1/3 space-y-2 my-6 text-center">
+        <h1 class="text-xl font-semibold ">@Model.Product.Name</h1>
+
+        <h1>
+            Category:
+            <span class="font-medium">
+                @if (Model?.Product?.Category != null)
+                {
+                    @Model.Product.Category.Name
+                }
+                else
+                {
+                    <span class="text-red-500">Category not available</span>
+                }
+            </span>
+        </h1>
+
+        <h1>Quantity: <span class="text-sm tracking-wide">@Model.Quantity</span></h1>
+
+        <h1>Total Price: <span class="text-sm text-green-400 font-medium tracking-wide">₹ @Math.Ceiling(@Model.TotalPrice)</span></h1>
+
+
+        <h1>Order Status: <span class="text-[#e85c05] text-sm tracking-wide">@Model.Status</span></h1>
+
+        <h1>Payment Status: <span class="text-[#e85c05] text-sm tracking-wide">@Model.PaymentStatus</span></h1>
+
+        <h1>Payment Method: <span class="text-sm tracking-wide">@Model.PaymentMethod</span></h1>
+
+        <h1>Tracking Number: <span class="text-sm text-yellow-400 block tracking-wide">@Model.TrackingNumber</span></h1>
+
+        <h1>Shipping Address: <span class="text-sm block tracking-wide">@Model.ShippingAddress</span></h1>
+
+        <h1 class="fixed top-6 right-6">Order Date: @Model.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</h1>
+
+        <div class="fixed top-20 right-6 text-left space-y-2">
+            <h1>Contact Details</h1>
+            @if (Model.ApplicationUser != null)
+            {
+                @if (Model.ApplicationUser.Email != null)
+                {
+                    <h1 class="font-medium">@Model.ApplicationUser.Email</h1>
+                }
+                else
+                {
+                    <h1>Not Available</h1>
+                }
+
+                @if (Model.ApplicationUser.PhoneNumber != null)
+                {
+                    <h1 class="font-medium">@Model.ApplicationUser.PhoneNumber</h1>
+                }
+                else
+                {
+                    <h1>Not Available</h1>
+                }
+            }
+            else
+            {
+                <h1>User details not available</h1>
+            }
+        </div>
+
+
+    </div>
+
+</div>

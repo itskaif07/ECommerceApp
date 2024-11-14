@@ -29,8 +29,8 @@
                     @if (product.Discount > 0)
                     {
                         <div class="flex items-center justify-center space-x-2">
-                            <h1 class="text-green-500">&#x20B9; @product.DiscountedPrice</h1>
-                            <h2 class="line-through">&#x20B9; @product.Price</h2>
+                            <h1 class="text-green-500">&#x20B9; @product.DiscountedPrice.ToString("0.00")</h1>
+                            <h2 class="line-through">&#x20B9; @product.Price.ToString("0.00")</h2>
                             <h5 class="text-green-500">@product.Discount% off</h5>
                         </div>
                     }

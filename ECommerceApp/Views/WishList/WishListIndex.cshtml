@@ -26,8 +26,12 @@
                     </a>
 
                     <div class="space-y-4">
-                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="text-xl font-semibold hover:text-yellow-400">@item.Product?.Name</a>
-                        <h3 class="font-medium text-yellow-400">@item.Product?.Price</h3>
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">@item.Product?.Name</a>
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="block font-semibold hover:text-yellow-400">
+                           Category: <span class="text-yellow-400">@(item.Product?.Category?.Name ?? "Anonymous Category")</span>
+                        </a>
+
+                        <h3 class="font-medium text-yellow-400">&#x20B9; @(item.Product?.DiscountedPrice.ToString("0.00"))</h3>
                         <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@item.Id" method="post" class="w-44 py-2 bg-red-500 hover:bg-red-500 flex items-center justify-start pl-4">
                             <button type="submit">Remove</button>
                         </form>

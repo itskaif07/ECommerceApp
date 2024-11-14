@@ -19,7 +19,7 @@ namespace ECommerceApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var wishlistItems = await _context.Wishlists.Include(p => p.Product).Where(w => w.UserId == userId).ToListAsync();
+            var wishlistItems = await _context.Wishlists.Include(p => p.Product).ThenInclude(p => p.Category).Where(w => w.UserId == userId).ToListAsync();
 
             return View(wishlistItems);
         }
@@ -61,7 +61,6 @@ namespace ECommerceApp.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> RemoveItemWishList(int id)
         {
             var wishlistItem = await _context.Wishlists.FindAsync(id);

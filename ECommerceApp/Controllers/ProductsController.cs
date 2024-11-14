@@ -82,7 +82,7 @@ namespace ECommerceApp.Controllers
 
             if (user == null)
             {
-                return Unauthorized("User not found");
+                return RedirectToAction("Login", "Login");
             }
 
             bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
@@ -101,7 +101,6 @@ namespace ECommerceApp.Controllers
                 IsInWishlist = isInWishList,
                 Category = product.Category,
                 Reviews = product.Reviews,
-                
             };
 
             ViewData["CategoryId"] = categoryId ?? product.CategoryId;

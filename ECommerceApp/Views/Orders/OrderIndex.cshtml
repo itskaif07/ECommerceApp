@@ -5,48 +5,49 @@
 }
 
 <div class="flex items-center justify-between mt-10 mb-16 px-10">
-
-    <a asp-controller="Home" asp-action="Index" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md inline-block py-1 w-24 flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
-
     <h1 class="text-xl font-medium text-center">Orders</h1>
-
     <div class="w-[10%]"></div>
 </div>
 
-<div class="h-20 w-60 bg-transparent fixed right-10 top-3/5 border border-white pt-2 ">
-
+<div class="h-20 w-60 bg-transparent fixed right-10 top-3/5 border border-white pt-2">
     <h1 class="text-center">Total Amount:</h1>
     <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
-    <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
+    <h1 class="text-green-500 text-center mt-2 font-medium">₹ @Math.Ceiling(@ViewBag.TotalAmount)</h1>
 </div>
 
-<div class="w-full flex items-center justify-center flex-col space-y-10">
-
-
+<div class="w-full flex flex-col items-center space-y-10 px-4">
     @foreach (var i in Model)
     {
-        <div class=" w-1/2 h-48 flex items-center justify-center ">
+        <div class="flex w-1/2 h-48 items-start justify-center">
 
-            <div class="w-1/2 h-full flex items-center justify-start">
-                <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="w-full h-full object-scale-down object-center">
+            <!-- First Div with Image -->
+            <div class="w-1/2 h-full flex items-center justify-center">
+                <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-contain">
             </div>
 
-            <div class="w-1/2 h-full space-y-2">
-                <h1 class="text-xl">@i.Product.Name</h1>
-                <h1>Total Price: <span class="text-green-400 font-medium">&#x20B9; @i.TotalPrice</span></h1>
-                <h1 class="text-lg">Quantity: <span class="text-yellow-400 font-medium">@i.Quantity</span></h1>
-                <h1>Status: <span class="text-[#e85c05] text-sm tracking-wide">@i.Status</span></h1>
-                <h1 class="text-sm">
-                    Order created at: @i.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")
-                </h1>
-                <a asp-controller="Orders" asp-action="DeleteOrder" asp-route-orderId="@i.OrderId" class="block bg-red-500 hover:bg-red-600 py-2 w-1/4 flex items-center justify-center">
+            <!-- Second Div with Product Details -->
+            <div class="w-1/2 flex flex-col justify-between space-y-2">
+                <h1 class="text-xl font-semibold">@i.Product.Name</h1>
+                <h1>Total Price: <span class="text-green-500 font-medium">&#x20B9; @Math.Ceiling(@i.TotalPrice)</span></h1>
+                <h1 class="text-lg">Quantity: <span class="text-yellow-500 font-medium">@i.Quantity</span></h1>
+
+              
+
+                <!-- Delete Button -->
+                <a asp-controller="Orders" asp-action="DeleteOrder" asp-route-orderId="@i.OrderId"
+                   class="block bg-red-500 hover:bg-red-600 py-1 px-3 text-white text-center w-1/2">
                     Delete
                 </a>
 
+                <!-- Details Button -->
+                <a asp-controller="Orders" asp-action="ProductOrderDetails" asp-route-orderId="@i.OrderId"
+                   class="block bg-gray-300 hover:bg-gray-400 py-1 px-3 text-black hover:text-black text-center w-1/2">
+                    View Details
+                </a>
             </div>
-
         </div>
     }
 </div>
