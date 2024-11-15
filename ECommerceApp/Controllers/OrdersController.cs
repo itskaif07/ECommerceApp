@@ -193,6 +193,13 @@ namespace ECommerceApp.Controllers
                 _context.Update(product);
             }
 
+            var cartItem = await _context.Carts
+       .FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == order.ProductId);
+            if (cartItem != null)
+            {
+                _context.Carts.Remove(cartItem);
+            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
