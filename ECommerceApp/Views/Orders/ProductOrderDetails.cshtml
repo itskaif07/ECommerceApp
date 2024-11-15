@@ -32,7 +32,7 @@
             </span>
         </h1>
 
-        <h1>Quantity: <span class="text-sm tracking-wide">@Model.Quantity</span></h1>
+        <h1>Quantity: <span class="text-sm tracking-wide text-green-400 font-medium">@Model.Quantity</span></h1>
 
         <h1>Total Price: <span class="text-sm text-green-400 font-medium tracking-wide">₹ @Math.Ceiling(@Model.TotalPrice)</span></h1>
 
@@ -41,16 +41,16 @@
 
         <h1>Payment Status: <span class="text-[#e85c05] text-sm tracking-wide">@Model.PaymentStatus</span></h1>
 
-        <h1>Payment Method: <span class="text-sm tracking-wide">@Model.PaymentMethod</span></h1>
+        <h1>Payment Method: <span class="text-sm tracking-wide text-[#e85c05]">@Model.PaymentMethod</span></h1>
 
         <h1>Tracking Number: <span class="text-sm text-yellow-400 block tracking-wide">@Model.TrackingNumber</span></h1>
 
         <h1>Shipping Address: <span class="text-sm block tracking-wide">@Model.ShippingAddress</span></h1>
 
-        <h1 class="fixed top-6 right-6">Order Date: @Model.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</h1>
+        <h1 class="fixed top-6 right-6 text-green-300">Order Date: <span class="text-white">@Model.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</span></h1>
 
         <div class="fixed top-20 right-6 text-left space-y-2">
-            <h1>Contact Details</h1>
+            <h1 class="text-yellow-400">Contact Details</h1>
             @if (Model.ApplicationUser != null)
             {
                 @if (Model.ApplicationUser.Email != null)
