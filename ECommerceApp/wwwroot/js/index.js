@@ -1,4 +1,6 @@
 ﻿
+
+
 const images = [
     "/images/bg3.jpg",
     "/images/bg1.jpg",
@@ -24,3 +26,5 @@ function changeBackground() {
 changeBackground();
 
 setInterval(changeBackground, 5000);
+
+

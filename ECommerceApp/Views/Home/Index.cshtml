@@ -96,7 +96,7 @@
         }
     </div>
 
-    <div id="slideShow" class="relative w-[75%] h-full rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in shadow-xl hover:shadow-gray-500">
+    <div id="slideShow" class="relative w-[75%] h-full rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
         <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
         <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
         <h1 class="relative font-bold text-white text-4xl tracking-wider">NEW COLLECTIONS</h1>
@@ -108,8 +108,75 @@
 
 </div>
 
-<div class="w-full h-[80vh] flex items-center justify-center my-6 space-x-4 ">
+<div class="w-full h-[80vh]">
+
+    <div class="relative w-[90%] h-full  mt-20 mx-auto h-full rounded-xl bg-white bg-[url('/images/indexbg2.webp')] bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
+        <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
+        <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
+        <h1 class="relative font-bold text-white text-4xl tracking-wider">LATEST INNOVATIONS</h1>
+        <p class="relative text-white">Discover cutting-edge electronics and gadgets that redefine your lifestyle!</p>
+        <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="1" class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
+            Shop Now
+        </a>
+    </div>
+
 </div>
+
+
+
+<div class="w-full h-[60vh]">
+    <div id="slideShow2" class="relative w-[90%] h-[10vh] mt-20 h-full mx-auto rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
+        <div class="absolute inset-0 bg-black opacity-60 rounded-xl"></div>
+        <h2 class="relative font-bold text-white text-3xl tracking-wider"></h2>
+        <p class="relative text-white"></p>
+        <a id="shopNowLink" class="relative bg-blue-500 cursor-pointer transition-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
+            Shop Now
+        </a>
+    </div>
+</div>
+
+
+
+<script>
+    const slideData = [
+        {
+            image: "/images/foodbg.jpg",
+            title: "Foods",
+            description: "Foods that boost your energy and delight your taste buds — perfect for every craving!",
+            categoryId: 6
+        },
+        {
+            image: "/images/beverbg.jpg",
+            title: "Beverages",
+            description: "Refreshing beverages to keep you energized all day long.",
+            categoryId: 7
+        }
+    ];
+
+    let currentIndex2 = 0;
+    let slideShow2 = document.querySelector("#slideShow2");
+    let titleElement = slideShow2.querySelector("h2");
+    let descriptionElement = slideShow2.querySelector("p");
+    let categoryLink = document.querySelector("#shopNowLink");
+
+    function changeContentAndBackground() {
+        const currentSlide = slideData[currentIndex2];
+
+        slideShow2.style.backgroundImage = `url(${currentSlide.image})`;
+
+        titleElement.textContent = currentSlide.title;
+        descriptionElement.textContent = currentSlide.description;
+
+        categoryLink.setAttribute("href", `/Products/ProductsIndex?categoryId=${currentSlide.categoryId}`);
+
+        currentIndex2 = (currentIndex2 + 1) % slideData.length;
+    }
+
+    changeContentAndBackground();
+
+    setInterval(changeContentAndBackground, 5000);
+</script>
+
 @section Scripts {
     <script src="~/js/index.js"></script>
 }
