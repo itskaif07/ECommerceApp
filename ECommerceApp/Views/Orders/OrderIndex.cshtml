@@ -15,8 +15,11 @@
 <div class="h-20 w-60 bg-transparent fixed right-10 top-3/5 border border-white pt-2">
     <h1 class="text-center">Total Amount:</h1>
     <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
-    <h1 class="text-green-500 text-center mt-2 font-medium">₹ @Math.Ceiling(@ViewBag.TotalAmount)</h1>
+    <h1 class="text-green-500 text-center mt-2 font-medium">
+        ₹ @Math.Round((decimal)ViewBag.TotalAmount, 0, MidpointRounding.AwayFromZero)
+    </h1>
 </div>
+
 
 <div class="w-full flex flex-col items-center space-y-10 px-4">
     @foreach (var i in Model)
@@ -31,7 +34,7 @@
             <!-- Second Div with Product Details -->
             <div class="w-1/2 flex flex-col justify-between space-y-2">
                 <h1 class="text-xl font-semibold">@i.Product.Name</h1>
-                <h1>Total Price: <span class="text-green-500 font-medium">&#x20B9; @Math.Ceiling(@i.TotalPrice)</span></h1>
+                <h1>Total Price: <span class="text-green-500 font-medium">&#x20B9; @Math.Round(@i.TotalPrice, 0, MidpointRounding.AwayFromZero)</span></h1>
                 <h1 class="text-lg">Quantity: <span class="text-yellow-500 font-medium">@i.Quantity</span></h1>
 
               

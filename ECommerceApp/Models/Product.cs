@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Net;
+using System;
 
 namespace ECommerceApp.Models
 {
@@ -45,6 +47,39 @@ namespace ECommerceApp.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "Quantity cannot be negative.")]
         public int Quantity { get; set; } = 0;
+
+        public string Brand { get; set; } = string.Empty;
+
+        public int ReturnExchangePolicyDays { get; set; } = 0;
+
+        private static readonly Random random = new Random();
+
+        public DateTime? DeliveryDate
+        {
+            get
+            {
+                return DateTime.Now.AddDays(random.Next(1, 8));
+            }
+        }
+
+            
+        public int? DeliveryCharge
+        {
+
+            get
+            {
+
+                if (DiscountedPrice > 1000)
+                {
+                    return new Random().Next(1, 101);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+        }
 
 
         [ForeignKey("Category")]

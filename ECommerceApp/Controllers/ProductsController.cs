@@ -215,6 +215,8 @@ namespace ECommerceApp.Controllers
             productToUpdate.Quantity = model.Quantity;
             productToUpdate.CategoryId = model.CategoryId;
             productToUpdate.ImageUrl = model.ImageUrl;
+            productToUpdate.Brand = model.Brand;
+            productToUpdate.ReturnExchangePolicyDays = model.ReturnExchangePolicyDays;
 
             _context.Products.Update(productToUpdate);
             await _context.SaveChangesAsync();

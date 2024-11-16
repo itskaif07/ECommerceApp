@@ -10,6 +10,7 @@ using ECommerceApp.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using NuGet.ProjectModel;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace ECommerceApp.Controllers
 {
@@ -77,7 +78,7 @@ namespace ECommerceApp.Controllers
                     UserId = userId,
                     ProductId = cartItem.ProductId,
                     Quantity = cartItem.Quantity,
-                    TotalPrice = cartItem.product.DiscountedPrice * cartItem.Quantity,
+                    TotalPrice = (cartItem.product.DiscountedPrice + cartItem.product.DeliveryCharge ?? 0) * cartItem.Quantity,
                     OrderDate = DateTime.UtcNow,
                     TrackingNumber = Guid.NewGuid().ToString(),
                     ShippingAddress = shippingAddress,
@@ -121,6 +122,10 @@ namespace ECommerceApp.Controllers
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
 
+            Random random = new Random();
+
+            bool isFreeDelivery = random.Next(0, 10) < 8;
+
 
             if (order == null)
             {
@@ -129,7 +134,7 @@ namespace ECommerceApp.Controllers
                     UserId = userId,
                     ProductId = productId,
                     OrderDate = DateTime.UtcNow,
-                    TotalPrice = product.DiscountedPrice,
+                    TotalPrice = product.DiscountedPrice + (product.DeliveryCharge ?? 0),
                     Status = "Pending",
                     ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
                     TrackingNumber = Guid.NewGuid().ToString(),
@@ -172,7 +177,7 @@ namespace ECommerceApp.Controllers
             {
 
                 existingOrder.Quantity = order.Quantity;
-                existingOrder.TotalPrice = order.Quantity * product.DiscountedPrice;
+                existingOrder.TotalPrice = order.Quantity * (product.DiscountedPrice + (product.DeliveryCharge ?? 0));
                 existingOrder.ShippingAddress = order.ShippingAddress;
                 existingOrder.TrackingNumber = Guid.NewGuid().ToString();
                 existingOrder.PaymentMethod = order.PaymentMethod;
@@ -184,8 +189,8 @@ namespace ECommerceApp.Controllers
             else
             {
                 order.UserId = user.Id; 
-                order.ApplicationUser = user; // Set ApplicationUser explicitly
-                order.TotalPrice = order.Quantity * product.DiscountedPrice;
+                order.ApplicationUser = user; 
+                order.TotalPrice = order.Quantity * (product.DiscountedPrice + (product.DeliveryCharge ?? 0));
                 product.Quantity -= order.Quantity;
                 order.TrackingNumber = Guid.NewGuid().ToString();
 
@@ -228,6 +233,9 @@ namespace ECommerceApp.Controllers
                 return NotFound("Order not found or user is not authorized to view this order");
             }
 
+            ViewBag.DeliveryCharge = order.Product.DeliveryCharge;
+
+
             return View(order);
         }
 
@@ -260,8 +268,8 @@ namespace ECommerceApp.Controllers
                 UserId = userId,
                 ProductId = productId,
                 OrderDate = DateTime.UtcNow,
-                Quantity = quantity, // Use the quantity passed from the cart
-                TotalPrice = quantity * product.DiscountedPrice,
+                Quantity = quantity, 
+                TotalPrice = quantity * (product.DiscountedPrice + (product.DeliveryCharge ?? 0)),
                 Status = "Pending",
                 ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
                 TrackingNumber = Guid.NewGuid().ToString(),
