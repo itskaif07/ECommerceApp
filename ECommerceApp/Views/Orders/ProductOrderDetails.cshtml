@@ -8,19 +8,16 @@
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<div class="w-full h-full flex items-center justify-center flex-col">
+<div class="w-full h-full flex items-center justify-between px-6 mt-14">
 
+    @* left *@
 
-    <div class="w-1/3 flex items-center justify-center">
-        <img src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-scale-down">
-    </div>
-
-    <div class="w-1/3 space-y-2 my-6 text-center">
+    <div class="w-1/3 h-full text-left space-y-4">
         <h1 class="text-xl font-semibold ">@Model.Product.Name</h1>
 
         <h1>
             Category:
-            <span class="font-medium">
+            <span class="font-medium text-green-400">
                 @if (Model?.Product?.Category != null)
                 {
                     @Model.Product.Category.Name
@@ -41,19 +38,35 @@
 
         <h1>Payment Status: <span class="text-[#e85c05] text-sm tracking-wide">@Model.PaymentStatus</span></h1>
 
-        <h1>Payment Method: <span class="text-sm tracking-wide text-[#e85c05]">@Model.PaymentMethod</span></h1>
+        <h1>Payment Method: <span class="text-sm tracking-wide text-green-400">@Model.PaymentMethod</span></h1>
 
         <h1>Tracking Number: <span class="text-sm text-yellow-400 block tracking-wide">@Model.TrackingNumber</span></h1>
 
-        <h1>Shipping Address: <span class="text-sm block tracking-wide">@Model.ShippingAddress</span></h1>
+        <h1 >Shipping Address: <span class="text-yellow-400 text-sm block tracking-wide pr-48">@Model.ShippingAddress</span></h1>
+    </div>
 
-        <div class="fixed top-6 text-right right-6 text-green-300 w-1/6">
+    @* center *@
+
+    <div class="w-1/3 h-full flex items-center justify-center">
+        <img src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-scale-down">
+    </div>
+
+    @* right *@
+
+    <div class="w-1/3 h-full text-right flex items-end justify-center flex-col space-y-4 space-y-6">
+
+        <div>
             <h1>Order Date</h1>
-            <h1 class="text-white">@Model.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</h1>
+            <h1 class="text-green-400">@Model.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</h1>
         </div>
 
+        <div>
+            <h1>Delivery Date</h1>
+            <h1 class="text-green-400">@Model.Product.DeliveryDate</h1>
+        </div>
 
-        <div class="fixed top-20 right-6 text-right space-y-2 w-1/6">
+        <div>
+
             <h1 class="text-yellow-400">Contact Details</h1>
             @if (Model.ApplicationUser != null)
             {
@@ -81,29 +94,46 @@
             }
         </div>
 
-        <div class="fixed top-52 text-right right-6 space-y-2 h-60 w-1/6 border-[1px] border-white py-4 flex flex-col">
+        @* Price Details  *@
+
+        <div class="text-right space-y-2 w-3/5 border-[1px] border-white py-4 flex flex-col">
             <div class="flex items-center justify-between px-4">
                 <h1 class="font-medium">Original Price:</h1>
-                <h1 class="font-medium">₹ @Model.Product.Price</h1>
+                <h1 class="font-medium">₹ @Model.Product.Price.ToString("0.00")</h1>
             </div>
 
             <div class="flex items-center justify-between px-4">
-                <h1 class="font-medium">Discount:</h1>
-                <h1 class="text-green-400 font-medium"> <span class="text-green-500">-</span> @Model.Product.Discount %</h1>
+                <h1 class="font-medium">Quantity:</h1>
+                <h1 class="text-green-400 font-medium"> <span class="text-green-500">x</span> @Model.Quantity</h1>
             </div>
 
             <div class="relative">
-            <div class=" bg-white h-[1px] w-1/3 absolute bottom-0 right-2"></div>
+                <div class=" bg-white h-[1px] w-1/3 absolute bottom-0 right-2"></div>
+            </div>
+
+            <div class="flex items-center justify-between px-4">
+                <h1 class="font-medium"></h1>
+                <h1 class="text-green-400 font-medium"> @((Model.Quantity * Model.Product.Price).ToString("0.00"))</h1>
             </div>
 
             <div class="flex items-center justify-between px-4">
                 <h1 class="font-medium">Discount:</h1>
-                <h1 class="text-green-400 font-medium">₹ @Model.Product.DiscountedPrice</h1>
+                <h1 class="text-green-400 font-medium"> <span class="text-red-500">-</span> @Model.Product.Discount %</h1>
+            </div>
+
+
+            <div class="relative">
+                <div class=" bg-white h-[1px] w-1/3 absolute bottom-0 right-2"></div>
+            </div>
+
+            <div class="flex items-center justify-between px-4">
+                <h1 class="font-medium"></h1>
+                <h1 class="text-green-400 font-medium">₹ @((Model.Quantity * Model.Product.DiscountedPrice).ToString("0.00"))</h1>
             </div>
 
             <div class="flex items-center justify-between px-4">
                 <h1 class="font-medium">Delivery Charge:</h1>
-                <h1 class="text-green-400 font-medium"> <span class="text-red-500">+</span> ₹ @Math.Round((decimal)ViewBag.DeliveryCharge, 0,  MidpointRounding.AwayFromZero)</h1>
+                <h1 class="text-green-400 font-medium"> <span class="text-red-500">+</span> ₹ @Model.Product.DeliveryCharge </h1>
             </div>
 
             <div class="relative">
@@ -112,11 +142,11 @@
 
             <div class="flex items-center justify-between px-4">
                 <h1 class="font-medium">Total Amount:</h1>
-                <h1 class="text-green-400 font-medium">₹ @(Model.TotalPrice)</h1>
+                <h1 class="font-medium text-green-400">₹ @Model.TotalPrice.ToString("0.00")</h1>
             </div>
 
             <div class="relative">
-                <div class=" bg-white h-[1px] w-full absolute bottom-0 right-0"></div>
+                <div class="bg-white h-[1px] w-full absolute bottom-0"></div>
             </div>
 
             <div class="flex items-center justify-between px-4">
@@ -125,16 +155,9 @@
                     ₹ @Math.Round(Model.TotalPrice, 0, MidpointRounding.AwayFromZero)
                 </h1>
 
-            </div>
+            </div> 
 
         </div>
-
-
-
-
-
-
-
     </div>
 
 </div>

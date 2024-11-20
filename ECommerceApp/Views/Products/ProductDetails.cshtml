@@ -148,7 +148,7 @@
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
                         <h1><span class="text-green-400">₹ @Model.Product.DeliveryCharge</span> Delivery charges applicable</h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy") @Model.Product.DeliveryDate?.ToShortTimeString()</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy")</span></p>
                 }
                 else
                 {
@@ -156,7 +156,7 @@
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
                         <h1><span class="text-green-400">Free Home Delivery</span></h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy"), @Model.Product.DeliveryDate?.ToShortTimeString()</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy")</span></p>
                 }
             </div>
 
