@@ -97,8 +97,8 @@ namespace ECommerceApp.Controllers
 
             int deliveryCharge = product.DiscountedPrice >= 1000 ? Random.Next(1, 101) : 0;
             var deliveryDate = DateTime.Now.AddDays(Random.Next(1, 8))
-            .AddHours(Random.Next(11, 21))  
-                                  .AddMinutes(Random.Next(0, 60));
+            .AddHours(Random.Next(11, 21)).AddMinutes(Random.Next(0, 60)).AddSeconds(-DateTime.Now.Second); ;
+
 
             // Create ViewModel and pass generated values
             var viewModel = new ProductUserViewModel

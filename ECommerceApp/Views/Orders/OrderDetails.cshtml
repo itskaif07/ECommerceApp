@@ -9,16 +9,19 @@
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
  </div>
+    <h2 class="text-xl font-semibold mt-4 text-center mb-10">Order Details</h2>
 
 <div class="w-full h-screen flex items-center justify-center flex-col">
 
 
-    <h2 class="text-xl font-semibold">Order Details</h2>
 
     <form asp-action="OrderDetails" method="post" class="w-full h-full flex items-center justify-center">
+
         @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
         <input type="hidden" name="UserId" value="@Model.ApplicationUser?.Id">
         <input type="hidden" name="ProductId" value="@Model.Product?.Id">
+        <input type="hidden" asp-for="DeliveryCharge">
+        <input type="hidden" asp-for="DeliveryDate">
 
 
             <div class="w-[50%] fixed left-0 top-20 h-4/5 flex flex-col items-center justify-center space-y-6">
@@ -49,6 +52,27 @@
                     <input type="text" id="TotalPrice" class="w-full bg-transparent outline-none ouline-none focus:outline-none" asp-for="TotalPrice" readonly>
                 </div>
                 <span asp-validation-for="TotalPrice" class="text-red-400"></span>
+            </div>
+
+            <div class="w-full h-full flex flex-col items-start justify-center space-y-2">
+                @if (Model.DeliveryCharge > 0)
+                {
+                    <div class="flex items-center justify-center space-x-2">
+                        <img src="~/images/delivery.png" class="w-6 invert grayscale">
+                        <h1><span class="text-green-400">₹ @Model.DeliveryCharge</span> Delivery charges applicable</h1>
+                    </div>
+                    <p>Will be Delivered on: <span class="font-medium text-green-400">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
+
+                }
+                else
+                {
+                    <div class="flex items-center justify-center space-x-2">
+                        <img src="~/images/delivery.png" class="w-6 invert grayscale">
+                        <h1><span class="text-green-400">Free Home Delivery</span></h1>
+                    </div>
+                    <p>Will be Delivered on: <span class="font-medium text-green-400">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
+
+                }
             </div>
 
 

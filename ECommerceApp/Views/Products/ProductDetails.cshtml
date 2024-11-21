@@ -35,7 +35,13 @@
             {
                 <div class="w-1/2 flex items-center justify-center space-x-4">
 
-                    <a asp-controller="Orders" asp-action="OrderDetails" asp-route-orderId="@Model.Order?.OrderId" asp-route-productId="@Model.Product?.Id" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-14 space-x-4 hover:text-white rounded-lg  text-center font-medium text-center flex items-center justify-center ">
+                    <a asp-controller="Orders"
+                       asp-action="OrderDetails"
+                       asp-route-orderId="@Model.Order?.OrderId"
+                       asp-route-productId="@Model.Product?.Id"
+                       asp-route-deliveryDate="@Model.DeliveryDate"
+                       asp-route-deliveryCharge="@Model.DeliveryCharge"
+                       class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-14 space-x-4 hover:text-white rounded-lg  text-center font-medium text-center flex items-center justify-center ">
                         <img src="~/images/icons8-lightning-50.png" alt="Buy" class="w-8">
                         <h1>Buy</h1>
                     </a>
@@ -146,9 +152,10 @@
                 {
                     <div class="flex items-center justify-center space-x-2">
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
-                        <h1><span class="text-green-400">₹ @Model.DeliveryDate</span> Delivery charges applicable</h1>
+                        <h1><span class="text-green-400">₹ @Model.DeliveryCharge</span> Delivery charges applicable</h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
+
                 }
                 else
                 {
@@ -156,7 +163,8 @@
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
                         <h1><span class="text-green-400">Free Home Delivery</span></h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
+
                 }
             </div>
 

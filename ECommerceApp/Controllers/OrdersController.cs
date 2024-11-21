@@ -97,8 +97,11 @@ namespace ECommerceApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> OrderDetails(int? orderId, int productId)
+        public async Task<IActionResult> OrderDetails(int? orderId, int productId, int deliveryCharge, DateTime deliveryDate)
         {
+
+            Console.WriteLine(deliveryDate);
+            Console.WriteLine(deliveryCharge);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
@@ -134,16 +137,20 @@ namespace ECommerceApp.Controllers
                     UserId = userId,
                     ProductId = productId,
                     OrderDate = DateTime.UtcNow,
-                    //TotalPrice = product.DiscountedPrice + (order.DeliveryCharge ?? 0),
+                    TotalPrice = product.DiscountedPrice + (order?.DeliveryCharge ?? 0),
                     Status = "Pending",
                     ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
                     TrackingNumber = Guid.NewGuid().ToString(),
                     PaymentStatus = "Unpaid",
                     PaymentMethod = "CashOnDelivery",
+                    DeliveryCharge = deliveryCharge,
+                    DeliveryDate = deliveryDate,
                     Product = product,
                     ApplicationUser = user
                 };
             }
+
+
 
             return View(order);
         }
@@ -177,20 +184,22 @@ namespace ECommerceApp.Controllers
             {
 
                 existingOrder.Quantity = order.Quantity;
-                //existingOrder.TotalPrice = order.Quantity * (product.DiscountedPrice + (order.DeliveryCharge ?? 0));
+                existingOrder.TotalPrice = (order.Quantity * product.DiscountedPrice) + (order.DeliveryCharge ?? 0);
                 existingOrder.ShippingAddress = order.ShippingAddress;
                 existingOrder.TrackingNumber = Guid.NewGuid().ToString();
                 existingOrder.PaymentMethod = order.PaymentMethod;
                 existingOrder.Product.Quantity -= order.Quantity;
+                existingOrder.DeliveryCharge = order.DeliveryCharge;
+                existingOrder.DeliveryDate = order.DeliveryDate;
 
                 _context.Update(existingOrder.Product);
                 _context.Update(existingOrder);
             }
             else
             {
-                order.UserId = user.Id; 
-                order.ApplicationUser = user; 
-                //order.TotalPrice = order.Quantity * (product.DiscountedPrice + (order.DeliveryCharge ?? 0));
+                order.UserId = user.Id;
+                order.ApplicationUser = user;
+                order.TotalPrice = (order.Quantity * product.DiscountedPrice) + (order.DeliveryCharge ?? 0);
                 product.Quantity -= order.Quantity;
                 order.TrackingNumber = Guid.NewGuid().ToString();
 
@@ -233,8 +242,6 @@ namespace ECommerceApp.Controllers
                 return NotFound("Order not found or user is not authorized to view this order");
             }
 
-            //ViewBag.DeliveryCharge = order.DeliveryCharge;
-
 
             return View(order);
         }
@@ -268,7 +275,7 @@ namespace ECommerceApp.Controllers
                 UserId = userId,
                 ProductId = productId,
                 OrderDate = DateTime.UtcNow,
-                Quantity = quantity, 
+                Quantity = quantity,
                 //TotalPrice = quantity * (product.DiscountedPrice + (order.DeliveryCharge ?? 0)),
                 Status = "Pending",
                 ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",

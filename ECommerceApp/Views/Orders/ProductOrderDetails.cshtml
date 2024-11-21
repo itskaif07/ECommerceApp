@@ -42,7 +42,7 @@
 
         <h1>Tracking Number: <span class="text-sm text-yellow-400 block tracking-wide">@Model.TrackingNumber</span></h1>
 
-        <h1 >Shipping Address: <span class="text-yellow-400 text-sm block tracking-wide pr-48">@Model.ShippingAddress</span></h1>
+        <h1>Shipping Address: <span class="text-yellow-400 text-sm block tracking-wide pr-48">@Model.ShippingAddress</span></h1>
     </div>
 
     @* center *@
@@ -62,7 +62,8 @@
 
         <div>
             <h1>Delivery Date</h1>
-            @* <h1 class="text-green-400">@Model.Product.DeliveryDate</h1> *@
+            <h1 class="text-green-400">@((Model.DeliveryDate?.ToString("dd-MM-yyyy, hh:mm tt")) ?? "Delivery date not available")</h1>
+
         </div>
 
         <div>
@@ -133,7 +134,7 @@
 
             <div class="flex items-center justify-between px-4">
                 <h1 class="font-medium">Delivery Charge:</h1>
-                @* <h1 class="text-green-400 font-medium"> <span class="text-red-500">+</span> ₹ @Model.Product.DeliveryCharge </h1> *@
+                <h1 class="text-green-400 font-medium"> <span class="text-red-500">+</span> ₹ @(Model.DeliveryCharge ?? 0) </h1>
             </div>
 
             <div class="relative">
@@ -154,8 +155,7 @@
                 <h1 class="text-green-400 font-medium">
                     ₹ @Math.Round(Model.TotalPrice, 0, MidpointRounding.AwayFromZero)
                 </h1>
-
-            </div> 
+            </div>
 
         </div>
     </div>
