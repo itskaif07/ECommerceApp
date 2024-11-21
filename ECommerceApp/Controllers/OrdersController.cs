@@ -27,6 +27,8 @@ namespace ECommerceApp.Controllers
             _logger = logger;
         }
 
+        //Order List
+
         public async Task<IActionResult> OrderIndex()
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -37,71 +39,12 @@ namespace ECommerceApp.Controllers
             return View(orders);
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteAll()
-        {
-            var orderItem = await _context.Orders.Include(p => p.Product).ToListAsync();
-
-            _context.Orders.RemoveRange(orderItem);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> PlaceOrder()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var user = await _userManager.GetUserAsync(User);
-
-
-            var cartItems = await _context.Carts
-                .Include(c => c.product)
-                .Where(c => c.UserId == userId)
-                .ToListAsync();
-
-            if (!cartItems.Any())
-            {
-                return RedirectToAction("CartsIndex", "Carts");
-            }
-
-
-            foreach (var cartItem in cartItems)
-            {
-                var addressParts = new List<string> { user.Address, user.City, user.State, user.PinCode };
-                var shippingAddress = string.Join(", ", addressParts.Where(part => !string.IsNullOrEmpty(part)));
-
-                var order = new Order
-                {
-                    UserId = userId,
-                    ProductId = cartItem.ProductId,
-                    Quantity = cartItem.Quantity,
-                    //TotalPrice = (cartItem.product.DiscountedPrice + cartItem.product.DeliveryCharge ?? 0) * cartItem.Quantity,
-                    OrderDate = DateTime.UtcNow,
-                    TrackingNumber = Guid.NewGuid().ToString(),
-                    ShippingAddress = shippingAddress,
-                    PaymentMethod = "CashOnDelivery",
-
-                };
-
-                _context.Orders.Add(order);
-            }
-
-            _context.Carts.RemoveRange(cartItems);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("CartsIndex", "Carts");
-        }
+        //Add Order
 
         [HttpGet]
         public async Task<IActionResult> OrderDetails(int? orderId, int productId, int deliveryCharge, DateTime deliveryDate)
         {
 
-            Console.WriteLine(deliveryDate);
-            Console.WriteLine(deliveryCharge);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
@@ -225,17 +168,10 @@ namespace ECommerceApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var order = await _context.Orders
-     .Include(o => o.ApplicationUser)
-     .Include(o => o.Product)
-     .ThenInclude(p => p.Category)
-     .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
-
-            if (order == null || order.ApplicationUser == null)
-            {
-                // Log issue for debugging
-                _logger.LogWarning("Order or ApplicationUser not found for OrderId: {OrderId}", orderId);
-            }
-
+             .Include(o => o.ApplicationUser)
+             .Include(o => o.Product)
+             .ThenInclude(p => p.Category)
+             .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
 
             if (order == null)
             {
@@ -244,6 +180,56 @@ namespace ECommerceApp.Controllers
 
 
             return View(order);
+        }
+
+        // Cart Order
+
+        [HttpPost]
+        public async Task<IActionResult> PlaceOrder(int DeliveryCharge, DateTime DeliveryDate)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.GetUserAsync(User);
+
+
+            var cartItems = await _context.Carts
+                .Include(c => c.product)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            if (!cartItems.Any())
+            {
+                return RedirectToAction("CartsIndex", "Carts");
+            }
+
+
+            foreach (var cartItem in cartItems)
+            {
+                var addressParts = new List<string> { user.Address, user.City, user.State, user.PinCode };
+                var shippingAddress = string.Join(", ", addressParts.Where(part => !string.IsNullOrEmpty(part)));
+
+                var order = new Order
+                {
+                    UserId = userId,
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    TotalPrice = (cartItem.Quantity * cartItem.product.DiscountedPrice) + DeliveryCharge,
+                    OrderDate = DateTime.UtcNow,
+                    TrackingNumber = Guid.NewGuid().ToString(),
+                    ShippingAddress = shippingAddress,
+                    PaymentMethod = "CashOnDelivery",
+                    DeliveryCharge = DeliveryCharge,
+                    DeliveryDate = DeliveryDate
+
+                };
+
+                _context.Orders.Add(order);
+            }
+
+            _context.Carts.RemoveRange(cartItems);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CartsIndex", "Carts");
         }
 
 
@@ -289,7 +275,7 @@ namespace ECommerceApp.Controllers
             return View("OrderDetails", order); // Reuse the existing OrderDetails view
         }
 
-
+        //Delete Order
 
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
@@ -323,6 +309,18 @@ namespace ECommerceApp.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("OrderIndex", "Orders");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAll()
+        {
+            var orderItem = await _context.Orders.Include(p => p.Product).ToListAsync();
+
+            _context.Orders.RemoveRange(orderItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         private bool OrderExists(int id)

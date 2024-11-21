@@ -46,7 +46,10 @@
                         <h1>Buy</h1>
                     </a>
 
-                    <form asp-controller="Carts" asp-action="CartAdd" asp-route-id="@Model.Product?.Id" class="bg-blue-500 hover:bg-blue-600 w-full h-14 hover:text-white rounded-lg text-center font-medium text-lg flex items-center justify-center space-x-4">
+                    <form asp-controller="Carts"
+                          asp-action="CartAdd"
+                          asp-route-id="@Model.Product?.Id"
+                          class="bg-blue-500 hover:bg-blue-600 w-full h-14 hover:text-white rounded-lg text-center font-medium text-lg flex items-center justify-center space-x-4">
                         <img src="~/images/cart.png" alt="Cart" class="w-10 invert grayscale">
                         <button type="submit">Add to Cart</button>
                     </form>

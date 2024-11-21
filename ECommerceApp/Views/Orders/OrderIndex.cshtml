@@ -9,7 +9,10 @@
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
     <h1 class="text-xl font-medium text-center">Orders</h1>
-    <div class="w-[10%]"></div>
+    
+    <form asp-controller="Orders" asp-action="DeleteAll" method="post" class="bg-red-500 w-32 py-2 flex items-center justify-center">
+        <button type="submit">Delete All</button>
+        </form>
 </div>
 
 <div class="h-20 w-60 bg-transparent fixed right-10 top-3/5 border border-white pt-2">

@@ -28,26 +28,49 @@ namespace ECommerceApp.Controllers
         public async Task<IActionResult> CartsIndex(int? id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             var cartItems = await _context.Carts
-      .Include(c => c.product)
-      .Include(c => c.Order) 
-      .Where(c => c.UserId == userId)
-      .OrderByDescending(c => c.DateAdded)
-      .Select(c => new CartViewModel
-      {
-          Cart = c,
-          Product = c.product,
-          Order = c.Order 
-      })
-      .ToListAsync();
+                .Include(c => c.product)
+                .Where(c => c.UserId == userId)
+                .OrderByDescending(c => c.DateAdded)
+                .Select(c => new ProductUserViewModel
+                {
+                    Cart = c,
+                    Product = c.product
+                })
+                .ToListAsync();
 
             var totalAmount = cartItems.Sum(item => item.Product.DiscountedPrice * item.Cart.Quantity);
+
+
+            var deliveryCharge = 0;
+
+            foreach (var item in cartItems)
+            {
+
+                if (item.Product.DiscountedPrice >= 1000)
+                {
+                    deliveryCharge = new Random().Next(1, 101);
+                }
+                else
+                {
+                    deliveryCharge = 0; 
+                }
+
+                var deliveryDate = DateTime.Now.AddDays(new Random().Next(1, 8))
+       .AddHours(new Random().Next(11, 21))
+       .AddMinutes(new Random().Next(0, 60))
+       .AddSeconds(-DateTime.Now.Second);
+
+
+                ViewBag.DeliveryCharge = deliveryCharge;
+                ViewBag.DeliveryDate = deliveryDate;
+            }
 
             ViewBag.TotalAmount = totalAmount.ToString("0.00");
 
             return View(cartItems);
         }
+
 
         public async Task<IActionResult> DeleteAll()
         {
