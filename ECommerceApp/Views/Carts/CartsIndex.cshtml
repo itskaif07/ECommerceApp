@@ -39,19 +39,25 @@
     </div>
 
     <!-- Cart Items -->
-    <div class="flex flex-col items-center mt-20 space-y-10">
+    <div class="flex flex-col items-center mt-10 space-y-10">
+        @if (TempData["Error"] != null)
+        {
+            <div class="text-red-500">
+                @TempData["Error"]
+            </div>
+        }
         @foreach (var item in Model)
         {
             <div class="flex items-start justify-center space-x-12 w-full">
                 <!-- Product Image -->
-                <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.Product?.Id" class="w-1/4 flex items-center justify-center hover:opacity-90">
+                <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="w-1/4 flex items-center justify-center hover:opacity-90">
                     <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name" class="object-contain w-full h-full">
                 </a>
 
                 <!-- Product Details and Actions -->
                 <div class="space-y-4">
                     <!-- Product Name -->
-                    <a asp-controller="Carts" asp-action="CartDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
+                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
                         @item.Product?.Name
                     </a>
 
@@ -72,6 +78,8 @@
                     <p class="font-medium">
                         Total Price: <span class="text-yellow-400">@($"{item.Product?.DiscountedPrice * item.Cart.Quantity:0.00}")</span>
                     </p>
+
+           
 
                     <!-- Remove Button -->
                     <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">

@@ -127,37 +127,6 @@ namespace ECommerceApp.Controllers
         }
 
 
-        public async Task<IActionResult> CartDetails(int id)
-        {
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (product == null)
-            {
-                return NotFound("Product not found.");
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
-            {
-                return Unauthorized("User not found");
-            }
-
-            bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
-
-            var viewModel = new ProductUserViewModel
-            {
-                Product = product,
-                ApplicationUser = user,
-                IsInWishlist = isInWishList
-            };
-
-            return View("~/Views/Carts/CartDetails.cshtml", viewModel);
-        }
-
-
 
         public async Task<IActionResult> DeleteCart(int id)
         {
@@ -215,19 +184,35 @@ namespace ECommerceApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AppendQuantity(int id)
         {
-            var cartItem = await _context.Carts.FindAsync(id);
+            // Fetch cart item with product details
+            var cartItem = await _context.Carts
+                .Include(c => c.product)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cartItem == null)
             {
-                return NotFound();
+                return NotFound("Cart item not found.");
             }
 
-            cartItem.Quantity++;
+            // Check if product is null or stock is insufficient
+            if (cartItem.product == null)
+            {
+                return NotFound("Product associated with cart item not found.");
+            }
 
+            if (cartItem.Quantity >= cartItem.product.Quantity)
+            {
+                TempData["Error"] = "Insufficient stock for this product.";
+                return RedirectToAction("CartsIndex", "Carts");
+            }
+
+            // Increment quantity if stock allows
+            cartItem.Quantity++;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("CartsIndex", "Carts");
         }
+
 
 
         private bool CartExists(int id)
