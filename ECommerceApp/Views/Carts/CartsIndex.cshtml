@@ -6,7 +6,7 @@
 
 @if (Model.Any())
 {
-    <!-- Header with Back and Delete All Options -->
+
     <div class="flex items-center justify-between mt-10 px-10">
         <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
             <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
@@ -23,17 +23,17 @@
             <h1 class="text-center">Total Amount:</h1>
             <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
             <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
-            @foreach(var cart in Model)
+            @foreach (var cart in Model)
             {
-            <form asp-controller="Orders" asp-action="PlaceOrder" method="post" class="absolute bottom-0 w-full">
+                <form asp-controller="Orders" asp-action="PlaceOrder" method="post" class="absolute bottom-0 w-full">
                     <input type="hidden" name="DeliveryCharge" value="@ViewBag.DeliveryCharge" />
                     <input type="hidden" name="DeliveryDate" value="@ViewBag.DeliveryDate" />
                     <input type="hidden" name="ProductId" value="@cart.Product.Id" />
                     <input type="hidden" name="Quantity" value="@cart.Cart.Quantity" />
-                <button type="submit" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 text-black w-full font-medium">
-                    Place Order
-                </button>
-            </form>
+                    <button type="submit" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 text-black w-full font-medium">
+                        Place Order
+                    </button>
+                </form>
             }
         </div>
     </div>
@@ -78,10 +78,16 @@
                         Remove
                     </a>
 
-                    <!-- Buy Now Button (Optional) -->
-                    <a asp-controller="Orders" asp-action="OrderFromCart" asp-route-productId="@item?.Product?.Id" asp-route-quantity="@item?.Cart.Quantity" class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
+                    <a asp-controller="Orders"
+                       asp-action="OrderDetails"
+                       asp-route-productId="@item?.Product?.Id"
+                       asp-route-quantity="@item?.Cart.Quantity"
+                       asp-route-deliveryDate="@item?.DeliveryDate.ToString("yyyy-MM-ddTHH:mm:ss")"
+                       asp-route-deliveryCharge="@item?.DeliveryCharge"
+                       class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
                         Buy Now
                     </a>
+
                 </div>
             </div>
         }

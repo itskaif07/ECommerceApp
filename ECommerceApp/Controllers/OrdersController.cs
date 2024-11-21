@@ -218,7 +218,8 @@ namespace ECommerceApp.Controllers
                     ShippingAddress = shippingAddress,
                     PaymentMethod = "CashOnDelivery",
                     DeliveryCharge = DeliveryCharge,
-                    DeliveryDate = DeliveryDate
+                    DeliveryDate = DeliveryDate,
+                    ApplicationUser = user
 
                 };
 
@@ -234,7 +235,7 @@ namespace ECommerceApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> OrderFromCart(int productId, int quantity)
+        public async Task<IActionResult> OrderFromCart(int productId, int quantity, int deliveryCharge, DateTime deliveryDate)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -255,25 +256,29 @@ namespace ECommerceApp.Controllers
                 return NotFound("User not found.");
             }
 
-            // Create an order object with the provided quantity
+
+            // Create an order object with the provided quantity and delivery details
             var order = new Order
             {
                 UserId = userId,
                 ProductId = productId,
                 OrderDate = DateTime.UtcNow,
                 Quantity = quantity,
-                //TotalPrice = quantity * (product.DiscountedPrice + (order.DeliveryCharge ?? 0)),
+                TotalPrice = quantity * (product.DiscountedPrice + deliveryCharge),
                 Status = "Pending",
                 ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
                 TrackingNumber = Guid.NewGuid().ToString(),
                 PaymentStatus = "Unpaid",
                 PaymentMethod = "CashOnDelivery",
                 Product = product,
-                ApplicationUser = user
+                ApplicationUser = user,
+                DeliveryCharge = deliveryCharge,
+                DeliveryDate = deliveryDate,
             };
 
-            return View("OrderDetails", order); // Reuse the existing OrderDetails view
+            return View("OrderDetails", order); 
         }
+
 
         //Delete Order
 

@@ -41,35 +41,23 @@ namespace ECommerceApp.Controllers
 
             var totalAmount = cartItems.Sum(item => item.Product.DiscountedPrice * item.Cart.Quantity);
 
-
-            var deliveryCharge = 0;
-
             foreach (var item in cartItems)
             {
+                item.DeliveryCharge = item.Product.DiscountedPrice >= 1000
+                    ? new Random().Next(1, 101)
+                    : 0;
 
-                if (item.Product.DiscountedPrice >= 1000)
-                {
-                    deliveryCharge = new Random().Next(1, 101);
-                }
-                else
-                {
-                    deliveryCharge = 0; 
-                }
-
-                var deliveryDate = DateTime.Now.AddDays(new Random().Next(1, 8))
-       .AddHours(new Random().Next(11, 21))
-       .AddMinutes(new Random().Next(0, 60))
-       .AddSeconds(-DateTime.Now.Second);
-
-
-                ViewBag.DeliveryCharge = deliveryCharge;
-                ViewBag.DeliveryDate = deliveryDate;
+                item.DeliveryDate = DateTime.Now.AddDays(new Random().Next(1, 8))
+                    .AddHours(new Random().Next(11, 21))
+                    .AddMinutes(new Random().Next(0, 60))
+                    .AddSeconds(-DateTime.Now.Second);
             }
 
             ViewBag.TotalAmount = totalAmount.ToString("0.00");
 
             return View(cartItems);
         }
+
 
 
         public async Task<IActionResult> DeleteAll()
