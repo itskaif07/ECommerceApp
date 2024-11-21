@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -77,7 +78,6 @@ namespace ECommerceApp.Controllers
                 return NotFound("Product not found.");
             }
 
-
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
@@ -88,12 +88,19 @@ namespace ECommerceApp.Controllers
             bool isInWishList = await _context.Wishlists.AnyAsync(w => w.ProductId == id && w.UserId == user.Id);
 
             var averageRating = product.Reviews.Any() ? product.Reviews.Average(a => a.Rating) : 0;
-
             var totalRating = product.Reviews.Any() ? product.Reviews.Count() : 0;
 
             ViewBag.totalRating = totalRating;
             ViewBag.AverageRating = averageRating.ToString("0.0");
 
+            var Random = new Random();
+
+            int deliveryCharge = product.DiscountedPrice >= 1000 ? Random.Next(1, 101) : 0;
+            var deliveryDate = DateTime.Now.AddDays(Random.Next(1, 8))
+            .AddHours(Random.Next(11, 21))  
+                                  .AddMinutes(Random.Next(0, 60));
+
+            // Create ViewModel and pass generated values
             var viewModel = new ProductUserViewModel
             {
                 Product = product,
@@ -101,12 +108,15 @@ namespace ECommerceApp.Controllers
                 IsInWishlist = isInWishList,
                 Category = product.Category,
                 Reviews = product.Reviews,
+                DeliveryDate = deliveryDate,
+                DeliveryCharge = deliveryCharge
             };
 
             ViewData["CategoryId"] = categoryId ?? product.CategoryId;
 
             return View("~/Views/Products/ProductDetails.cshtml", viewModel);
         }
+
 
 
         [HttpGet]

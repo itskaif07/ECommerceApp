@@ -142,13 +142,13 @@
             </div>
 
             <div class="w-full h-full flex flex-col items-start justify-center space-y-2">
-                @if (Model.Product.DeliveryCharge > 0)
+                @if (Model.DeliveryCharge > 0)
                 {
                     <div class="flex items-center justify-center space-x-2">
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
-                        <h1><span class="text-green-400">₹ @Model.Product.DeliveryCharge</span> Delivery charges applicable</h1>
+                        <h1><span class="text-green-400">₹ @Model.DeliveryDate</span> Delivery charges applicable</h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy")</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate</span></p>
                 }
                 else
                 {
@@ -156,7 +156,7 @@
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
                         <h1><span class="text-green-400">Free Home Delivery</span></h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.Product.DeliveryDate?.ToString("dd/MM/yyyy")</span></p>
+                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate</span></p>
                 }
             </div>
 

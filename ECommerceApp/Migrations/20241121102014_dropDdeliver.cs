@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ECommerceApp.Migrations
 {
     /// <inheritdoc />
-    public partial class ShiftedProperties : Migration
+    public partial class dropDdeliver : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

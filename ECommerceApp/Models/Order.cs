@@ -34,6 +34,10 @@ namespace ECommerceApp.Models
 
         public string TrackingNumber { get; set; }
 
+        public int? DeliveryCharge { get; set; }
+
+        public DateTime? DeliveryDate { get; set; }
+
         [ValidateNever]
         public Product Product { get; set; }
 

@@ -14,5 +14,9 @@ namespace ECommerceApp.ViewModels
         public Category Category { get; set; }
 
         public List<Review> Reviews { get; set; }
+
+        public DateTime DeliveryDate { get; set; }
+
+        public int DeliveryCharge { get; set; }
     }
 }
