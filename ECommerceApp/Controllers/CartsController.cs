@@ -51,9 +51,13 @@ namespace ECommerceApp.Controllers
                     .AddHours(new Random().Next(11, 21))
                     .AddMinutes(new Random().Next(0, 60))
                     .AddSeconds(-DateTime.Now.Second);
+
+                ViewBag.DeliveryDate = item.DeliveryDate;
+                ViewBag.DeliveryCharge = item.DeliveryCharge;
             }
 
             ViewBag.TotalAmount = totalAmount.ToString("0.00");
+          
 
             return View(cartItems);
         }

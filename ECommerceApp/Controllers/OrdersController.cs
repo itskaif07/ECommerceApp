@@ -220,7 +220,6 @@ namespace ECommerceApp.Controllers
                     DeliveryCharge = DeliveryCharge,
                     DeliveryDate = DeliveryDate,
                     ApplicationUser = user
-
                 };
 
                 _context.Orders.Add(order);
