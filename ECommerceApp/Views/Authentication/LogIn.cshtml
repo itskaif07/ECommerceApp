@@ -22,7 +22,7 @@
 
 </div>
 
-<form asp-action="LogIn" method="post" class="w-1/2 h-[90vh] mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
+<form asp-action="LogIn" method="post" class="w-1/2 h-[85vh] mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
 
@@ -67,6 +67,12 @@
     </div>
 
     <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2 rounded-md w-1/4">Login</button>
+
+    <a asp-controller="SignUp" asp-action="SignUp" class="flex items-center justify-center hover:text-lg transition-all duration-200 ease-in">
+        <h1>New User? Register Yourself</h1>
+        <img src="~/images/back.png" alt="Alternate Text" class="transform-all scale-[-1] invert grayscale w-8">
+    </a>
+
 </form>
 
 
