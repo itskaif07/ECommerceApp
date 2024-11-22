@@ -4,6 +4,15 @@
     ViewData["Title"] = "Cart Items";
 }
 
+@if (TempData["Completed"] != null)
+{
+    <div id="Completed" class="w-44 h-8 bg-white text-black fixed inset-0 z-10 flex items-center justify-center space-x-3
+                top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <img src="~/images/icons8-tick-48.png" alt="Completed" class="w-6">
+        <p>@TempData["Completed"]</p>
+    </div>
+}
+
 @if (Model.Any())
 {
 
@@ -79,7 +88,7 @@
                         Total Price: <span class="text-yellow-400">@($"{item.Product?.DiscountedPrice * item.Cart.Quantity:0.00}")</span>
                     </p>
 
-           
+
 
                     <!-- Remove Button -->
                     <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">
@@ -114,3 +123,15 @@ else
     </div>
 }
 
+<script>
+    const completed = document.querySelector("#Completed");
+
+    if (completed) {
+        setTimeout(() => {
+            completed.classList.add("fade-out");
+            setTimeout(() => {
+                completed.remove();
+            }, 500);
+        }, 2000);
+    }
+</script>

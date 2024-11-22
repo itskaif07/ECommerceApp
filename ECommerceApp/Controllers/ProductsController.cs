@@ -100,7 +100,7 @@ namespace ECommerceApp.Controllers
             .AddHours(Random.Next(11, 21)).AddMinutes(Random.Next(0, 60)).AddSeconds(-DateTime.Now.Second); 
 
 
-            // Create ViewModel and pass generated values
+           
             var viewModel = new ProductUserViewModel
             {
                 Product = product,

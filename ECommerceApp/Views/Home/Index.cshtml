@@ -4,6 +4,15 @@
     ViewData["Title"] = "Shop Cart - Shop Everything";
 }
 
+@if (TempData["Completed"] != null)
+{
+    <div id="Completed" class="w-44 h-8 bg-[#222222] text-white fixed inset-0 z-10 flex items-center justify-center space-x-3
+                top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <img src="~/images/icons8-tick-48.png" alt="Completed" class="w-6">
+        <p>@TempData["Completed"]</p>
+    </div>
+}
+
 
 <header class="w-full h-full">
 
@@ -43,6 +52,7 @@
                 <img src="~/images/search.png" class="w-4">
             </div>
         </div>
+        
 
         <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
             <div class="relative">
@@ -81,7 +91,10 @@
 </header>
 
 
+
 <div class="w-full h-[80vh] flex items-center justify-center my-6 space-x-4 ">
+
+
 
     <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black rounded-xl overflow-auto">
 
@@ -175,6 +188,18 @@
     changeContentAndBackground();
 
     setInterval(changeContentAndBackground, 5000);
+
+       const completed = document.querySelector("#Completed");
+
+    if (completed) {
+        setTimeout(() => {
+            completed.classList.add("fade-out");
+            setTimeout(() => {
+                completed.remove();
+            }, 500);
+        }, 2000);
+    }
+
 </script>
 
 @section Scripts {

@@ -68,9 +68,7 @@ namespace ECommerceApp.Controllers
             var order = await _context.Orders
                 .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
 
-            Random random = new Random();
 
-            bool isFreeDelivery = random.Next(0, 10) < 8;
 
 
             if (order == null)
@@ -94,12 +92,12 @@ namespace ECommerceApp.Controllers
             }
 
 
-
             return View(order);
         }
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OrderDetails(Order order)
         {
             if (!ModelState.IsValid)
@@ -122,6 +120,8 @@ namespace ECommerceApp.Controllers
 
             var existingOrder = await _context.Orders
                 .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
+
+          
 
             if (existingOrder != null)
             {
@@ -150,6 +150,24 @@ namespace ECommerceApp.Controllers
                 _context.Update(product);
             }
 
+            var availableQuantity = product.Quantity;
+
+            if (order.Quantity > availableQuantity)
+            {
+                TempData["Quantity"] = "Insufficient Stock";
+                return View(order);
+
+            }
+
+            var MinimumPrice = product.DiscountedPrice * order.Quantity;
+            if (MinimumPrice <= 100)
+            {
+                TempData["Error"] = "Order must be of at least ₹100.";
+                return View(order);
+            }
+
+         
+
             var cartItem = await _context.Carts
        .FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == order.ProductId);
             if (cartItem != null)
@@ -158,6 +176,8 @@ namespace ECommerceApp.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["Completed"] = "Order Completed";
 
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
@@ -228,6 +248,8 @@ namespace ECommerceApp.Controllers
             _context.Carts.RemoveRange(cartItems);
 
             await _context.SaveChangesAsync();
+
+            TempData["Completed"] = "Order Completed";
 
             return RedirectToAction("CartsIndex", "Carts");
         }
