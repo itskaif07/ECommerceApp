@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.CodeAnalysis;
 using ECommerceApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using ECommerceApp.Helpers;
 
 namespace ECommerceApp.Controllers
 {
@@ -123,6 +124,14 @@ namespace ECommerceApp.Controllers
 
             await _context.SaveChangesAsync();
 
+            string actionResult = "add";
+
+            var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+
+            string formattedMessage = NotificationHelper.FormatNotification(message, notificationType);
+
+            TempData["Notification"] = formattedMessage;
+
             return RedirectToAction("CartsIndex", "Carts");
         }
 
@@ -152,6 +161,13 @@ namespace ECommerceApp.Controllers
             {
                 _context.Carts.Remove(cartItem);
                 await _context.SaveChangesAsync();
+
+                string actionResult = "remove";
+
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+
+                string formattedMessage = NotificationHelper.FormatNotification(message, notificationType);
+                TempData["Notification"] = formattedMessage;
             }
 
             return RedirectToAction("Index", "Home");
@@ -170,10 +186,25 @@ namespace ECommerceApp.Controllers
             if (product.Quantity <= 1)
             {
                 _context.Carts.Remove(product);
+
+                string actionResult = "remove";
+
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+
+                string formattedMessage = NotificationHelper.FormatNotification(message, notificationType);
+                TempData["Notification"] = formattedMessage;
+                
             }
             else
             {
                 product.Quantity--;
+
+                string actionResult = "decrease";
+
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+
+                string formattedMessage = NotificationHelper.FormatNotification(message, notificationType);
+                TempData["Notification"] = formattedMessage;
             }
 
             await _context.SaveChangesAsync();
@@ -200,18 +231,28 @@ namespace ECommerceApp.Controllers
                 return NotFound("Product associated with cart item not found.");
             }
 
+            string actionResult;
             if (cartItem.Quantity >= cartItem.product.Quantity)
             {
-                TempData["Error"] = "Insufficient stock for this product.";
-                return RedirectToAction("CartsIndex", "Carts");
+                actionResult = "insufficientstock";
+            }
+            else
+            {
+                // Increment quantity if stock allows
+                cartItem.Quantity++;
+                await _context.SaveChangesAsync();
+                actionResult = "increase"; 
             }
 
-            // Increment quantity if stock allows
-            cartItem.Quantity++;
-            await _context.SaveChangesAsync();
+            
+            var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+
+            string formattedMessage = NotificationHelper.FormatNotification(message, notificationType);
+            TempData["Notification"] = formattedMessage;
 
             return RedirectToAction("CartsIndex", "Carts");
         }
+
 
 
 

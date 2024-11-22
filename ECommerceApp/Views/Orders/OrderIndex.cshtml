@@ -57,3 +57,24 @@
         </div>
     }
 </div>
+
+@if (TempData["Notification"] != null)
+{
+<div id="notification" class="fixed inset-0 z-10 flex items-center justify-center
+                top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    @Html.Raw(TempData["Notification"])
+</div>
+}
+
+<script>
+          const notification = document.querySelector("#notification");
+
+    if (notification) {
+        setTimeout(() => {
+            notification.classList.add("fade-out");
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 2000);
+    }
+</script>

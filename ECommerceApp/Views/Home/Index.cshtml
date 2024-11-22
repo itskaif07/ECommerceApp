@@ -4,14 +4,14 @@
     ViewData["Title"] = "Shop Cart - Shop Everything";
 }
 
-@if (TempData["Completed"] != null)
+@if (TempData["Notification"] != null)
 {
-    <div id="Completed" class="w-44 h-8 bg-[#222222] text-white fixed inset-0 z-10 flex items-center justify-center space-x-3
+    <div id="Completed" class="fixed inset-0 z-10 flex items-center justify-center
                 top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <img src="~/images/icons8-tick-48.png" alt="Completed" class="w-6">
-        <p>@TempData["Completed"]</p>
+        @Html.Raw(TempData["Notification"])
     </div>
 }
+
 
 
 <header class="w-full h-full">
@@ -52,11 +52,15 @@
                 <img src="~/images/search.png" class="w-4">
             </div>
         </div>
-        
+
 
         <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
+
             <div class="relative">
-                <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["OrderQuantity"] ?? 0)</h5>
+                @if (ViewData["OrderQuantity"] != null && (int)ViewData["OrderQuantity"] > 0)
+                {
+                    <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["OrderQuantity"] ?? 0)</h5>
+                }
                 <img src="~/images/icons8-lightning-50.png" class="w-8">
             </div>
             <h1 class="font-medium text-lg">Order</h1>
@@ -66,8 +70,11 @@
         <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
 
             <div class="relative">
-                <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["CartQuantity"] ?? 0)</h5>
-                <img src="~/images/cart.png" class="invert grayscale w-8">
+                @if (@ViewData["CartQuantity"] != null && (int)@ViewData["CartQuantity"] > 0)
+                {
+                    <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["CartQuantity"] ?? 0)</h5>
+                }
+                <img src="~/images/cart.png" class="invert grayscale w-10">
             </div>
             <h1 class="font-medium text-lg">Cart</h1>
 
@@ -199,6 +206,8 @@
             }, 500);
         }, 2000);
     }
+
+
 
 </script>
 

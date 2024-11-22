@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using NuGet.ProjectModel;
 using static NuGet.Packaging.PackagingConstants;
+using ECommerceApp.Helpers;
 
 namespace ECommerceApp.Controllers
 {
@@ -154,9 +155,14 @@ namespace ECommerceApp.Controllers
 
             if (order.Quantity > availableQuantity)
             {
-                TempData["Quantity"] = "Insufficient Stock";
-                return View(order);
+                string actionResult1 = "ordercomplete";
 
+                var (message1, notificationType1) = NotificationHelper.GetNotificationMessage(actionResult1);
+                string formattedNotification1 = NotificationHelper.FormatNotification(message1, notificationType1);
+
+                TempData["Notification"] = formattedNotification1;
+
+                return View(order);
             }
 
             var MinimumPrice = product.DiscountedPrice * order.Quantity;
@@ -177,7 +183,12 @@ namespace ECommerceApp.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["Completed"] = "Order Completed";
+            string actionResult = "ordercomplete";
+
+            var (message, notificationStyle) = NotificationHelper.GetNotificationMessage(actionResult);
+            var formattedNotification = NotificationHelper.FormatNotification(message, notificationStyle);
+
+            TempData["Notification"] = formattedNotification;
 
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
@@ -249,7 +260,12 @@ namespace ECommerceApp.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["Completed"] = "Order Completed";
+            string actionResult = "ordercomplete";
+
+            var (message, notificationStyle) = NotificationHelper.GetNotificationMessage(actionResult);
+            var formattedNotification = NotificationHelper.FormatNotification(message, notificationStyle);
+
+            TempData["Notification"] = formattedNotification;
 
             return RedirectToAction("CartsIndex", "Carts");
         }
@@ -333,6 +349,14 @@ namespace ECommerceApp.Controllers
 
             _context.Orders.Remove(orderItem);
             await _context.SaveChangesAsync();
+
+            string actionResult = "orderdelete";
+
+            var (message, notification) = NotificationHelper.GetNotificationMessage(actionResult);
+
+            string formattedNotification = NotificationHelper.FormatNotification(message, notification);
+
+            TempData["Notification"] = formattedNotification;
 
             return RedirectToAction("OrderIndex", "Orders");
         }

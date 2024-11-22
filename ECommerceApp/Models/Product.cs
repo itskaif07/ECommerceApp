@@ -48,7 +48,7 @@ namespace ECommerceApp.Models
         [Range(0, int.MaxValue, ErrorMessage = "Quantity cannot be negative.")]
         public int Quantity { get; set; } = 0;
 
-        public string Brand { get; set; } = string.Empty;
+        public string? Brand { get; set; } = string.Empty;
 
         public int ReturnExchangePolicyDays { get; set; } = 0;
 
