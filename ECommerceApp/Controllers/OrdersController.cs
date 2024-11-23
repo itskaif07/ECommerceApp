@@ -43,58 +43,69 @@ namespace ECommerceApp.Controllers
         //Add Order
 
         [HttpGet]
-        public async Task<IActionResult> OrderDetails(int? orderId, int productId, int deliveryCharge, DateTime deliveryDate)
+        public async Task<IActionResult> OrderDetails(int? orderId, int productId, int deliveryCharge, DateTime deliveryDate, int? quantity)
         {
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId == null)
+            try
             {
-                return RedirectToAction("Login", "Login");
-            }
 
-            var product = await _context.Products.FindAsync(productId);
-            if (product == null)
-            {
-                return NotFound("Product not found.");
-            }
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
-
-
-            var order = await _context.Orders
-                .Include(p => p.Product)
-                .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
-
-
-
-
-            if (order == null)
-            {
-                order = new Order
+                if (userId == null)
                 {
-                    UserId = userId,
-                    ProductId = productId,
-                    OrderDate = DateTime.UtcNow,
-                    TotalPrice = product.DiscountedPrice + (order?.DeliveryCharge ?? 0),
-                    Status = "Pending",
-                    ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
-                    TrackingNumber = Guid.NewGuid().ToString(),
-                    PaymentStatus = "Unpaid",
-                    PaymentMethod = "CashOnDelivery",
-                    DeliveryCharge = deliveryCharge,
-                    DeliveryDate = deliveryDate,
-                    Product = product,
-                    ApplicationUser = user
-                };
+                    return RedirectToAction("Login", "Login");
+                }
+
+                var product = await _context.Products.FindAsync(productId);
+                if (product == null)
+                {
+                    return NotFound("Product not found.");
+                }
+
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+
+                var order = await _context.Orders
+                    .Include(p => p.Product)
+                    .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
+
+
+
+
+                if (order == null)
+                {
+                    order = new Order
+                    {
+                        UserId = userId,
+                        ProductId = productId,
+                        OrderDate = DateTime.UtcNow,
+                        TotalPrice = product.DiscountedPrice + (order?.DeliveryCharge ?? 0),
+                        Status = "Pending",
+                        ShippingAddress = $"{user.Address}, {user.City}, {user.State}, {user.PinCode}",
+                        TrackingNumber = Guid.NewGuid().ToString(),
+                        PaymentStatus = "Unpaid",
+                        PaymentMethod = "CashOnDelivery",
+                        Quantity = quantity ?? 1,
+                        DeliveryCharge = deliveryCharge,
+                        DeliveryDate = deliveryDate,
+                        Product = product,
+                        ApplicationUser = user
+                    };
+                }
+
+                return View(order);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "An error occurred. Please try again later.");
             }
 
-
-            return View(order);
         }
 
         [HttpPost]
@@ -374,7 +385,7 @@ namespace ECommerceApp.Controllers
                 DeliveryDate = deliveryDate,
             };
 
-            return View("OrderDetails", order); 
+            return View("OrderDetails", order);
         }
 
 
@@ -428,11 +439,11 @@ namespace ECommerceApp.Controllers
         {
             var orderItem = await _context.Orders.Include(p => p.Product).ToListAsync();
 
-            foreach(var order in orderItem)
+            foreach (var order in orderItem)
             {
                 var product = order.Product;
 
-                if(product != null)
+                if (product != null)
                 {
                     product.Quantity += order.Quantity;
                     _context.Update(product);

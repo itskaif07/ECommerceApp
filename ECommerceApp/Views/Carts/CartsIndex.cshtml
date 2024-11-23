@@ -80,16 +80,17 @@
                     <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">
                         Remove
                     </a>
-
                     <a asp-controller="Orders"
                        asp-action="OrderDetails"
-                       asp-route-productId="@item?.Product?.Id"
-                       asp-route-quantity="@item?.Cart.Quantity"
-                       asp-route-deliveryDate="@item?.DeliveryDate.ToString("yyyy-MM-ddTHH:mm:ss")"
-                       asp-route-deliveryCharge="@item?.DeliveryCharge"
+                       asp-route-productId="@(item?.Product?.Id ?? 0)"
+                       asp-route-quantity="@(item?.Cart.Quantity ?? 1)"
+                       asp-route-deliveryDate="@(item?.DeliveryDate.ToString("yyyy-MM-ddTHH:mm:ss") ?? DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"))"
+                       asp-route-deliveryCharge="@(item?.DeliveryCharge ?? 0)"
                        class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
                         Buy Now
                     </a>
+
+
 
                 </div>
             </div>
@@ -117,7 +118,6 @@ else
 }
 
 <script>
-
        const notification = document.querySelector("#notification");
 
         if (notification) {
