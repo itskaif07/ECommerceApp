@@ -47,6 +47,7 @@ namespace ECommerceApp.Controllers
             var categories = await _context.Categories.ToListAsync();
             var products = await _context.Products.Include(p => p.Category)
                                                   .Where(p => p.CategoryId == categoryId)
+                                                  .OrderBy(p => p.Name)
                                                   .ToListAsync();
 
             if (categories == null || products == null)

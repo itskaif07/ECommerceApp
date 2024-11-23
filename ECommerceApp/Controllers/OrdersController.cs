@@ -97,91 +97,76 @@ namespace ECommerceApp.Controllers
             return View(order);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OrderDetails(Order order)
         {
-            if (!ModelState.IsValid)
+            if (order == null)
             {
+                TempData["Notification"] = NotificationHelper.FormatNotification("Order object is null.", "error");
                 return View(order);
             }
 
             var product = await _context.Products.FindAsync(order.ProductId);
             if (product == null)
             {
-                ModelState.AddModelError("", "Product not found.");
+                TempData["Notification"] = NotificationHelper.FormatNotification("Product not found.", "error");
                 return View(order);
             }
+
+            // Ensure that Product is assigned to the Order
+            order.Product = product;
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound("User not found.");
+                TempData["Notification"] = NotificationHelper.FormatNotification("User not found.", "error");
+                return View(order);
             }
 
-            var existingOrder = await _context.Orders
-                .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.ProductId == order.ProductId);
-
-          
-
-            if (existingOrder != null)
+            // Validate Stock - If quantity exceeds stock, show error
+            if (order.Quantity > product.Quantity)
             {
+                TempData["Notification"] = NotificationHelper.FormatNotification(NotificationHelper.GetNotificationMessage("insufficientstock").message, "error");
+                return View(order); // Return view with the error message and prevent further action
+            }
 
-                existingOrder.Quantity = order.Quantity;
-                existingOrder.TotalPrice = (order.Quantity * product.DiscountedPrice) + (order.DeliveryCharge ?? 0);
-                existingOrder.ShippingAddress = order.ShippingAddress;
-                existingOrder.TrackingNumber = Guid.NewGuid().ToString();
-                existingOrder.PaymentMethod = order.PaymentMethod;
-                existingOrder.Product.Quantity -= order.Quantity;
-                existingOrder.DeliveryCharge = order.DeliveryCharge;
-                existingOrder.DeliveryDate = order.DeliveryDate;
+            // Validate Minimum Price - If total price is too low, show error
+            var minimumPrice = product.DiscountedPrice * order.Quantity;
+            if (minimumPrice < 100)
+            {
+                TempData["Notification"] = NotificationHelper.FormatNotification(NotificationHelper.GetNotificationMessage("minimumprice").message, "error");
+                return View(order); // Return view with the error message and prevent further action
+            }
 
-                _context.Update(existingOrder.Product);
-                _context.Update(existingOrder);
+            // Set the missing properties on the order model
+            order.UserId = user.Id;
+            order.ApplicationUser = user;
+            order.OrderDate = DateTime.UtcNow;
+            order.Status = "Pending";
+            order.PaymentStatus = "Pending";
+            order.TotalPrice = (order.Quantity * product.DiscountedPrice) + (order.DeliveryCharge ?? 0);
+            order.TrackingNumber = Guid.NewGuid().ToString();
+
+            // Reduce the product stock
+            if (order.Quantity <= product.Quantity) // Validate again before reducing the stock
+            {
+                product.Quantity -= order.Quantity;
             }
             else
             {
-                order.UserId = user.Id;
-                order.ApplicationUser = user;
-                order.TotalPrice = (order.Quantity * product.DiscountedPrice) + (order.DeliveryCharge ?? 0);
-                product.Quantity -= order.Quantity;
-                order.TrackingNumber = Guid.NewGuid().ToString();
-
-                _context.Add(order);
-                _context.Update(product);
-            }
-
-            var availableQuantity = product.Quantity;
-
-            if (order.Quantity > availableQuantity)
-            {
-                string actionResult1 = "insufficientstock";
-
-                var (message1, notificationType1) = NotificationHelper.GetNotificationMessage(actionResult1);
-                string formattedNotification1 = NotificationHelper.FormatNotification(message1, notificationType1);
-
-                TempData["Notification"] = formattedNotification1;
-
+                // If validation failed (this should not occur if handled earlier)
+                TempData["Notification"] = NotificationHelper.FormatNotification("Insufficient stock to reduce.", "error");
                 return View(order);
             }
 
-            var MinimumPrice = product.DiscountedPrice * order.Quantity;
-            if (MinimumPrice <= 100)
-            {
-                string actionResult2 = "minimumprice";
+            // Add order to the database
+            _context.Add(order);
+            _context.Update(product);
 
-                var (message2, notificationType2) = NotificationHelper.GetNotificationMessage(actionResult2);
-                string formattedNotification2 = NotificationHelper.FormatNotification(message2, notificationType2);
-
-                TempData["Notification"] = formattedNotification2;
-                return View(order);
-            }
-
-
-
+            // Remove item from cart if present
             var cartItem = await _context.Carts
-       .FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == order.ProductId);
+                .FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == order.ProductId);
             if (cartItem != null)
             {
                 _context.Carts.Remove(cartItem);
@@ -189,15 +174,17 @@ namespace ECommerceApp.Controllers
 
             await _context.SaveChangesAsync();
 
-            string actionResult = "ordercomplete";
+            // Display success notification
+            TempData["Notification"] = NotificationHelper.FormatNotification(NotificationHelper.GetNotificationMessage("ordercomplete").message, "success");
 
-            var (message, notificationStyle) = NotificationHelper.GetNotificationMessage(actionResult);
-            var formattedNotification = NotificationHelper.FormatNotification(message, notificationStyle);
-
-            TempData["Notification"] = formattedNotification;
-
+            // Redirect to the home page with the order ID
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
+
+
+
+
+
 
         //Quantity Management
         [HttpPost]
@@ -440,6 +427,17 @@ namespace ECommerceApp.Controllers
         public async Task<IActionResult> DeleteAll()
         {
             var orderItem = await _context.Orders.Include(p => p.Product).ToListAsync();
+
+            foreach(var order in orderItem)
+            {
+                var product = order.Product;
+
+                if(product != null)
+                {
+                    product.Quantity += order.Quantity;
+                    _context.Update(product);
+                }
+            }
 
             _context.Orders.RemoveRange(orderItem);
             await _context.SaveChangesAsync();

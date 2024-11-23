@@ -138,6 +138,8 @@
                 </div>
             </div>
 
+            @if (Model.Product?.Quantity != 0)
+            {
             <div class="w-full h-full flex items-center justify-start space-x-2">
                 @if (Model.Product.ReturnExchangePolicyDays > 0)
                 {
@@ -173,7 +175,7 @@
                 }
             </div>
 
-
+            }
 
             @if (Model.Product.Quantity > 0)
             {
