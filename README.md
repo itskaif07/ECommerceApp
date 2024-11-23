@@ -32,4 +32,20 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 - **Entity Framework Core**: Database management and ORM.  
 
 ### **Database**  
-- **Microsoft SQL Server**: Efficient data storage and retrieval.  
+- **Microsoft SQL Server**: Efficient data storage and retrieval.
+
+## 🤝 Contribution  
+
+Feel free to fork this repository and contribute by submitting pull requests.  
+To contribute:
+
+- Fork the repo  
+- Make your changes in a separate branch  
+- Submit a pull request for review  
+
+---
+
+## 📬 Contact  
+
+If you have any questions or suggestions, reach out me:  
+
