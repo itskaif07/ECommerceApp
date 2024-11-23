@@ -14,6 +14,7 @@
                 "decrease" => ("Quantity decreased", "error"),
                 "ordercomplete" => ("Order Completed successfully", "success"),
                 "orderdelete" => ("Order Deleted", "error"),
+                "minimumprice" => ("Order must be of at least ₹100.", "error"),
                 _ => ("Unknown action", "info")
             };
         }

@@ -67,6 +67,7 @@ namespace ECommerceApp.Controllers
 
 
             var order = await _context.Orders
+                .Include(p => p.Product)
                 .FirstOrDefaultAsync(o => o.UserId == userId && o.ProductId == productId && o.OrderId == orderId);
 
 
@@ -155,7 +156,7 @@ namespace ECommerceApp.Controllers
 
             if (order.Quantity > availableQuantity)
             {
-                string actionResult1 = "ordercomplete";
+                string actionResult1 = "insufficientstock";
 
                 var (message1, notificationType1) = NotificationHelper.GetNotificationMessage(actionResult1);
                 string formattedNotification1 = NotificationHelper.FormatNotification(message1, notificationType1);
@@ -168,11 +169,16 @@ namespace ECommerceApp.Controllers
             var MinimumPrice = product.DiscountedPrice * order.Quantity;
             if (MinimumPrice <= 100)
             {
-                TempData["Error"] = "Order must be of at least ₹100.";
+                string actionResult2 = "minimumprice";
+
+                var (message2, notificationType2) = NotificationHelper.GetNotificationMessage(actionResult2);
+                string formattedNotification2 = NotificationHelper.FormatNotification(message2, notificationType2);
+
+                TempData["Notification"] = formattedNotification2;
                 return View(order);
             }
 
-         
+
 
             var cartItem = await _context.Carts
        .FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == order.ProductId);
@@ -192,6 +198,74 @@ namespace ECommerceApp.Controllers
 
             return RedirectToAction("Index", "Home", new { orderId = order.OrderId });
         }
+
+        //Quantity Management
+        [HttpPost]
+        public async Task<IActionResult> ReductQuantity(int id)
+        {
+            var orderItem = await _context.Orders
+                .Include(o => o.Product)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (orderItem == null || orderItem.Product == null)
+            {
+                // Add debugging logs
+                Console.WriteLine($"Order with ID {id} not found or associated product missing.");
+                return NotFound("Order or associated product not found.");
+            }
+
+            if (orderItem.Quantity <= 1)
+            {
+                _context.Orders.Remove(orderItem);
+                string actionResult = "remove";
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+                TempData["Notification"] = NotificationHelper.FormatNotification(message, notificationType);
+            }
+            else
+            {
+                orderItem.Quantity--;
+                orderItem.Product.Quantity++;  // Return stock when quantity is reduced
+                string actionResult = "decrease";
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+                TempData["Notification"] = NotificationHelper.FormatNotification(message, notificationType);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("OrderIndex", "Orders");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AppendQuantity(int id)
+        {
+            var orderItem = await _context.Orders
+                .Include(o => o.Product)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (orderItem == null || orderItem.Product == null)
+            {
+                return NotFound("Order or associated product not found.");
+            }
+
+            if (orderItem.Quantity >= orderItem.Product.Quantity)
+            {
+                string actionResult = "insufficientstock";
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+                TempData["Notification"] = NotificationHelper.FormatNotification(message, notificationType);
+            }
+            else
+            {
+                orderItem.Quantity++;
+                orderItem.Product.Quantity--; // Decrement stock
+                string actionResult = "increase";
+                var (message, notificationType) = NotificationHelper.GetNotificationMessage(actionResult);
+                TempData["Notification"] = NotificationHelper.FormatNotification(message, notificationType);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("OrderIndex", "Orders");
+        }
+
 
 
 
