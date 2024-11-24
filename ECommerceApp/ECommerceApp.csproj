@@ -7,6 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Assets\screenshots\add product through admin.png" />
+    <Content Include="Assets\screenshots\adminProductDetails.png" />
+    <Content Include="Assets\screenshots\cartIndex.png" />
+    <Content Include="Assets\screenshots\category delete by admin.png" />
+    <Content Include="Assets\screenshots\index with admin.png" />
+    <Content Include="Assets\screenshots\index.png" />
+    <Content Include="Assets\screenshots\login.png" />
+    <Content Include="Assets\screenshots\order.png" />
+    <Content Include="Assets\screenshots\orderDetails.png" />
+    <Content Include="Assets\screenshots\orderIndex.png" />
+    <Content Include="Assets\screenshots\productDetails.png" />
+    <Content Include="Assets\screenshots\productIndex.png" />
+    <Content Include="Assets\screenshots\signup.png" />
+    <Content Include="Assets\screenshots\userdetails by admin.png" />
+    <Content Include="Assets\screenshots\userDetails.png" />
+    <Content Include="Assets\screenshots\userlist through admin.png" />
+    <Content Include="Assets\screenshots\wishlist.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
