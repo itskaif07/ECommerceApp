@@ -49,3 +49,11 @@ To contribute:
 
 If you have any questions or suggestions, reach out me:  
 
+## 📷 Screenshots 
+
+### **User** 
+
+![Index Page](wwwroot/screenshots/index.jpg)  
+
+![Index with Admin Login](wwwroot/screenshots/index%20with%20admin.jpg)
+
