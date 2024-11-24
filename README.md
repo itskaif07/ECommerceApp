@@ -47,7 +47,7 @@ To contribute:
 
 ## 📬 Contact  
 
-If you have any questions or suggestions, reach out me:  
+If you have any questions or suggestions, reach out me.
 
 ## 📷 Screenshots 
 
