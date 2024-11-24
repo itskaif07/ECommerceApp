@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\screenshots\add product through admin.png" />
+    <None Include="wwwroot\screenshots\addproductthroughadmin.png" />
     <None Include="wwwroot\screenshots\adminProductDetails.png" />
     <None Include="wwwroot\screenshots\cartIndex.png" />
-    <None Include="wwwroot\screenshots\category delete by admin.png" />
-    <None Include="wwwroot\screenshots\index with admin.png" />
+    <None Include="wwwroot\screenshots\categorydelete.png" />
+    <None Include="wwwroot\screenshots\indexwithadmin.png" />
     <None Include="wwwroot\screenshots\index.png" />
     <None Include="wwwroot\screenshots\login.png" />
     <None Include="wwwroot\screenshots\order.png" />
