@@ -70,6 +70,7 @@ namespace ECommerceApp.Controllers
         {
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Orders)
                 .Include(p => p.Reviews)
                 .ThenInclude(r => r.User)
                 .FirstOrDefaultAsync(c => c.Id == id);
