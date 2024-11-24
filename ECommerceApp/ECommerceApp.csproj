@@ -7,23 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\screenshots\add product through admin.png" />
-    <Content Include="Assets\screenshots\adminProductDetails.png" />
-    <Content Include="Assets\screenshots\cartIndex.png" />
-    <Content Include="Assets\screenshots\category delete by admin.png" />
-    <Content Include="Assets\screenshots\index with admin.png" />
-    <Content Include="Assets\screenshots\index.png" />
-    <Content Include="Assets\screenshots\login.png" />
-    <Content Include="Assets\screenshots\order.png" />
-    <Content Include="Assets\screenshots\orderDetails.png" />
-    <Content Include="Assets\screenshots\orderIndex.png" />
-    <Content Include="Assets\screenshots\productDetails.png" />
-    <Content Include="Assets\screenshots\productIndex.png" />
-    <Content Include="Assets\screenshots\signup.png" />
-    <Content Include="Assets\screenshots\userdetails by admin.png" />
-    <Content Include="Assets\screenshots\userDetails.png" />
-    <Content Include="Assets\screenshots\userlist through admin.png" />
-    <Content Include="Assets\screenshots\wishlist.png" />
+    <None Include="wwwroot\screenshots\add product through admin.png" />
+    <None Include="wwwroot\screenshots\adminProductDetails.png" />
+    <None Include="wwwroot\screenshots\cartIndex.png" />
+    <None Include="wwwroot\screenshots\category delete by admin.png" />
+    <None Include="wwwroot\screenshots\index with admin.png" />
+    <None Include="wwwroot\screenshots\index.png" />
+    <None Include="wwwroot\screenshots\login.png" />
+    <None Include="wwwroot\screenshots\order.png" />
+    <None Include="wwwroot\screenshots\orderDetails.png" />
+    <None Include="wwwroot\screenshots\orderIndex.png" />
+    <None Include="wwwroot\screenshots\productDetails.png" />
+    <None Include="wwwroot\screenshots\productIndex.png" />
+    <None Include="wwwroot\screenshots\signup.png" />
+    <None Include="wwwroot\screenshots\userdetails by admin.png" />
+    <None Include="wwwroot\screenshots\userDetails.png" />
+    <None Include="wwwroot\screenshots\userlist through admin.png" />
+    <None Include="wwwroot\screenshots\wishlist.png" />
   </ItemGroup>
 
   <ItemGroup>
