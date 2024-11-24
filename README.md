@@ -55,3 +55,43 @@ If you have any questions or suggestions, reach out me.
 
 ![index](https://github.com/user-attachments/assets/9416e15e-5049-44c7-86e9-bd3d969e2b04)
 
+![productIndex](https://github.com/user-attachments/assets/e3895792-59d7-4b82-a014-d844717def5d)
+
+![productDetails](https://github.com/user-attachments/assets/b3dd7c32-9e7f-47b7-b001-2b50658c53a4)
+
+
+![signup](https://github.com/user-attachments/assets/85f14254-3c8f-4673-a958-576198799f4a)
+
+![login](https://github.com/user-attachments/assets/9b228e76-c076-473f-a882-627ccc98eaf6)
+
+![userDetails](https://github.com/user-attachments/assets/71f06a08-9e7a-416b-bb42-1cfa0c44c65f)
+
+![cartIndex](https://github.com/user-attachments/assets/793d0d4a-eca1-46e2-a749-0c529213a46e)
+
+
+![order](https://github.com/user-attachments/assets/0435977a-af22-4b79-b10e-f038ff7c95b3)
+
+![orderIndex](https://github.com/user-attachments/assets/1466a8d2-538a-4cc4-9454-953a2e6cb5fc)
+
+
+![orderDetails](https://github.com/user-attachments/assets/9049c8de-a68f-4ef3-95e2-ce359c2eea51)
+
+![wishlist](https://github.com/user-attachments/assets/0de5ed3f-4700-4512-8cad-d2ab2dd7c372)
+
+### **Admin related features** 
+
+![indexwithadmin](https://github.com/user-attachments/assets/f7f35f05-047a-470e-a066-dfe4acc61280)
+
+
+![addproductthroughadmin](https://github.com/user-attachments/assets/a029e827-1132-4f60-8890-8f15b2d51450)
+
+
+![userlist through admin](https://github.com/user-attachments/assets/d079f97a-419f-4141-9901-69266bf8278d)
+
+
+![userdetails by admin](https://github.com/user-attachments/assets/cabac154-abc6-4c95-8c7d-d6dc0ab32e69)
+
+![categorydelete](https://github.com/user-attachments/assets/18c816fe-7141-4d7f-9852-f7489d339d84)
+
+
+
