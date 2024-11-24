@@ -53,6 +53,8 @@ If you have any questions or suggestions, reach out me.
 
 ### **User** 
 
+### Index Page
+
 ![index](https://github.com/user-attachments/assets/9416e15e-5049-44c7-86e9-bd3d969e2b04)
 
 ![productIndex](https://github.com/user-attachments/assets/e3895792-59d7-4b82-a014-d844717def5d)
