@@ -53,7 +53,7 @@ If you have any questions or suggestions, reach out me:
 
 ### **User** 
 
-![Index Page](wwwroot/screenshots/index.jpg)  
+![Index Page](wwwroot/screenshots/index.png)  
 
-![Index with Admin Login](wwwroot/screenshots/index%20with%20admin.jpg)
+![Index with Admin Login](wwwroot/screenshots/index%20with%20admin.png)
 
