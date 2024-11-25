@@ -110,7 +110,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ## Users details
 
-![userdetails by admin](https://github.com/user-attachments/assets/cabac154-abc6-4c95-8c7d-d6dc0ab32e69)
+![image](https://github.com/user-attachments/assets/31d86e8b-0bcc-4bb5-86e7-5f32c69f8502)
+
 
 ## Delete category
 
