@@ -43,6 +43,10 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ![index](https://github.com/user-attachments/assets/9416e15e-5049-44c7-86e9-bd3d969e2b04)
 
+### Search
+
+![Search](https://github.com/user-attachments/assets/bd75acd3-bc3b-4236-ae51-ff92f96ade14)
+
 ### Products list
 
 ![productIndex](https://github.com/user-attachments/assets/e3895792-59d7-4b82-a014-d844717def5d)
