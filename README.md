@@ -61,7 +61,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### Order Placement
 
-![order](https://github.com/user-attachments/assets/0435977a-af22-4b79-b10e-f038ff7c95b3)
+![order](https://github.com/user-attachments/assets/debbfe2c-1680-455a-9425-4b2580928702)
+
 
 ### Order List
 
