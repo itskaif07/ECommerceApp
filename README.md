@@ -45,7 +45,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### Search
 
-![Search](https://github.com/user-attachments/assets/bd75acd3-bc3b-4236-ae51-ff92f96ade14)
+![image](https://github.com/user-attachments/assets/8a01c70b-1010-4786-8308-a11b1206a650)
+
 
 ### Products list
 
@@ -57,15 +58,22 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### Cart
 
-![cartIndex](https://github.com/user-attachments/assets/793d0d4a-eca1-46e2-a749-0c529213a46e)
+![image](https://github.com/user-attachments/assets/c1c86978-6d09-44ca-b245-3563f7e6cd82)
+
 
 ### Order Placement
 
-![order](https://github.com/user-attachments/assets/0435977a-af22-4b79-b10e-f038ff7c95b3)
+![image](https://github.com/user-attachments/assets/ac3ddbdc-86cc-44e1-a308-7cd917b44244)
+
+
+![image](https://github.com/user-attachments/assets/e6d1377b-7239-4f6c-ad9f-1a657dfa7211)
+
+
 
 ### Order List
 
-![orderIndex](https://github.com/user-attachments/assets/1466a8d2-538a-4cc4-9454-953a2e6cb5fc)
+![image](https://github.com/user-attachments/assets/18d91ff2-7e81-45b2-ad2d-b365b6477c90)
+
 
 ### Order Details
 
@@ -82,7 +90,7 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### User Details
 
-![userDetails](https://github.com/user-attachments/assets/71f06a08-9e7a-416b-bb42-1cfa0c44c65f)
+![image](https://github.com/user-attachments/assets/b716637c-fe1e-4b5b-a7cd-af8eeddbbbfc)
 
 ### Wishlist
 
@@ -105,7 +113,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ## Users details
 
-![userdetails by admin](https://github.com/user-attachments/assets/cabac154-abc6-4c95-8c7d-d6dc0ab32e69)
+![image](https://github.com/user-attachments/assets/31d86e8b-0bcc-4bb5-86e7-5f32c69f8502)
+
 
 ## Delete category
 
