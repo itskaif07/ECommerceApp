@@ -54,12 +54,15 @@
                        class="h-12 w-full text-black rounded-l-lg px-4 border border-gray-300 outline-none"
                        type="text"
                        placeholder="Search for products...">
+
                 <button id="searchButton"
                         class="h-12 px-4 bg-yellow-400 hover:bg-yellow-500 text-black font-medium rounded-r-lg hover:bg-blue-600">
                     <img src="~/images/search.png" alt="Alternate Text" class="w-5">
                 </button>
             </div>
-            <a asp-controller="Products" asp-action="ProductDetails" id="searchResults" class="absolute right-0 top-16 w-full flex flex-wrap space-y-2"></a>
+
+            <a id="searchResults" asp-controller="Products" asp-action="ProductDetails" class="absolute right-0 top-14 w-full max-h-[50vh] overflow-y-auto bg-transparent rounded-lg flex flex-wrap px-2 z-10">
+            </a>
         </div>
 
 
@@ -78,7 +81,7 @@
                 <h1 class="font-medium text-lg">Order</h1>
             </a>
 
-            <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
+            <a asp-controller="Carts" asp-action="CartsIndex" class="h-full max-h-24 overflow-y-auto flex items-center justify-center space-x-2">
 
                 <div class="relative">
                     @if (@ViewData["CartQuantity"] != null && (int)@ViewData["CartQuantity"] > 0)
@@ -123,7 +126,7 @@
 
         @foreach (var i in Model.Categories)
         {
-            <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black hover:text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
+            <a id="CategoryBox" asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="block text-black hover:text-black  py-2 border-b-[1px] border-black flex items-center justify-between px-2">
                 <div class="text-xl">@i.Name</div>
                 <img src="~/images/icons8-next-32.png" class="w-5 opacity-50">
             </a>

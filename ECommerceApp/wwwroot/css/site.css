@@ -1,43 +1,66 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-a{
+a {
     text-decoration: none;
-
 }
 
-a:hover{
-    color:white;
-}
+    a:hover {
+        color: white;
+    }
 
-input{
-    color:black;
+input {
+    color: black;
 }
 
 .fade-out {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+
+/*Search Bar*/
+
+#searchResults {
+    scroll-behavior: smooth; /* Smooth scrolling */
+}
+
+    #searchResults::-webkit-scrollbar {
+        width: 2px; /* Scrollbar width */
+        margin-top: 4px;
+    }
+
+    #searchResults::-webkit-scrollbar-thumb {
+        background: #888; /* Scrollbar thumb color */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+        #searchResults::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Hover color for scrollbar */
+        }
+
+    #searchResults::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Scrollbar track color */
+    }
 
 
 /* Scrollbar width and height */
@@ -108,4 +131,3 @@ input{
         background-position: top,50% 50%
     }
 }
-
