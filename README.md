@@ -63,7 +63,9 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ![image](https://github.com/user-attachments/assets/ac3ddbdc-86cc-44e1-a308-7cd917b44244)
 
-![image](https://github.com/user-attachments/assets/d5b92692-e52e-4817-b918-367f235cead5)
+
+![image](https://github.com/user-attachments/assets/e6d1377b-7239-4f6c-ad9f-1a657dfa7211)
+
 
 
 ### Order List
@@ -85,7 +87,7 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### User Details
 
-![userDetails](https://github.com/user-attachments/assets/71f06a08-9e7a-416b-bb42-1cfa0c44c65f)
+![image](https://github.com/user-attachments/assets/b716637c-fe1e-4b5b-a7cd-af8eeddbbbfc)
 
 ### Wishlist
 
