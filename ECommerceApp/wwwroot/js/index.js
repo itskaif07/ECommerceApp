@@ -85,9 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.getElementById('searchButton');
     const searchResults = document.getElementById('searchResults');
 
-
-
-    searchButton.addEventListener('click', () => {
+    // Function to handle search
+    const performSearch = () => {
         const query = searchBox.value.trim();
 
         if (query === "") {
@@ -95,12 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                 <p class="text-gray-400">Please enter a search query.</p>
             </div>
-        `;
+            `;
             return;
         }
 
         fetch(`/Home/Search?query=${encodeURIComponent(query)}`)
-
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -109,22 +107,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (products.length > 0) {
                         products.forEach(product => {
                             const imageUrl = product.imageUrl || '/images/noImage.jpg';
-                            console.log("Product ImageUrl:", product.ImageUrl);
 
                             const productCard = `
-                            <div class="w-full h-24  rounded-md overflow-hidden flex items-center justify-start bg-[#222222] px-2">
-                             
-
-                            <div class="w-24 h-10">
-                                <img src="${imageUrl}" class="object-scale-down h-full w-full" alt="${product.name}">
+                            <a href="/Products/ProductDetails/${product.id}" class="w-full h-24 rounded-md overflow-hidden flex items-center justify-start bg-[#222222] px-2 no-underline text-white">
+                                <div class="w-24 h-10">
+                                    <img src="${imageUrl}" class="object-scale-down h-full w-full" alt="${product.name}">
                                 </div>
-
                                 <div class="space-y-2">
-                                    <h3 class=" w-full text-left">${product.name}</h3>
+                                    <h3 class="w-full text-left">${product.name}</h3>
                                     <p class="text-sm text-gray-500">${product.categoryName || "Uncategorized"}</p>
                                 </div>
-                            </div>
-                        `;
+                            </a>
+                            `;
                             searchResults.innerHTML += productCard;
                         });
                     } else {
@@ -132,14 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                             <p class='text-gray-500'>No products found.</p>
                         </div>
-                    `;
+                        `;
                     }
                 } else {
                     searchResults.innerHTML = `
                     <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                         <p class='text-red-500'>Error: ${data.message}</p>
                     </div>
-                `;
+                    `;
                 }
             })
             .catch(error => {
@@ -148,7 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                     <p class='text-red-500'>An error occurred. Please try again.</p>
                 </div>
-            `;
+                `;
             });
-    });
+    };
+
+    searchButton.addEventListener("click", performSearch);
+
+    searchBox.addEventListener("keydown", (event) => {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            performSearch();
+        }
+    })
+
 });
+
+

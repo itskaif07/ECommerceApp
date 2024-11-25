@@ -61,8 +61,10 @@
                 </button>
             </div>
 
-            <a id="searchResults" asp-controller="Products" asp-action="ProductDetails" class="absolute right-0 top-14 w-full max-h-[50vh] overflow-y-auto bg-transparent rounded-lg flex flex-wrap px-2 z-10">
+            <a id="searchResults"
+               class="absolute right-0 top-14 w-full max-h-[50vh] overflow-y-auto bg-transparent rounded-lg flex flex-wrap px-2 z-10">
             </a>
+
         </div>
 
 
@@ -81,7 +83,7 @@
                 <h1 class="font-medium text-lg">Order</h1>
             </a>
 
-            <a asp-controller="Carts" asp-action="CartsIndex" class="h-full max-h-24 overflow-y-auto flex items-center justify-center space-x-2">
+            <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
 
                 <div class="relative">
                     @if (@ViewData["CartQuantity"] != null && (int)@ViewData["CartQuantity"] > 0)
