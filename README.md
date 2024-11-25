@@ -71,7 +71,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### Order List
 
-![orderIndex](https://github.com/user-attachments/assets/1466a8d2-538a-4cc4-9454-953a2e6cb5fc)
+![image](https://github.com/user-attachments/assets/18d91ff2-7e81-45b2-ad2d-b365b6477c90)
+
 
 ### Order Details
 
