@@ -14,88 +14,104 @@
 
 
 
-<header class="w-full h-full sticky top-0 z-10">
+<header class="w-full h-full sticky top-0 z-10 bg-blue-500 text-white">
 
-    <nav id="nav1" class="w-full h-full flex items-center justify-between px-6 bg-blue-500 text-white py-2">
+    <!-- First Navigation Bar -->
+    <nav id="nav1" class="w-full h-full flex items-center justify-between px-6 py-2">
         <div>
             @if (User.IsInRole("SiteOwner"))
             {
                 <a asp-controller="Home" asp-action="Admin" class="hover:text-white">Admin</a>
-
             }
         </div>
 
-        <div class="flex items-center justify-center space-x-4 text-base">
-            <a asp-controller="WishList" asp-action="WishListIndex" class="text-white">WishList</a>
+        <div class="flex items-center space-x-6 text-base">
+            <a asp-controller="WishList" asp-action="WishListIndex" class="text-white hover:text-blue-300">WishList</a>
+            <a asp-controller="Profiles" asp-action="ProfileIndex" class="text-white hover:text-blue-300">Profile</a>
 
-            <a asp-controller="Profiles" asp-action="ProfileIndex" class="text-white">Profile</a>
             @if (User.Identity.IsAuthenticated)
             {
                 <form asp-controller="LogIn" asp-action="LogOut" method="post">
-                    <button type="submit" class="text-white">Log out</button>
+                    <button type="submit" class="text-white hover:text-blue-300">Log out</button>
                 </form>
             }
         </div>
     </nav>
 
-    <nav id="nav2" class="w-full h-full text-white bg-blue-500 flex items-center justify-between px-6 py-2">
+    <!-- Second Navigation Bar -->
+    <nav id="nav2" class="w-full h-full flex items-center justify-between px-6 py-4 bg-blue-500 text-white">
 
-        <a asp-controller="Home" asp-action="Index" class="flex items-center justify-center">
-            <h1 class="font-bold text-4xl w-1/4"><img src="~/images/logo.png" alt="Logo" class="w-48"></h1>
-            <h1 class="text-3xl font-bold">ShopCart</h1>
+        <!-- Logo and Title -->
+        <a asp-controller="Home" asp-action="Index" class="flex items-center justify-center space-x-2">
+            <img src="~/images/logo.png" alt="Logo" class="w-16">
+            <h1 class="font-bold text-3xl">ShopCart</h1>
         </a>
 
-        <div class="w-1/2 flex items-center justify-center h-12 ">
-            <input class="h-full w-full rounded-l-xl px-3 outline-none text-black" type="text" placeholder="Search Here...">
-
-            <div class="h-full px-3 flex items-center justify-center bg-yellow-400 rounded-r-xl cursor-pointer">
-                <img src="~/images/search.png" class="w-4">
+        <div class="relative w-1/2">
+            <!-- Search Bar -->
+            <div class="flex items-center justify-end w-full">
+                <input id="searchBox"
+                       class="h-12 w-full text-black rounded-l-lg px-4 border border-gray-300 outline-none"
+                       type="text"
+                       placeholder="Search for products...">
+                <button id="searchButton"
+                        class="h-12 px-4 bg-yellow-400 hover:bg-yellow-500 text-black font-medium rounded-r-lg hover:bg-blue-600">
+                    <img src="~/images/search.png" alt="Alternate Text" class="w-5">
+                </button>
             </div>
+            <a asp-controller="Products" asp-action="ProductDetails" id="searchResults" class="absolute right-0 top-16 w-full flex flex-wrap space-y-2"></a>
         </div>
 
 
-        <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
+        <!-- Cart and Orders -->
+        <div class="flex items-center space-x-6 w-1/4 justify-between">
 
-            <div class="relative">
-                @if (ViewData["OrderQuantity"] != null && (int)ViewData["OrderQuantity"] > 0)
-                {
-                    <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["OrderQuantity"] ?? 0)</h5>
-                }
-                <img src="~/images/icons8-lightning-50.png" class="w-8">
-            </div>
-            <h1 class="font-medium text-lg">Order</h1>
-        </a>
+            <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
+
+                <div class="relative">
+                    @if (ViewData["OrderQuantity"] != null && (int)ViewData["OrderQuantity"] > 0)
+                    {
+                        <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["OrderQuantity"] ?? 0)</h5>
+                    }
+                    <img src="~/images/icons8-lightning-50.png" class="w-8">
+                </div>
+                <h1 class="font-medium text-lg">Order</h1>
+            </a>
+
+            <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
+
+                <div class="relative">
+                    @if (@ViewData["CartQuantity"] != null && (int)@ViewData["CartQuantity"] > 0)
+                    {
+                        <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["CartQuantity"] ?? 0)</h5>
+                    }
+                    <img src="~/images/cart.png" class="invert grayscale w-10">
+                </div>
+                <h1 class="font-medium text-lg">Cart</h1>
+
+            </a>
 
 
-        <a asp-controller="Carts" asp-action="CartsIndex" class="h-full flex items-center justify-center space-x-2">
-
-            <div class="relative">
-                @if (@ViewData["CartQuantity"] != null && (int)@ViewData["CartQuantity"] > 0)
-                {
-                    <h5 class="h-5 w-5 rounded-full bg-red-500 font-medium absolute right-0 -top-2 text-white z-10 flex items-center justify-center">@(ViewData["CartQuantity"] ?? 0)</h5>
-                }
-                <img src="~/images/cart.png" class="invert grayscale w-10">
-            </div>
-            <h1 class="font-medium text-lg">Cart</h1>
-
-        </a>
-
-        <a asp-controller="SignUp" asp-action="Signup" class="block hover:text-white flex items-center justify-center space-x-2">
-            <img src="~/images/user.png" alt="Account" class="w-8">
-            <div class="flex items-center justify-center">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <h1 class="font-medium">@User.Identity.Name</h1>
-                }
-                else
-                {
-                    <h1>Sign In</h1>
-                }
-            </div>
-        </a>
+            <!-- User Account -->
+            <a asp-controller="SignUp" asp-action="Signup" class="flex items-center space-x-2">
+                <img src="~/images/user.png" alt="Account" class="w-8">
+                <div class="flex items-center justify-center">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h1 class="font-medium">@User.Identity.Name</h1>
+                    }
+                    else
+                    {
+                        <h1>Sign In</h1>
+                    }
+                </div>
+            </a>
+        </div>
     </nav>
-
 </header>
+
+
+
 
 
 
@@ -158,55 +174,7 @@
 
 
 <script>
-    const slideData = [
-        {
-            image: "/images/foodbg.jpg",
-            title: "Foods",
-            description: "Foods that boost your energy and delight your taste buds — perfect for every craving!",
-            categoryId: 6
-        },
-        {
-            image: "/images/beverbg.jpg",
-            title: "Beverages",
-            description: "Refreshing beverages to keep you energized all day long.",
-            categoryId: 7
-        }
-    ];
-
-    let currentIndex2 = 0;
-    let slideShow2 = document.querySelector("#slideShow2");
-    let titleElement = slideShow2.querySelector("h2");
-    let descriptionElement = slideShow2.querySelector("p");
-    let categoryLink = document.querySelector("#shopNowLink");
-
-    function changeContentAndBackground() {
-        const currentSlide = slideData[currentIndex2];
-
-        slideShow2.style.backgroundImage = `url(${currentSlide.image})`;
-
-        titleElement.textContent = currentSlide.title;
-        descriptionElement.textContent = currentSlide.description;
-
-        categoryLink.setAttribute("href", `/Products/ProductsIndex?categoryId=${currentSlide.categoryId}`);
-
-        currentIndex2 = (currentIndex2 + 1) % slideData.length;
-    }
-
-    changeContentAndBackground();
-
-    setInterval(changeContentAndBackground, 5000);
-
-       const completed = document.querySelector("#Completed");
-
-    if (completed) {
-        setTimeout(() => {
-            completed.classList.add("fade-out");
-            setTimeout(() => {
-                completed.remove();
-            }, 500);
-        }, 2000);
-    }
-
+    
 
 
 </script>

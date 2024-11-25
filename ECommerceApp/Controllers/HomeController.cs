@@ -62,6 +62,44 @@ namespace ECommerceApp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return Json(new { success = false, message = "Search query cannot be empty." });
+            }
+
+            try
+            {
+                var products = await _context.Products
+                    .Where(p => p.Name.Contains(query) || (p.Description ?? "").Contains(query))
+                    .Select(p => new
+                    {
+                        p.Id,
+                        p.Name,
+                        p.Description,
+                        p.Price,
+                        DiscountedPrice = p.Price - (p.Price * p.Discount / 100),
+                        p.Discount,
+                        p.Category,
+                        p.Brand,
+                        p.ImageUrl,
+                        p.ReturnExchangePolicyDays,
+                        p.Quantity
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, data = products });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can replace Console.WriteLine with proper logging in a real app)
+                _logger.LogError("Error fetching search results: " + ex.Message);
+
+                return Json(new { success = false, message = "An error occurred while processing the request." });
+            }
+        }
+
 
 
 
