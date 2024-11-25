@@ -58,7 +58,8 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ### Cart
 
-![cartIndex](https://github.com/user-attachments/assets/793d0d4a-eca1-46e2-a749-0c529213a46e)
+![image](https://github.com/user-attachments/assets/c1c86978-6d09-44ca-b245-3563f7e6cd82)
+
 
 ### Order Placement
 
