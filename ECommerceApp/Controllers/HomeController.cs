@@ -81,13 +81,18 @@ namespace ECommerceApp.Controllers
                         p.Price,
                         DiscountedPrice = p.Price - (p.Price * p.Discount / 100),
                         p.Discount,
-                        p.Category,
+                        CategoryName = p.Category.Name,
                         p.Brand,
-                        p.ImageUrl,
+                        ImageUrl = string.IsNullOrEmpty(p.ImageUrl) ? "/images/noImage.jpg" : p.ImageUrl,
                         p.ReturnExchangePolicyDays,
                         p.Quantity
                     })
                     .ToListAsync();
+
+                foreach (var product in products)
+                {
+                    _logger.LogInformation($"Product {product.Name} ImageUrl: {product.ImageUrl}");
+                }
 
                 return Json(new { success = true, data = products });
             }
