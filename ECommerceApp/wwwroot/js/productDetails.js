@@ -1,5 +1,8 @@
-﻿const zoomOverlay = document.getElementById("zoomOverlay");
+﻿
+
+const zoomOverlay = document.getElementById("zoomOverlay");
 const productImage = document.querySelector("#productImage");
+console.log(productImage)
 
 productImage.addEventListener("mousemove", (e) => {
     const rect = productImage.getBoundingClientRect();
@@ -33,3 +36,4 @@ full.addEventListener('click', function () {
     short.classList.remove("hidden");
     full.classList.add("hidden");
 });
+

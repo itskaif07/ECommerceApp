@@ -15,6 +15,7 @@
                 "ordercomplete" => ("Order Completed successfully", "success"),
                 "orderdelete" => ("Order Deleted", "error"),
                 "minimumprice" => ("Order must be of at least ₹100.", "error"),
+                "addreview" => ("Review added", "success"),
                 _ => ("Unknown action", "info")
             };
         }

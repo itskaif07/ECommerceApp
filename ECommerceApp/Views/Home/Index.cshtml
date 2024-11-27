@@ -17,15 +17,21 @@
 <header class="w-full h-full sticky top-0 z-10 bg-blue-500 text-white">
 
     <!-- First Navigation Bar -->
-    <nav id="nav1" class="w-full h-full flex items-center justify-between px-6 py-2">
-        <div>
+    <nav id="nav1" class="w-full h-full flex items-center justify-between px-2 lg:px-6 py-2">
+
+        <a asp-controller="Home" asp-action="Index" class="lg:hidden flex items-center justify-center space-x-2">
+            <img src="~/images/logo.png" alt="Logo" class="w-16">
+            <h1 class="font-bold text-3xl">ShopCart</h1>
+        </a>
+
+        <div class="bg-[#222222] px-4 py-2">
             @if (User.IsInRole("SiteOwner"))
             {
-                <a asp-controller="Home" asp-action="Admin" class="hover:text-white">Admin</a>
+                <a asp-controller="Home" asp-action="Admin" class="font-medium">Admin</a>
             }
         </div>
 
-        <div class="flex items-center space-x-6 text-base">
+        <div class="hidden lg:flex items-center space-x-6 text-base">
             <a asp-controller="WishList" asp-action="WishListIndex" class="text-white hover:text-blue-300">WishList</a>
             <a asp-controller="Profiles" asp-action="ProfileIndex" class="text-white hover:text-blue-300">Profile</a>
 
@@ -42,12 +48,12 @@
     <nav id="nav2" class="w-full h-full flex items-center justify-between px-6 py-4 bg-blue-500 text-white">
 
         <!-- Logo and Title -->
-        <a asp-controller="Home" asp-action="Index" class="flex items-center justify-center space-x-2">
+        <a asp-controller="Home" asp-action="Index" class="hidden lg:flex items-center justify-center space-x-2">
             <img src="~/images/logo.png" alt="Logo" class="w-16">
             <h1 class="font-bold text-3xl">ShopCart</h1>
         </a>
 
-        <div class="relative w-1/2">
+        <div class="relative w-full lg:w-1/2">
             <!-- Search Bar -->
             <div class="flex items-center justify-end w-full">
                 <input id="searchBox"
@@ -69,7 +75,7 @@
 
 
         <!-- Cart and Orders -->
-        <div class="flex items-center space-x-6 w-1/4 justify-between">
+        <div class="hidden lg:flex items-center space-x-6 w-1/4 justify-between ">
 
             <a asp-controller="Orders" asp-action="OrderIndex" class="h-full flex items-center justify-center space-x-2">
 
@@ -118,11 +124,11 @@
 
 
 
-<div class="w-full h-[80vh] flex items-center justify-center my-6 space-x-4 ">
+<div class="w-full h-screen lg:h-[80vh] flex items-center justify-center lg:my-6 lg:space-x-4 ">
 
 
 
-    <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black rounded-xl overflow-auto">
+    <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black rounded-xl overflow-auto hidden lg:block">
 
         <div class="text-xl text-black font-medium bg-yellow-300 py-2 border-[1px] border-black px-2">Categories</div>
 
@@ -135,10 +141,10 @@
         }
     </div>
 
-    <div id="slideShow" class="relative w-[75%] h-full rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
-        <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
-        <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
-        <h1 class="relative font-bold text-white text-4xl tracking-wider">NEW COLLECTIONS</h1>
+    <div id="slideShow" class="relative w-full lg:w-[75%] h-full lg:rounded-xl bg-cover bg-center flex flex-col text-left pt-6 lg:pt-24 items-start px-10 transition-all duration-200 ease-in">
+        <div class="absolute inset-0 bg-black opacity-50 lg:rounded-xl"></div>
+        <h2 class="relative text-white text-3xl tracking-wider max-[300px]:text-xl">TOP BRANDS</h2>
+        <h1 class="relative font-bold text-white text-4xl tracking-wider max-[300px]:text-xl">NEW COLLECTIONS</h1>
         <p class="relative text-white">Explore our trendy new clothing collections!</p>
         <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="3" class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
             Shop Now
@@ -147,12 +153,12 @@
 
 </div>
 
-<div class="w-full h-[80vh]">
+<div class="w-full h-screen lg:h-[80vh]">
 
-    <div class="relative w-[90%] h-full  mt-20 mx-auto h-full rounded-xl bg-white bg-[url('/images/indexbg2.webp')] bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
+    <div class="relative w-full lg:w-[90%] h-full mt-6 lg:mt-20 mx-auto h-full lg:rounded-xl bg-white bg-[url('/images/indexbg2.webp')] bg-cover bg-center flex flex-col text-left pt-6 items-start px-10 transition-all duration-200 ease-in">
         <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
-        <h2 class="relative text-white text-3xl tracking-wider">TOP BRANDS</h2>
-        <h1 class="relative font-bold text-white text-4xl tracking-wider">LATEST INNOVATIONS</h1>
+        <h2 class="relative text-white max-[300px]:text-xl text-3xl tracking-wider">TOP BRANDS</h2>
+        <h1 class="relative font-bold text-white max-[300px]:text-xl text-4xl tracking-wider">LATEST INNOVATIONS</h1>
         <p class="relative text-white">Discover cutting-edge electronics and gadgets that redefine your lifestyle!</p>
         <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="1" class="relative bg-blue-500 cursor-pointer transiton-all duration-300 ease-in hover:bg-blue-600 text-white font-medium px-10 h-12 flex items-center justify-center rounded-xl my-4">
             Shop Now
@@ -163,8 +169,8 @@
 
 
 
-<div class="w-full h-[60vh]">
-    <div id="slideShow2" class="relative w-[90%] h-[10vh] mt-20 h-full mx-auto rounded-xl bg-cover bg-center flex flex-col text-left pt-24 items-start px-10 transition-all duration-200 ease-in">
+<div class="w-full h-screen lg:h-[80vh]">
+    <div id="slideShow2" class="relative w-full lg:w-[90%] h-[10vh] mt-6 lg:mt-20 h-full mx-auto lg:rounded-xl bg-cover bg-center flex flex-col text-left pt-6 lg:pt-24 items-start px-10 transition-all duration-200 ease-in">
         <div class="absolute inset-0 bg-black opacity-60 rounded-xl"></div>
         <h2 class="relative font-bold text-white text-3xl tracking-wider"></h2>
         <p class="relative text-white"></p>
@@ -174,6 +180,32 @@
     </div>
 </div>
 
+<div class="lg:hidden w-full h-[10vh] sticky bottom-0 right-0 bg-[#222222] flex items-center justify-between px-6 ">
+    <div class="flex items-center justify-center flex-col">
+        <img src="~/images/home.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8 invert grayscale">
+        <h1 class="font-medium text-sm">Home</h1>
+    </div>
+
+    <div class="flex items-center justify-center flex-col">
+        <img src="~/images/category.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8 invert grayscale">
+        <h1 class="font-medium text-sm">Category</h1>
+    </div>
+
+    <div class="flex items-center justify-center flex-col">
+        <img src="~/images/icons8-lightning-50.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8">
+        <h1 class="font-medium text-sm">Orders</h1>
+    </div>
+
+    <div class="flex items-center justify-center flex-col">
+        <img src="~/images/wishlist.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8">
+        <h1 class="font-medium text-sm">Wishlist</h1>
+    </div>
+
+    <div class="flex items-center justify-center flex-col">
+        <img src="~/images/cart.png" alt="Alternate Text" class="max-[300px]:w-9 min-[301px]:w-12 invert grayscale">
+        <h1 class="font-medium text-sm">Cart</h1>
+    </div>
+</div>
 
 
 @section Scripts {

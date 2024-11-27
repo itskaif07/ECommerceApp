@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ECommerceApp.Data;
 using ECommerceApp.Models;
+using ECommerceApp.Helpers;
+using Microsoft.CodeAnalysis;
 
 namespace ECommerceApp.Controllers
 {
@@ -25,16 +27,19 @@ namespace ECommerceApp.Controllers
         {
             ViewBag.ProductId = productId;
             ViewBag.UserId = userId;
+
+
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview([Bind("Id,ProductId,UserId,Rating,ReviewName,Comment,ImageUrl,ImageFile, CreatedAt")] Review review)
+        public async Task<IActionResult> AddReview([Bind("Id,ProductId,UserId,Rating,ReviewName,Comment,ImageUrl,ImageFile,CreatedAt")] Review review)
         {
             if (ModelState.IsValid)
             {
+                // Save image file if uploaded
                 if (review.ImageFile != null)
                 {
                     var filePath = Path.Combine("wwwroot/images", review.ImageFile.FileName);
@@ -42,17 +47,25 @@ namespace ECommerceApp.Controllers
                     {
                         await review.ImageFile.CopyToAsync(stream);
                     }
-
                     review.ImageUrl = "/images/" + review.ImageFile.FileName;
                 }
 
                 _context.Add(review);
                 await _context.SaveChangesAsync();
+                TempData["Notification"] = NotificationHelper.FormatNotification("Review Added", "success");
                 return RedirectToAction("ProductDetails", "Products", new { id = review.ProductId });
             }
 
+            // If validation fails, keep the uploaded image's URL
+            if (!string.IsNullOrEmpty(review.ImageUrl))
+            {
+                ViewBag.ImageUrl = review.ImageUrl;
+            }
+            ViewBag.ProductId = review.ProductId;
+            ViewBag.UserId = review.UserId;
             return View(review);
         }
+
 
         // GET: Reviews/Edit/5
         // GET: EditReview
