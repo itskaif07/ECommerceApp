@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (removeImageButton) {
         removeImageButton.addEventListener('click', function () {
             defaultImage.src = '/images/uploadImage.jpg';
-            imageUpload.value = '';
-            urlInput.value = '';
+            imageUpload.value = '/images/uploadImage.jpg';
+            urlInput.value = '/images/uploadImage.jpg';
         });
     }
 });

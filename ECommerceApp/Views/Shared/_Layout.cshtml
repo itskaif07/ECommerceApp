@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
-<body class="bg-[#222222] text-white w-full relative">
+<body class="bg-[#222222] text-white w-full relative min-h-screen">
 
     
     <div class="loader inset-0 w-full h-full fixed flex items-center justify-center z-50 bg-[#222222]"></div>
@@ -17,6 +17,33 @@
         <main role="main" class="pb-3 relative w-full">
             @RenderBody()
         </main>
+
+
+    <div class="lg:hidden w-full h-[10vh] fixed bottom-0 bg-[#222222] flex items-center justify-between space-x-4 px-6 z-40 overflow-x-auto overflow-y-hidden">
+        <!-- Bottom Navigation Links -->
+        <a asp-controller="Home" asp-action="Index" class="flex items-center justify-center flex-col">
+            <img src="~/images/home.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8 invert grayscale">
+            <h1 class="font-medium text-sm">Home</h1>
+        </a>
+        <a asp-controller="Carts" asp-action="CartsIndex" class="flex items-center justify-center flex-col">
+            <img src="~/images/cart.png" alt="Alternate Text" class="w-12 invert grayscale">
+            <h1 class="font-medium text-sm">Cart</h1>
+        </a>
+        <a asp-controller="Orders" asp-action="OrderIndex" class="flex items-center justify-center flex-col">
+            <img src="~/images/order.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8 invert grayscale">
+            <h1 class="font-medium text-sm">Orders</h1>
+        </a>
+        <a asp-controller="WishList" asp-action="WishListIndex" class="flex items-center justify-center flex-col">
+            <img src="~/images/wishlist.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8">
+            <h1 class="font-medium text-sm">Wishlist</h1>
+        </a>
+        <a asp-controller="Profiles" asp-action="ProfileIndex" class="flex items-center justify-center flex-col">
+            <img src="~/images/user.png" alt="Alternate Text" class="max-[300px]:w-6 min-[301px]:w-8 invert grayscale">
+            <h1 class="font-medium text-sm">Account</h1>
+        </a>
+    </div>
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

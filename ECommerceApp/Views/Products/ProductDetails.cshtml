@@ -148,40 +148,40 @@
 
             @if (Model.Product?.Quantity != 0)
             {
-            <div class="w-full h-full flex items-center justify-start space-x-2">
-                @if (Model.Product.ReturnExchangePolicyDays > 0)
-                {
-                    <img src="~/images/exchange.png" class="w-6">
-                    <p class="font-medium">@Model.Product.ReturnExchangePolicyDays Days Return Policy</p>
-                }
-                else
-                {
-                    <img src="~/images/exchange.png" class="w-6">
-                    <p class="font-medium">No Returns Applicable</p>
+                <div class="w-full h-full flex items-center justify-start space-x-2">
+                    @if (Model.Product.ReturnExchangePolicyDays > 0)
+                    {
+                        <img src="~/images/exchange.png" class="w-6">
+                        <p class="font-medium">@Model.Product.ReturnExchangePolicyDays Days Return Policy</p>
+                    }
+                    else
+                    {
+                        <img src="~/images/exchange.png" class="w-6">
+                        <p class="font-medium">No Returns Applicable</p>
 
-                }
-            </div>
+                    }
+                </div>
 
-            <div class="w-full h-full flex flex-col items-start justify-center space-y-2">
-                @if (Model.DeliveryCharge > 0)
-                {
-                    <div class="flex items-center justify-center space-x-2">
-                        <img src="~/images/delivery.png" class="w-6 invert grayscale">
-                        <h1><span class="text-green-400">₹ @Model.DeliveryCharge</span> Delivery charges applicable</h1>
-                    </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
+                <div class="w-full h-full flex flex-col items-start justify-center space-y-2">
+                    @if (Model.DeliveryCharge > 0)
+                    {
+                        <div class="flex items-center justify-center space-x-2">
+                            <img src="~/images/delivery.png" class="w-6 invert grayscale">
+                            <h1><span class="text-green-400">₹ @Model.DeliveryCharge</span> Delivery charges applicable</h1>
+                        </div>
+                        <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
 
-                }
-                else
-                {
-                    <div class="flex items-center justify-center space-x-2">
-                        <img src="~/images/delivery.png" class="w-6 invert grayscale">
-                        <h1><span class="text-green-400">Free Home Delivery</span></h1>
-                    </div>
-                    <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
+                    }
+                    else
+                    {
+                        <div class="flex items-center justify-center space-x-2">
+                            <img src="~/images/delivery.png" class="w-6 invert grayscale">
+                            <h1><span class="text-green-400">Free Home Delivery</span></h1>
+                        </div>
+                        <p>Will be Delivered on: <span class="font-medium">@Model.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")</span></p>
 
-                }
-            </div>
+                    }
+                </div>
 
             }
 
@@ -230,71 +230,70 @@
                 </form>
             }
 
+            <div class="flex justify-end w-full px-10">
+                <a asp-controller="Reviews" asp-action="AddReview" asp-route-userId="@Model.ApplicationUser?.Id" asp-route-productId="@Model.Product?.Id" class="bg-white text-black hover:text-black px-5 py-2 w-fit block font-medium">
+                    Rate Product
+                </a>
+            </div>
 
-            <div class="w-full h-full space-y-6 pr-8">
 
-                <div class="w-full flex mt-4 items-center justify-between">
-                    <h1 class="text-2xl font-semibold">Ratings & Reviews</h1>
-
-                    <a asp-controller="Reviews" asp-action="AddReview" asp-route-userId="@Model.ApplicationUser?.Id" asp-route-productId="@Model.Product?.Id" class="bg-white text-black hover:text-black px-5 flex items-center justify-self-end py-2 w-fit block font-medium">Rate Product</a>
-                </div>
-
-                @if (Model.Reviews?.Any() == true)
+        @if (Model.Reviews?.Any() == true)
+        {
+            <div class="flex items-start flex-col justify-center w-full space-y-20 my-6">
+                @foreach (var i in Model.Reviews)
                 {
-                    <div class="flex items-start flex-col justify-center w-full space-y-20 my-6">
-                        @foreach (var i in Model.Reviews)
-                        {
-                            <div class="w-full h-full space-y-2 flex items-center justify-between">
+                    <div class="w-full h-full space-y-2 flex items-center justify-between">
 
-                                <div class="w-[75%] space-y-3">
-                                    <div class="flex items-center space-x-6">
-                                        <h1 class="bg-green-700 px-4 flex items-center justify-center h-8">@i.Rating &#9733;</h1>
-                                        <h1 class="text-lg font-medium">@i.ReviewName</h1>
-                                    </div>
+                        <div class="w-[75%] space-y-3">
+                            <div class="flex items-center space-x-6">
+                                <h1 class="bg-green-700 px-4 flex items-center justify-center h-8">@i.Rating &#9733;</h1>
+                                <h1 class="text-lg font-medium">@i.ReviewName</h1>
+                            </div>
 
-                                    @if (!string.IsNullOrEmpty(i?.Comment))
-                                    {
-                                        <p>@i.Comment</p>
-                                    }
+                            @if (!string.IsNullOrEmpty(i?.Comment))
+                            {
+                                <p>@i.Comment</p>
+                            }
 
-                                    <h1 class="font-medium">
-                                        @i.User.Name
-                                        <span class="font-normal text-sm">@i.CreatedAt.ToString("dd-MM-yyyy")</span>
-                                    </h1>
+                            <h1 class="font-medium">
+                                @i.User.Name
+                                <span class="font-normal text-sm">@i.CreatedAt.ToString("dd-MM-yyyy")</span>
+                            </h1>
 
-                                    @if (User.Identity.IsAuthenticated && User.Identity.Name == i.User.UserName)
-                                    {
-                                        <div class="w-full">
-                                            <a asp-controller="Reviews" asp-action="EditReview" asp-route-id="@i.Id" class="bg-blue-500 w-28 py-1 inline-block text-center">Edit Review</a>
+                            @if (User.Identity.IsAuthenticated && User.Identity.Name == i.User.UserName)
+                            {
+                                <div class="w-full">
+                                    <a asp-controller="Reviews" asp-action="EditReview" asp-route-id="@i.Id" class="bg-blue-500 w-28 py-1 inline-block text-center">Edit Review</a>
 
-                                            <a asp-controller="Reviews" asp-action="DeleteReview" asp-route-id="@i.Id" class="bg-red-500 w-28 py-1  inline-block text-center">Delete Review</a>
-                                        </div>
-                                    }
-
+                                    <a asp-controller="Reviews" asp-action="DeleteReview" asp-route-id="@i.Id" class="bg-red-500 w-28 py-1  inline-block text-center">Delete Review</a>
                                 </div>
+                            }
 
-                                @if (!string.IsNullOrEmpty(i?.ImageUrl))
-                                {
-                                    <div class="w-1/4 h-full">
-                                        <img src="@i.ImageUrl" alt="Review Image">
-                                    </div>
-                                }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(i?.ImageUrl))
+                        {
+                            <div class="w-1/4 h-full">
+                                <img src="@i.ImageUrl" alt="Review Image">
                             </div>
                         }
                     </div>
                 }
-                else
-                {
-                    <p>No reviews available.</p>
-                }
-
-
-
             </div>
-
+        }
+        else
+        {
+            <p>No reviews available.</p>
+        }
         </div>
+
+
+
     </div>
+
 </div>
+
+
 
 <script>
         const notification = document.querySelector("#notification");

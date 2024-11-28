@@ -7,13 +7,13 @@
 <div class="flex items-center justify-center flex-col mt-24 space-y-6">
 
 <h2 class="text-xl font-semibold">Confirm Account Deletion</h2>
-<p class="font-medium">Are you sure you want to delete your account, @Model.UserName?</p>
+<p class="font-medium text-center">Are you sure you want to delete your account, <span class="text-red-400">@Model.UserName?</span></p>
 
-<form asp-action="ProfileDeleteConfirmed" asp-controller="Profiles" method="post" class="w-full mx-auto flex items-center justify-center space-x-4">
+<form asp-action="ProfileDeleteConfirmed" asp-controller="Profiles" method="post" class="w-full mx-auto flex items-center flex-col lg:flex-row space-y-4 lg:space-y-0 justify-center space-x-4">
     <input type="hidden" name="id" value="@Model.Id" />
 
-    <button type="submit" class="bg-red-500 hover:bg-red-600 rounded-lg w-1/4 py-2">Yes, Delete My Account</button>
-        <a asp-action="ProfileIndex" asp-controller="Profiles" class="bg-gray-400 rounded-lg px-8 py-2 y text-black hover:text-black">Cancel</a>
+    <button type="submit" class="bg-red-500 hover:bg-red-600 w-4/5 lg:w-1/4 py-2 flex items-center justify-center">Yes, Delete My Account</button>
+    <a asp-action="ProfileIndex" asp-controller="Profiles" class="bg-gray-400 px-8 py-2 w-4/5 lg:w-1/4 text-black hover:text-black flex items-center justify-center">Cancel</a>
 </form>
 
 </div>

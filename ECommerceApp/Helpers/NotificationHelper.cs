@@ -23,7 +23,7 @@
         public static string FormatNotification(string message, string notificationType)
         {
             string cssClass = GetNotificationCss(notificationType);
-            return $"<div class='{cssClass} px-10 py-2'>{message}</div>";
+            return $"<div class='{cssClass} px-10 py-2 text-center'>{message}</div>";
         }
 
         public static string GetNotificationCss(string notificationType) =>

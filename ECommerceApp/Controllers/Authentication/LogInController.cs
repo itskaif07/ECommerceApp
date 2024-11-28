@@ -38,9 +38,10 @@ namespace ECommerceApp.Controllers.Authentication
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt."); 
+                ModelState.AddModelError(string.Empty, "User not registered. Please sign up first.");
                 return View("~/Views/Authentication/LogIn.cshtml", model);
             }
+
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
 

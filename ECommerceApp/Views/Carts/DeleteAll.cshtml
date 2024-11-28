@@ -10,10 +10,10 @@
     <h1 class="text-xl font-medium text-red-500 text-center">This action will delete all the items in your Cart.</h1>
 
     <form asp-controller="Carts" asp-action="DeleteAllConfirm" method="post" class="w-full flex flex-col items-center justify-center">
-        <button type="submit" class="bg-red-600 hover:bg-red-700 py-2 w-[10%] flex items-center justify-center hover:text-white transition-all duration-200 ease-in">
+        <button type="submit" class="bg-red-600 hover:bg-red-700 py-2 w-4/5 lg:w-[10%] flex items-center justify-center hover:text-white transition-all duration-200 ease-in">
             Delete all
         </button>
-        <a asp-controller="Home" asp-action="Index" class="mt-4 text-black flex items-center justify-center hover:text-black py-2 w-[10%] bg-gray-300">Cancel</a>
+        <a asp-controller="Home" asp-action="Index" class="mt-4 text-black flex items-center justify-center hover:text-black py-2 w-4/5 lg:w-[10%] bg-gray-300">Cancel</a>
     </form>
 
 </div>

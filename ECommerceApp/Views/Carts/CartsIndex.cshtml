@@ -4,97 +4,122 @@
     ViewData["Title"] = "Cart Items";
 }
 
+@if (TempData["Notification"] != null)
+{
+    <div id="notification" class="z-30 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-fit mx-auto font-medium">
+        @Html.Raw(TempData["Notification"])
+    </div>
+}
+
+
 @if (Model.Any())
 {
+    <div class="w-full h-full flex items-center justify-center flex-col pb-20">
+        <div class="flex items-center justify-between mt-10 px-2 lg:px-10 w-full">
+            <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white  py-1 w-24 flex items-center justify-center">
+                <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+            </a>
 
-    <div class="flex items-center justify-between mt-10 px-10">
-        <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
-            <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
-        </a>
+            <h1 class="text-xl font-medium text-center mx-auto">Cart Items</h1>
 
-        <h1 class="text-xl font-medium text-center">Cart Items</h1>
+            <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-44 text-center hidden lg:block">Delete All</a>
+        </div>
 
-        <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-44 text-center block">Delete All</a>
-    </div>
-
-    <!-- Total Amount Box -->
-    <div class="relative">
-        <div class="fixed right-10 top-[40%] w-60 h-32 bg-transparent border border-white pt-2">
-            <h1 class="text-center">Total Amount:</h1>
-            <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
-            <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
-            @foreach (var cart in Model)
-            {
+        <!-- Total Amount Box -->
+        <div class="hidden lg:block relative">
+            <div class="fixed right-2 top-[40%] w-60 h-32 bg-transparent border border-white pt-2">
+                <h1 class="text-center">Total Amount:</h1>
+                <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
+                <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
                 <form asp-controller="Orders" asp-action="PlaceOrder" method="post" class="absolute bottom-0 w-full">
                     <input type="hidden" name="DeliveryCharge" value="@ViewBag.DeliveryCharge" />
                     <input type="hidden" name="DeliveryDate" value="@ViewBag.DeliveryDate" />
-                    <input type="hidden" name="ProductId" value="@cart.Product.Id" />
-                    <input type="hidden" name="Quantity" value="@cart.Cart.Quantity" />
                     <button type="submit" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 text-black w-full font-medium">
                         Place Order
                     </button>
                 </form>
-            }
-        </div>
-    </div>
-
-    <!-- Cart Items -->
-    <div class="flex flex-col items-center mt-10 space-y-10">
-
-        @foreach (var item in Model)
-        {
-            <div class="flex items-start justify-center space-x-12 w-full">
-                <!-- Product Image -->
-                <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="w-1/4 flex items-center justify-center hover:opacity-90">
-                    <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name" class="object-contain w-full h-full">
-                </a>
-
-                <!-- Product Details and Actions -->
-                <div class="space-y-4">
-                    <!-- Product Name -->
-                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
-                        @item.Product?.Name
-                    </a>
-
-                    <!-- Quantity Controls -->
-                    <div class="flex items-center space-x-4">
-                        <form asp-controller="Carts" asp-action="ReductQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
-                            <button type="submit">-</button>
-                        </form>
-
-                        <span class="text-xl font-semibold">Quantity: @item.Cart.Quantity</span>
-
-                        <form asp-controller="Carts" asp-action="AppendQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
-                            <button type="submit">+</button>
-                        </form>
-                    </div>
-
-                    <!-- Total Price -->
-                    <p class="font-medium">
-                        Total Price: <span class="text-yellow-400">@($"{item.Product?.DiscountedPrice * item.Cart.Quantity:0.00}")</span>
-                    </p>
-
-
-
-                    <!-- Remove Button -->
-                    <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">
-                        Remove
-                    </a>
-                    <a asp-controller="Orders"
-                       asp-action="OrderDetails"
-                       asp-route-productId="@(item?.Product?.Id ?? 0)"
-                       asp-route-quantity="@(item?.Cart.Quantity ?? 1)"
-                       asp-route-deliveryDate="@(item?.DeliveryDate.ToString("yyyy-MM-ddTHH:mm:ss") ?? DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"))"
-                       asp-route-deliveryCharge="@(item?.DeliveryCharge ?? 0)"
-                       class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
-                        Buy Now
-                    </a>
-
-
-
-                </div>
             </div>
-        }
+        </div>
+
+        <!-- Cart Items -->
+        <div class="flex flex-col items-center mt-10 space-y-10 pb-20">
+
+            @foreach (var item in Model)
+            {
+                <div class="flex items-start justify-center space-x-12 w-full">
+                    <!-- Product Image -->
+                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="w-1/4 flex items-center justify-center hover:opacity-90">
+                        <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name" class="object-contain w-full h-full">
+                    </a>
+
+                    <!-- Product Details and Actions -->
+                    <div class="space-y-4">
+                        <!-- Product Name -->
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@item.Product?.Id" class="block text-xl font-semibold hover:text-yellow-400">
+                            @item.Product?.Name
+                        </a>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center space-x-4">
+                            <form asp-controller="Carts" asp-action="ReductQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
+                                <button type="submit">-</button>
+                            </form>
+
+                            <span class="text-xl font-semibold">Quantity: @item.Cart.Quantity</span>
+
+                            <form asp-controller="Carts" asp-action="AppendQuantity" asp-route-id="@item.Cart.Id" method="post" class="w-8 h-8 flex items-center justify-center text-xl bg-white text-black rounded-full hover:text-black">
+                                <button type="submit">+</button>
+                            </form>
+                        </div>
+
+                        <!-- Total Price -->
+                        <p class="font-medium">
+                            Total Price: <span class="text-yellow-400">@($"{item.Product?.DiscountedPrice * item.Cart.Quantity:0.00}")</span>
+                        </p>
+
+
+
+                        <!-- Remove Button -->
+                        <a asp-controller="Carts" asp-action="DeleteCart" asp-route-id="@item.Cart.Id" class="w-full py-2 bg-red-500 hover:bg-red-700 font-medium flex items-center justify-center">
+                            Remove
+                        </a>
+
+                        <a asp-controller="Orders"
+                           asp-action="OrderDetails"
+                           asp-route-productId="@(item?.Product?.Id ?? 0)"
+                           asp-route-quantity="@(item?.Cart.Quantity ?? 1)"
+                           asp-route-deliveryDate="@(item?.DeliveryDate.ToString("yyyy-MM-ddTHH:mm:ss") ?? DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"))"
+                           asp-route-deliveryCharge="@(item?.DeliveryCharge ?? 0)"
+                           class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-10 font-medium flex items-center justify-center text-white">
+                            Buy Now
+                        </a>
+
+
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+        <div class="block lg:hidden w-full bg-transparent border border-white pt-2">
+
+            <h1 class="text-center">Total Amount:</h1>
+            <div class="bg-white w-full lg:w-4/5 h-[1px] mx-auto"></div>
+            <h1 class="text-green-500 text-center mt-2 font-medium">₹ @ViewBag.TotalAmount</h1>
+
+            <form asp-controller="Orders" asp-action="PlaceOrder" method="post" class="w-full mt-2">
+                <input type="hidden" name="DeliveryCharge" value="@ViewBag.DeliveryCharge" />
+                <input type="hidden" name="DeliveryDate" value="@ViewBag.DeliveryDate" />
+                <button type="submit" class="bg-yellow-400 text-center hover:text-black hover:bg-yellow-500 py-2 text-black w-full font-medium">
+                    Place Order
+                </button>
+            </form>
+        </div>
+
+        <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-full text-center block my-6 lg:hidden">Delete All</a>
+
 
     </div>
 }
@@ -110,12 +135,11 @@ else
     </div>
 }
 
-@if (TempData["Notification"] != null)
-{
-    <div id="notification" class="z-10 w-fit mx-auto font-medium mt-10">
-        @Html.Raw(TempData["Notification"])
-    </div>
-}
+
+
+
+
+
 
 <script>
        const notification = document.querySelector("#notification");

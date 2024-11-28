@@ -62,6 +62,20 @@ input {
         background: #f1f1f1; /* Scrollbar track color */
     }
 
+.lg\:hidden::-webkit-scrollbar {
+    height: 2px; /* Horizontal scrollbar height */
+}
+
+.lg\:hidden::-webkit-scrollbar-thumb {
+    background: #888; /* Scrollbar thumb color */
+    border-radius: 10px; /* Round edges */
+}
+
+    .lg\:hidden::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Hover effect for scrollbar */
+    }
+
+
 
 /* Scrollbar width and height */
 ::-webkit-scrollbar {

@@ -4,68 +4,68 @@
     ViewData["Title"] = "Edit Profile";
 }
 
-<a asp-controller="Profiles" asp-action="ProfileIndex" asp-id="@Model.Id" class="absolute left-2 -top-8 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<a asp-controller="Profiles" asp-action="ProfileIndex" asp-id="@Model.Id" class="lg:absolute left-2 -top-8 bg-blue-500 hover:bg-blue-600  hover:text-white  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
 
-<h1 class="text-center font-semibold text-xl mt-10 mb-6">Edit Profile</h1>
+<h1 class="text-center font-semibold text-xl my-6">Edit Profile</h1>
 
 
-<form asp-action="ProfileEdit" method="post" class="flex items-center justify-center flex-col space-y-4 w-full">
+<form asp-action="ProfileEdit" method="post" class="flex items-center justify-center flex-col space-y-4 w-full pb-20 lg:pb-0">
 
     <input type="hidden" asp-for="Id">
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="UserName">Username</label>
         <input asp-for="UserName" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="w-full rounded-lg py-2 text-black text-center">
-        <span class="text-sm">*If you change your email, you will need to log in using your new email address</span>
+        <span class="text-sm text-center">*If you change your email, you will need to log in using your new email address</span>
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="PhoneNumber">Phone</label>
         <input asp-for="PhoneNumber" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="Address"></label>
         <input asp-for="Address" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="City"></label>
         <input asp-for="City" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="City" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="State"></label>
         <input asp-for="State" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="State" class="text-danger"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col space-y-1 w-1/3">
+    <div class="flex items-center justify-center flex-col space-y-1 w-1/3 w-4/5">
         <label asp-for="PinCode">Pin</label>
         <input asp-for="PinCode" class="w-full rounded-lg py-2 text-black text-center">
         <span asp-validation-for="PinCode" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="bg-blue-500 rounded-lg w-32 py-2 absolute right-6 -top-8">Save</button>
+    <button type="submit" class="bg-blue-500  w-4/5 lg:w-32 py-2 lg:absolute right-2 -top-8">Save</button>
 </form>
 
 

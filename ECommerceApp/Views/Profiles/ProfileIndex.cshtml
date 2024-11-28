@@ -4,119 +4,138 @@
     ViewData["Title"] = "User Profile";
 }
 
-<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
-    <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
-</a>
+<div class="w-full flex items-center justify-between lg:justify-evenly my-6 px-2 lg:px-10">
+    <!-- Back Button -->
+    <a asp-controller="Home" asp-action="Index"
+       class="bg-blue-400 hover:bg-blue-600 hover:text-white py-1 w-24 flex items-center justify-center">
+        <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
+    </a>
 
-<a asp-controller="Profiles" asp-action="ProfileDelete" asp-route-id="@Model.Id" class="absolute top-2 right-6 -top-4 bg-red-500 hover:bg-red-600  hover:text-white rounded-md inline-block  h-14 px-6 flex items-center justify-center">
-    Delete Account
-</a>
+    <!-- Profile Heading -->
+    <h2 class="text-center font-semibold text-xl mx-auto lg:mx-0 lg:text-left">
+        Your Profile
+    </h2>
+
+    <!-- Delete Account Button (only visible on lg and larger) -->
+    <a asp-controller="Profiles" asp-action="ProfileDelete" asp-route-id="@Model.Id"
+       class="hidden lg:flex items-center justify-center bg-red-500 hover:bg-red-600 hover:text-white h-14 px-6">
+        Delete Account
+    </a>
+</div>
 
 
-<h2 class="text-center mt-10 mb-6 font-semibold text-xl">Your Profile</h2>
 
-<div class="flex items-center justify-center flex-col space-y-2 w-1/2 mx-auto">
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+
+
+<div class="flex items-center justify-center flex-col space-y-2 w-full lg:w-1/2 mx-auto max-[300px]:text-sm pb-20 lg:pb-0">
+
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>Name:</h3>
-            <h3 class="text-base font-medium">@Model.Name</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@Model.Name</h3>
         </div>
 
-          <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
-              <h5>Edit</h5>
-              <img src="~/images/edit.png" alt="Edit" class="w-4">
-          </a>  
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+            <h5>Edit</h5>
+            <img src="~/images/edit.png" alt="Edit" class="w-4">
+        </a>
     </div>
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg space-y-1  max-[300px]:text-sm w-4/5">
             <h3>Username:</h3>
-            <h3 class="text-base font-medium">@(Model.UserName ?? "Not Provided")</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@(Model.UserName ?? "Not Provided")</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
-              <h5>Edit</h5>
-              <img src="~/images/edit.png" alt="Edit" class="w-4">
-          </a>  
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+            <h5>Edit</h5>
+            <img src="~/images/edit.png" alt="Edit" class="w-4">
+        </a>
     </div>
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg space-y-1 max-[300px]:text-sm w-4/5">
             <h3>Email:</h3>
-            <h3 class="text-base font-medium">@Model.Email</h3>
+            <h3 class="truncate text-base  max-[300px]:text-sm font-medium">@Model.Email</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm max-[300px]:w-full  cursor-pointer  max-[300px]:text-sm bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>Phone:</h3>
-            <h3 class="text-base font-medium">@(Model.PhoneNumber ?? "Not Provided")</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@(Model.PhoneNumber ?? "Not Provided")</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
 
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>Address:</h3>
-            <h3 class="truncate text-base font-medium">@(Model.Address ?? "Not Provided")</h3>
+            <h3 class="truncate text-base  max-[300px]:text-sm font-medium">@(Model.Address ?? "Not Provided")</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
 
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>City:</h3>
-            <h3 class="text-base font-medium">@(Model.City ?? "Not Provided")</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@(Model.City ?? "Not Provided")</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
 
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>State:</h3>
-            <h3 class="text-base font-medium">@(Model.State ?? "Not Provided")</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@(Model.State ?? "Not Provided")</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
 
 
-    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20">
-        <div class="text-lg space-y-1">
+    <div class="flex items-center justify-between w-full border border-[1px] rounded-md px-6 h-20 max-[300px]:px-2">
+        <div class="text-lg  max-[300px]:text-sm space-y-1 max-[300px]:text-sm w-4/5">
             <h3>Pin:</h3>
-            <h3 class="text-base font-medium">@Model.PinCode</h3>
+            <h3 class="text-base  max-[300px]:text-sm font-medium">@Model.PinCode</h3>
         </div>
 
-        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
+        <a asp-controller="Profiles" asp-action="ProfileEdit" asp-route-id="@Model.Id" class="block max-[300px]:w-full  max-[300px]:text-sm cursor-pointer bg-gray-400 hover:bg-gray-500 transition-all duration-200 ease-in text-black border-[1px] border-black flex items-center justify-center rounded-md text-lg space-x-2 h-[60%] w-1/5">
             <h5>Edit</h5>
             <img src="~/images/edit.png" alt="Edit" class="w-4">
         </a>
     </div>
+
+    <a asp-controller="Profiles" asp-action="ProfileDelete" asp-route-id="@Model.Id" class="lg:hidden bg-red-500 hover:bg-red-600 w-full  hover:text-white rounded-md  h-10 px-6 flex items-center justify-center">
+        Delete Account
+    </a>
+
 
 </div>
+
 
 

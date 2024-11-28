@@ -10,19 +10,20 @@
 
 <div class="w-full my-10 flex flex-col items-center justify-center text-center space-y-6 h-[50vh]">
 
-    <h1 class="text-xl font-semibold">Are you sure you want to grant admin privileges to @Model.UserName?</h1>
-    <h1 class="text-red-500 text-lg">This will provide them with full access to the website.</h1>
+    <h1 class="text-xl font-semibold text-center px-2">Are you sure you want to grant admin privileges to @Model.UserName?</h1>
+    <h1 class="text-red-500 text-lg text-center px-2">This will provide them with full access to the website.</h1>
 
-    <form asp-action="ConfirmAssignAdmin" method="post" class="flex flex-col items-center space-y-6">
+    <form asp-action="ConfirmAssignAdmin" method="post" class="flex flex-col items-center w-full">
         <input type="hidden" name="id" value="@Model.Id">
 
-        <div class="flex space-x-6">
-            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 w-40 flex items-center justify-center rounded-md">Yes, Assign</button>
-            <a asp-controller="Home" asp-action="Admin" class="bg-[#dddddd] text-black py-2 w-40 flex items-center justify-center rounded-md">Cancel</a>
+        <div class="flex space-y-6 lg:space-y-0 lg:space-x-6 flex-col items-center justify-center lg:flex-row w-full">
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 w-4/5 lg:w-40 flex items-center justify-center ">Yes, Assign</button>
+            <a asp-controller="Home" asp-action="Admin" class="bg-[#dddddd] text-black py-2 w-4/5 lg:w-40 flex items-center justify-center ">Cancel</a>
         </div>
     </form>
 
 </div>
+
 
 
 

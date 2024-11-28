@@ -11,15 +11,15 @@
 </div>
 
 <div class="w-full h-[50vh] flex items-center justify-center flex-col space-y-6">
-    <h1 class="text-xl font-semibold">Are you sure you want to delete <span class="text-red-400">@Model.Name?</span></h1>
+    <h1 class="max-[300px]:text-base text-xl font-semibold text-center">Are you sure you want to delete <span class="text-red-400">@Model.Name?</span></h1>
 
 
-    <form asp-action="ConfirmProductDelete" method="post" class="flex flex-col items-center justify-center space-y-6">
+    <form asp-action="ConfirmProductDelete" method="post" class="flex flex-col items-center justify-center space-y-6 w-full">
         <input type="hidden" name="id" value="@Model.Id">
 
-        <div class="flex space-x-6">
-            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 w-40 flex items-center justify-center rounded-md">Yes, Delete it</button>
-            <a asp-controller="Home" asp-action="Index" class="bg-[#dddddd] text-black py-2 w-40 flex items-center justify-center rounded-md">Cancel</a>
+        <div class="flex lg:space-x-6 items-center justify-center flex-col lg:flex-row space-y-6 lg:space-y-0 w-full">
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center rounded-md">Yes, Delete it</button>
+            <a asp-controller="Home" asp-action="Index" class="bg-[#dddddd] text-black py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center rounded-md">Cancel</a>
         </div>
     </form>
 </div>

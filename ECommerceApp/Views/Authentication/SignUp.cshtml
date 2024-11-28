@@ -5,12 +5,20 @@
     ViewData["Title"] = "Sign Up";
 }
 
+<div class="w-full flex items-center justify-between px-4 my-6 lg:my-2 ">
 
-<a asp-controller="Home" asp-action="Index" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<div class="flex items-center justify-center space-x-8 mt-2 mb-8">
+    <a asp-controller="Login" asp-action="Login" class="flex lg:hidden items-center justify-center space-x-2">
+        <p class="font-medium">Login</p>
+        <img src="~/images/back.png" alt="Alternate Text" class="transform-all scale-[-1] invert grayscale w-8">
+    </a>
+
+</div>
+
+<div class="hidden lg:flex items-center justify-center space-x-8 mt-2 mb-8">
     <a asp-controller="SignUp" asp-action="SignUp" id="registerButton" class="block hover:text-white transition-all duration-100 ease-out cursor-pointer">
         <h1 class="text-xl font-semibold tracking-wider">Register</h1>
         <div class="bg-white py-[2px] rounded-xl"></div>
@@ -23,7 +31,7 @@
 </div>
 
 
-<form asp-action="SignUp" method="post" class="w-1/2 h-full py-10 mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
+<form asp-action="SignUp" method="post" class="w-full min-[500px]:w-4/5 lg:w-1/2 h-full py-4 outline-none mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white rounded-xl">
 
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
@@ -32,51 +40,51 @@
         <img src="~/images/register.png" alt="Alternate Text" class="w-9/12">
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.Name" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Name">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.Name" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Name">
         <span asp-validation-for="@Model.Name" class="text-red-500"></span>
     </div>
 
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.UserName" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Username">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.UserName" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Username">
         <span asp-validation-for="@Model.UserName" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.Email" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Email">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.Email" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Email">
         <span asp-validation-for="@Model.Email" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.PhoneNumber" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Phone">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.PhoneNumber" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Phone">
         <span asp-validation-for="@Model.PhoneNumber" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.Address" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Address">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.Address" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Address">
         <span asp-validation-for="@Model.Address" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.City" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="City">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.City" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="City">
         <span asp-validation-for="@Model.City" class="text-red-500"></span>
     </div>
 
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.State" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="State">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.State" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="State">
         <span asp-validation-for="@Model.State" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
-        <input asp-for="@Model.PinCode" class="w-full py-2 rounded-md text-black px-2 text-center" placeholder="Pin Code">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
+        <input asp-for="@Model.PinCode" class="w-full py-2 rounded-md text-black px-2 text-center  outline-none" placeholder="Pin Code">
         <span asp-validation-for="@Model.PinCode" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
         <div class="relative w-full">
-            <input asp-for="@Model.Password" id="password" class="w-full py-1 rounded-md text-black text-center px-2" type="password" placeholder="Password">
+            <input asp-for="@Model.Password" id="password" class="w-full py-1 rounded-md text-black text-center px-2  outline-none" type="password" placeholder="Password">
             <div class="flex items-center justify-center">
                 <img src="~/images/icons8-eye-50.png" alt="Show" id="openEye" class="absolute right-2 top-0 w-8">
                 <img src="~/images/icons8-closed-eye-50.png" alt="Show" id="closedEye" class="hidden absolute right-2 top-0 w-8">
@@ -85,9 +93,9 @@
         <span asp-validation-for="@Model.Password" class="text-red-500"></span>
     </div>
 
-    <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
+    <div class="flex items-center justify-center flex-col w-4/5 space-y-2">
         <div class="relative w-full">
-            <input asp-for="@Model.ConfirmPassword" id="password1" class="w-full py-1 rounded-md text-black text-center px-2" type="password" placeholder="Confirm Password">
+            <input asp-for="@Model.ConfirmPassword" id="password1" class="w-full py-1 rounded-md text-black text-center px-2  outline-none" type="password" placeholder="Confirm Password">
             <div class="flex items-center justify-center">
                 <img src="~/images/icons8-eye-50.png" alt="Show" id="openEye1" class="absolute right-2 top-0 w-8">
                 <img src="~/images/icons8-closed-eye-50.png" alt="Show" id="closedEye1" class="hidden absolute right-2 top-0 w-8">
@@ -96,7 +104,7 @@
         <span asp-validation-for="@Model.ConfirmPassword" class="text-red-500"></span>
     </div>
 
-    <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2 rounded-md w-1/4">Register</button>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2 rounded-md w-4/5 lg:w-1/4">Register</button>
 </form>
 
 @section Scripts {

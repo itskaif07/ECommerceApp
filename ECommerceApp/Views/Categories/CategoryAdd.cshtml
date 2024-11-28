@@ -11,7 +11,7 @@
 <div class="w-full items-center justify-center flex flex-col space-y-10">
     <h1 class="text-center mt-10 font-semibold text-xl">Add Category</h1>
 
-    <form asp-action="CategoryAdd" method="post" class="flex items-center justify-center flex-col w-1/4 space-y-3">
+    <form asp-action="CategoryAdd" method="post" class="flex items-center justify-center flex-col w-4/5 lg:w-1/4 space-y-3">
         @Html.AntiForgeryToken()
         <div asp-validation-summary="All" class="text-red-500 mb-3"></div>
 
@@ -20,6 +20,6 @@
         <input type="text" asp-for="Name" class="w-full rounded-md text-black px-3 text-center py-1" />
         <span asp-validation-for="Name" class="text-red-500"></span>
 
-        <button type="submit" class="bg-blue-500 w-1/2 py-2 text-white rounded-md">Add</button>
+        <button type="submit" class="bg-blue-500 w-full lg:w-1/2 py-2 text-white rounded-md">Add</button>
     </form>
 </div>
