@@ -4,12 +4,12 @@
     ViewData["Title"] = "Your Wishlist";
 }
 
-<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white  inline-block py-1 w-24 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white py-1 w-24 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
 <div class="h-full w-full flex flex-col items-center justify-center pb-24">
-    <h1 class="text-center font-semibold text-xl mb-10 text-white">Wishlist</h1>
+    <h1 class="text-center font-semibold text-xl mt-6 lg:mt-0 mb-10 text-white">Wishlist</h1>
 
     @if (Model.Any())
     {

@@ -8,20 +8,20 @@
     <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@ViewData["CategoryId"]" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white   py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
-    <div class="w-24"></div>
+    <div class="w-24 hidden lg:block"></div>
 
     @if (User.IsInRole("SiteOwner"))
     {
-        <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white  w-32 h-12 flex items-center justify-center">Edit</a>
-            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white  w-32 h-12 flex items-center justify-center">Delete</a>
+        <div class="flex items-center justify-between w-full lg:justify-end  max-[350px]:space-y-4 max-[350px]:flex-col min-[350px]:space-x-4">
+            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white w-4/5  lg:w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white w-4/5  lg:w-32 h-12 flex items-center justify-center">Delete</a>
         </div>
     }
 </div>
 
-<div class="w-full flex items-start justify-center mt-10">
+<div class="w-full h-full flex items-start justify-center mt-10">
 
-    <div class="w-full flex items-start justify-center space-y-6 mt-3">
+    <div class="w-full flex items-start justify-center flex-col lg:flex-row space-y-6 mt-3">
 
         @if (TempData["Notification"] != null)
         {
@@ -32,7 +32,7 @@
         }
 
         @* Left Side *@
-        <div class="w-1/2 fixed left-0 flex flex-col items-center justify-center space-y-6">
+        <div class="w-full lg:w-1/2 lg:fixed left-0 flex flex-col items-center justify-center space-y-6">
 
             <div class="w-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair h-96">
                 <img id="productImage" src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
@@ -41,7 +41,7 @@
 
             @if (Model.Product?.Quantity != 0)
             {
-                <div class="w-1/2 flex items-center justify-center space-x-4">
+                <div class="w-[95%] lg:w-4/5  xl:w-3/5  flex items-center max-[350px]:space-y-4 max-[350px]:flex-col justify-center min-[350px]:space-x-4">
 
                     <a asp-controller="Orders"
                        asp-action="OrderDetails"
@@ -49,7 +49,7 @@
                        asp-route-productId="@Model.Product?.Id"
                        asp-route-deliveryDate="@Model.DeliveryDate"
                        asp-route-deliveryCharge="@Model.DeliveryCharge"
-                       class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-14 space-x-4 hover:text-white rounded-lg text-center font-medium text-center flex items-center justify-center ">
+                       class="bg-[#EE9E1E] hover:bg-[#D4881A] w-full h-14 space-x-4 hover:text-white text-center font-medium text-center flex items-center justify-center ">
                         <img src="~/images/icons8-lightning-50.png" alt="Buy" class="w-8">
                         <h1>Buy</h1>
                     </a>
@@ -59,7 +59,7 @@
                           asp-route-id="@Model.Product?.Id"
                           asp-route-deliveryDate="@Model.DeliveryDate"
                           asp-route-deliveryCharge="@Model.DeliveryCharge"
-                          class="bg-blue-500 hover:bg-blue-600 w-full h-14 hover:text-white rounded-lg text-center font-medium text-lg flex items-center justify-center space-x-4">
+                          class="bg-blue-500 hover:bg-blue-600 w-full h-14 hover:text-white text-center font-medium text-lg flex items-center justify-center space-x-4">
                         <img src="~/images/cart.png" alt="Cart" class="w-10 invert grayscale">
                         <button type="submit">Add to Cart</button>
                     </form>
@@ -69,11 +69,11 @@
 
         </div>
 
-        <div class="w-1/2"></div>
+        <div class="hidden lg:block w-1/2"></div>
 
         @* Right Side *@
 
-        <div class="w-1/2 flex items-start flex-col justify-center space-y-6">
+        <div class="w-full lg:w-1/2 flex items-start flex-col justify-center space-y-6 pl-6 lg:pl-0">
             <h1 class="text-xl font-medium">@Model.Product.Name</h1>
 
             @if (!string.IsNullOrEmpty(Model.Product.Brand))
@@ -111,7 +111,7 @@
                 }
             </div>
 
-            <h5 class="pr-32">@Model.Product.Description</h5>
+            <h5 class="lg:pr-32 pr-10 text-justify">@Model.Product.Description</h5>
 
             <div>
                 <div class="flex items-start justify-center flex-col">
@@ -187,7 +187,7 @@
 
             @if (Model.Product.Quantity > 0)
             {
-                <h1 class="bg-green-500 text-black font-semibold text-lg w-fit px-4 py-1 pl-2">In Stock</h1>
+                <h1 class="bg-green-500 text-black font-semibold text-lg flex items-center justify-center w-fit  px-4 py-1 pl-2">In Stock</h1>
 
                 @if (Model.Product.Quantity <= 3)
                 {
@@ -213,24 +213,24 @@
             }
             else
             {
-                <h1 class="bg-red-500 font-semibold text-lg w-fit px-4 py-1 pl-2">Out of Stock</h1>
+                <h1 class="bg-red-500 font-semibold text-lg flex items-center justify-center w-fit px-4 py-1 pl-2">Out of Stock</h1>
             }
 
 
             @if (Model.IsInWishlist)
             {
-                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 bg-white text-black border border-[1px]   py-1.5  text-center ">
+                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/2 sm:w-1/3 lg:w-fit px-4 lg:w-1/5 bg-white text-black border border-[1px]   py-1.5  text-center ">
                     <button type="submit">Added to Wishlist</button>
                 </form>
             }
             else
             {
-                <form asp-controller="WishList" asp-action="AddToWishlist" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px]   py-1.5  text-center ">
+                <form asp-controller="WishList" asp-action="AddToWishlist" asp-route-id="@Model.Product.Id" method="post" class="w-1/2 sm:w-1/3 lg:w-fit px-4 lg:w-1/5 border border-[1px]   py-1.5  text-center ">
                     <button type="submit">Add to Wishlist</button>
                 </form>
             }
 
-            <div class="flex justify-end w-full px-10">
+            <div class="flex justify-start lg:justify-end w-full lg:px-10">
                 <a asp-controller="Reviews" asp-action="AddReview" asp-route-userId="@Model.ApplicationUser?.Id" asp-route-productId="@Model.Product?.Id" class="bg-white text-black hover:text-black px-5 py-2 w-fit block font-medium">
                     Rate Product
                 </a>
@@ -255,14 +255,14 @@
                                 <p>@i.Comment</p>
                             }
 
-                            <h1 class="font-medium">
-                                @i.User.Name
-                                <span class="font-normal text-sm">@i.CreatedAt.ToString("dd-MM-yyyy")</span>
+                            <h1 class="font-medium text-yellow-400">
+                                @i?.User.Name
+                                <span class="font-normal text-sm text-white">@i?.CreatedAt.ToString("dd-MM-yyyy")</span>
                             </h1>
 
                             @if (User.Identity.IsAuthenticated && User.Identity.Name == i.User.UserName)
                             {
-                                <div class="w-full">
+                                    <div class="w-full max-[350px]:space-y-4">
                                     <a asp-controller="Reviews" asp-action="EditReview" asp-route-id="@i.Id" class="bg-blue-500 w-28 py-1 inline-block text-center">Edit Review</a>
 
                                     <a asp-controller="Reviews" asp-action="DeleteReview" asp-route-id="@i.Id" class="bg-red-500 w-28 py-1  inline-block text-center">Delete Review</a>

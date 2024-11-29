@@ -5,7 +5,7 @@
 }
 
 <div class="flex items-center justify-between px-10 mt-3">
-    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Product.Id" class="fixed left-6 top-6 bg-blue-400 hover:bg-blue-600  hover:text-white  inline-block  py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Product.Id" class="fixed left-6 top-6 bg-blue-400 hover:bg-blue-600  hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 </div>
@@ -15,7 +15,7 @@
 
 
 
-    <form asp-action="OrderDetails" method="post" class="w-full h-full flex items-center justify-center">
+    <form asp-action="OrderDetails" method="post" class="w-full h-full flex flex-col lg:flex-row items-center justify-center">
 
         @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
         <input type="hidden" name="UserId" value="@Model.ApplicationUser?.Id">
@@ -24,24 +24,24 @@
         <input type="hidden" asp-for="DeliveryDate">
 
 
-        <div class="w-[50%] fixed left-0 top-20 h-4/5 flex flex-col items-center justify-center space-y-6">
+        <div class="w-1/2 lg:fixed left-0 top-20 h-4/5 flex flex-col items-center justify-center space-y-6">
             <div class="w-full h-full flex items-center justify-center mt-3 relative overflow-hidden group cursor-crosshair">
-                <img id="productImage" src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
+                <img id="productImage" src="@(Model.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" class="w-full lg:w-[70%] h-full object-contain object-center transition-all duration-400 ease-out">
                 <div class="absolute hidden w-32 h-32 bg-no-repeat border-2 border-yellow-400 pointer-events-none group-hover:block" id="zoomOverlay"></div>
             </div>
         </div>
 
-        <div class="w-1/2"></div>
+        <div class="w-1/2 hidden lg:block"></div>
 
 
-        <div class="w-1/2 h-full flex items-start flex-col justify-center space-y-6">
+        <div class="w-4/5 lg:w-1/2 h-full flex items-start flex-col justify-center space-y-6 my-6 lg:my-0">
             <h1 class="text-xl font-medium">@Model.Product.Name</h1>
 
-            <h5 class="pr-32">@Model.Product.Description</h5>
+            <h5 class="pr-4 text-justify lg:pr-32">@Model.Product.Description</h5>
 
             <label for="Quantity" class="font-semibold text-left">Quantity:</label>
 
-            <input type="number" id="quantityInput" min="1" asp-for="Quantity" class="text-center w-16 h-10 text-black border border-gray-300 rounded" oninput="updateTotalPrice()">
+            <input type="number" id="quantityInput" min="1" asp-for="Quantity" class="text-center outline-none w-full lg:w-16 h-10 text-black border border-gray-300 rounded" oninput="updateTotalPrice()">
 
 
             @if (TempData["Notification"] != null)
@@ -76,7 +76,7 @@
             <div class="w-full h-full flex flex-col items-start justify-center space-y-2">
                 @if (Model.DeliveryCharge > 0)
                 {
-                    <p>Will be Delivered on: <span class="font-medium text-green-400">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
+                    <p>Will be Delivered on: <span class="font-medium text-green-400 block lg:inline">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
                 }
                 else
                 {
@@ -84,27 +84,27 @@
                         <img src="~/images/delivery.png" class="w-6 invert grayscale">
                         <h1><span class="text-green-400">Free Home Delivery</span></h1>
                     </div>
-                    <p>Will be Delivered on: <span class="font-medium text-green-400">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
+                    <p>Will be Delivered on: <span class="font-medium text-green-400 block lg:inline">@(Model.DeliveryDate?.ToString("dd-MM-yyyy hh:mm tt") ?? "Delivery date not available")</span></p>
 
                 }
             </div>
 
 
-            <div class="flex flex-col items-start justify-center w-4/5 space-y-2">
+            <div class="flex flex-col items-start justify-center w-full lg:w-4/5 space-y-2">
                 <label for="ShippingAddress" class="font-semibold">Shipping Address:</label>
-                <input type="text" id="ShippingAddress" class="w-full text-lg text-black font-semibold bg-gray-100 rounded-lg pl-2 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" asp-for="ShippingAddress">
+                <input type="text" id="ShippingAddress" class="w-full text-lg text-black font-semibold bg-gray-100 rounded-lg pl-2 border-2 border-gray-300 outline-none py-1.5 lg:py-0" asp-for="ShippingAddress">
                 <span asp-validation-for="ShippingAddress" class="text-red-400"></span>
             </div>
 
-            <div class="flex flex-col items-start justify-center w-4/5 space-y-2">
+            <div class="flex flex-col items-start justify-center w-full lg:w-4/5 space-y-2">
                 <label for="TrackingNumber" class="font-semibold">Your order will be shipped with the tracking number:</label>
-                <input type="text" id="TrackingNumber" class="w-full text-yellow-400 bg-transparent bg-transparent outline-none ouline-none focus:outline-none" asp-for="TrackingNumber" readonly>
+                <input type="text" id="TrackingNumber" class="w-full text-yellow-400 bg-transparent bg-transparent outline-none" asp-for="TrackingNumber" readonly>
                 <span asp-validation-for="TrackingNumber" class="text-red-400"></span>
             </div>
 
-            <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
+            <div class="flex flex-col items-start justify-center w-full lg:w-[40%] space-y-2">
                 <label>Payment Method:</label>
-                <select asp-for="PaymentMethod" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black">
+                <select asp-for="PaymentMethod" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black outline-none">
                     <option value="">Select Payment Method</option>
                     <option value="CashOnDelivery">Cash On Delivery</option>
                     <option value="Credit Card">Credit Card</option>
@@ -116,7 +116,7 @@
                 <span asp-validation-for="PaymentMethod" class="text-red-400"></span>
             </div>
 
-            <button type="submit" class="bg-blue-500 hover:bg-blue-500 transition-all duration-200 ease-in w-1/4 py-3">Confirm Order</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-500 transition-all duration-200 ease-in w-full lg:w-1/4 py-3">Confirm Order</button>
         </div>
 
     </form>

@@ -8,7 +8,7 @@
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<form asp-action="ProductEdit" method="post" class="w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center justify-between pb-20 space-y-10 lg:space-y-0 lg:mt-0">
+<form asp-action="ProductEdit" method="post" class="w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center justify-between  space-y-10 lg:space-y-0 lg:mt-0">
     <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
     <input type="hidden" asp-for="@Model.Id">
 

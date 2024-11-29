@@ -4,15 +4,6 @@
     ViewData["Title"] = "Shop Cart - Shop Everything";
 }
 
-@if (TempData["Notification"] != null)
-{
-    <div id="Completed" class="fixed inset-0 z-10 flex items-center justify-center
-                top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        @Html.Raw(TempData["Notification"])
-    </div>
-}
-
-
 
 <header class="w-full h-full sticky top-0 z-10 bg-blue-500 text-white">
 
@@ -122,6 +113,7 @@
     </nav>
 </header>
 
+
 <div class="lg:hidden w-full h-[8vh] bg-[#222222] flex items-center justify-between space-x-4 px-3 overflow-x-auto overflow-y-hidden">
     @foreach (var i in Model.Categories)
     {
@@ -132,7 +124,13 @@
     }
 </div>
 
-
+@if (TempData["Notification"] != null)
+{
+    <div id="Completed" class="fixed inset-0 z-10 flex items-center justify-center
+                top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        @Html.Raw(TempData["Notification"])
+    </div>
+}
 
 <div class="w-full h-screen lg:h-[80vh] flex items-center justify-center lg:my-6 lg:space-x-4 ">
 

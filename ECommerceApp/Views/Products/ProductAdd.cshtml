@@ -8,7 +8,7 @@
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<form asp-action="ProductAdd" method="post" class="w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center justify-between pb-20 space-y-10 lg:space-y-0 mt-6 lg:mt-0" enctype="multipart/form-data">
+<form asp-action="ProductAdd" method="post" class="w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center justify-between  space-y-10 lg:space-y-0 mt-6 lg:mt-0" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
 
     @Html.AntiForgeryToken()
