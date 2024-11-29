@@ -1,6 +1,6 @@
 # E-Commerce App  
 
-A **full-featured e-commerce application** designed to provide a seamless shopping experience while enabling efficient management through an admin panel.  
+A **full-featured e-commerce application** designed to provide a seamless shopping experience with responsive design while enabling efficient management through an admin panel.  
 
 ## 🌟 Features  
 
