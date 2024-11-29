@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@ViewBag.ProductId" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white  inline-block  py-1 w-24 flex items-center justify-center">
+<a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@ViewBag.ProductId" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
@@ -24,16 +24,16 @@
             <div class="flex items-center justify-center w-full space-x-6">
                 <div>
                     <input id="imageUpload" type="file" asp-for="ImageFile" class="hidden" accept="image/*">
-                    <div id="addImageButton" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 w-44 rounded-xl cursor-pointer transition-all duration-400 ease-in-out">Update Image</div>
+                    <div id="addImageButton" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 w-44  cursor-pointer transition-all duration-400 ease-in-out">Update Image</div>
                     <span asp-validation-for="ImageFile" class="text-red-400"></span>
                     <input type="hidden" asp-for="ImageUrl">
                 </div>
 
-                <div id="removeImageButton" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 w-44 rounded-xl cursor-pointer transition-all duration-400 ease-in-out">Remove Image</div>
+                <div id="removeImageButton" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 w-44  cursor-pointer transition-all duration-400 ease-in-out">Remove Image</div>
             </div>
         </div>
 
-        <div class="flex items-center justify-center flex-col space-y-6 w-1/4">
+        <div class="flex items-center justify-center flex-col space-y-6 w-4/5 lg:w-1/4 pb-20">
             <div class="w-full flex-col space-y-2 flex items-center justify-center">
                 <label asp-for="Rating" class="w-full font-medium text-center"></label>
                 <div class="flex items-center space-x-4">
