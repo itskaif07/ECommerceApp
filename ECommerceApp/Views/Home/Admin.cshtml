@@ -2,18 +2,18 @@
     ViewData["Title"] = "Admin";
 }
 
-<div class="flex items-center justify-between w-full px-6 my-14 ">
+<div class="flex items-center justify-center lg:justify-between w-full lg:px-6 my-14 ">
 
-<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white   py-1 w-24 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white   py-1 w-24 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<h1 class="text-xl font-semibold text-center underline">Admin</h1>
+<h1 class="text-xl font-semibold text-center underline max-lg:mx-auto">Admin</h1>
 
-<div class="w-1/5 lg:w-[10%]"></div>
+<div class="w-1/5 lg:w-[10%] hidden lg:block"></div>
 </div>
 
-<div class="w-full flex items-center justify-center text-black flex-col flex-wrap space-y-14">
+<div class="w-full flex items-center justify-center text-black flex-col flex-wrap space-y-14 pb-20 lg:pb-0">
 
     <div class="w-full flex items-center justify-center flex-col lg:flex-row lg:space-x-6 space-y-6  lg:space-y-0">
 
