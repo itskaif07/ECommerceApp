@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (query === "") {
             searchResults.innerHTML = `
-            <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
+            <div class="w-full  py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                 <p class="text-gray-400">Please enter a search query.</p>
             </div>
             `;
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             const imageUrl = product.imageUrl || '/images/noImage.jpg';
 
                             const productCard = `
-                            <a href="/Products/ProductDetails/${product.id}" class="w-full h-24 rounded-md overflow-hidden flex items-center justify-start bg-[#222222] px-2 no-underline text-white">
+                            <a href="/Products/ProductDetails/${product.id}" class="w-full h-24  overflow-hidden flex items-center justify-start bg-[#222222] px-2 no-underline text-white">
                                 <div class="w-24 h-10">
                                     <img src="${imageUrl}" class="object-scale-down h-full w-full" alt="${product.name}">
                                 </div>
@@ -123,14 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                     } else {
                         searchResults.innerHTML = `
-                        <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
+                        <div class="w-full  py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                             <p class='text-gray-500'>No products found.</p>
                         </div>
                         `;
                     }
                 } else {
                     searchResults.innerHTML = `
-                    <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
+                    <div class="w-full  py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                         <p class='text-red-500'>Error: ${data.message}</p>
                     </div>
                     `;
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(error => {
                 console.error("Error fetching search results:", error);
                 searchResults.innerHTML = `
-                <div class="w-full rounded-md py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
+                <div class="w-full  py-3 border-[1px] overflow-hidden text-white flex items-center justify-center bg-[#222222]">
                     <p class='text-red-500'>An error occurred. Please try again.</p>
                 </div>
                 `;

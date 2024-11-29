@@ -16,7 +16,7 @@
 {
     <div class="w-full h-full flex items-center justify-center flex-col pb-20">
         <div class="flex items-center justify-between mt-10 px-2 lg:px-10 w-full">
-            <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white  py-1 w-24 flex items-center justify-center">
+            <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center">
                 <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
             </a>
 
@@ -103,7 +103,7 @@
         </div>
 
 
-        <div class="block lg:hidden w-full bg-transparent border border-white pt-2">
+        <div class="block lg:hidden w-[90%] sm:w-3/5 md:w-3/5  bg-transparent border border-white pt-2">
 
             <h1 class="text-center">Total Amount:</h1>
             <div class="bg-white w-full lg:w-4/5 h-[1px] mx-auto"></div>
@@ -118,7 +118,7 @@
             </form>
         </div>
 
-        <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-full text-center block my-6 lg:hidden">Delete All</a>
+        <a asp-controller="Carts" asp-action="DeleteAll" class="bg-red-600 py-2 w-[90%] sm:w-3/5 md:w-3/5 text-center block my-6 lg:hidden">Delete All</a>
 
 
     </div>
@@ -126,7 +126,7 @@
 else
 {
     <!-- Back Button and No Products Message -->
-    <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600 mt-6 ml-6 hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 

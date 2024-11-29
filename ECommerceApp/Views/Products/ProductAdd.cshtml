@@ -4,92 +4,91 @@
     ViewData["Title"] = "Add Product";
 }
 
-<a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-4 ml-6 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600  hover:text-white py-1 w-24 mt-4 ml-6 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<form asp-action="ProductAdd" method="post" class="w-full flex items-start justify-center" enctype="multipart/form-data">
+<form asp-action="ProductAdd" method="post" class="w-full flex flex-col lg:flex-row items-center lg:items-start lg:justify-center justify-between pb-20 space-y-10 lg:space-y-0 mt-6 lg:mt-0" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
 
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
 
-    <div class="w-1/2 flex flex-col items-center justify-center space-y-6 mt-6">
-        <img id="defaultImage" src="~/images/uploadImage.jpg" class="cursor-pointer w-[70%] h-96 object-contain object-center">
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center space-y-10 min-[350px]:space-x-4   lg:space-y-6 lg:mt-6">
+        <img id="defaultImage" src="~/images/uploadImage.jpg" class="cursor-pointer w-full lg:w-[70%] h-44 lg:h-96 object-contain object-center">
 
-        <div class="flex items-center justify-center w-full space-x-6">
-            <div>
+        <div class="flex items-center max-[350px]:flex-col max-[350px]:space-y-4 justify-center  w-full max-[350px]:space-x-0 space-x-4 px-4 lg:px-0">
+            <div class="max-[350px]:w-full">
                 <input id="imageUpload" type="file" asp-for="ImageFile" class="hidden" accept="image/*">
-                <div id="addImageButton" class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 w-44 rounded-xl cursor-pointer transition-all duration-400 ease-in-out">Add Image</div>
+                <div id="addImageButton" class="flex items-center max-[350px]:w-4/5 max-[350px]:mx-auto justify-center bg-blue-500 hover:bg-blue-600 text-white py-3 w-44  cursor-pointer transition-all duration-400 ease-in-out">Add Image</div>
                 <span asp-validation-for="ImageFile" class="text-red-400"></span>
                 <input type="hidden" asp-for="ImageUrl">
             </div>
 
-            <div id="removeImageButton" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 w-44 rounded-xl cursor-pointer transition-all duration-400 ease-in-out">Remove Image</div>
+            <div id="removeImageButton" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 max-[350px]:w-4/5 w-44  cursor-pointer transition-all duration-400 ease-in-out">Remove Image</div>
         </div>
 
-        <div class="w-[46%] flex items-center justify-center flex-col space-y-2 cursor-pointer">
+        <div class="w-full lg:w-[46%] flex items-center justify-center flex-col space-y-2 cursor-pointer">
             <h1 id="url" class=" text-lg">Or Paste a <span class="underline">Url</span></h1>
-            <input id="urlInput" asp-for="WebUrl" type="text" class="w-full text-black rounded-md hidden">
+            <input id="urlInput" asp-for="WebUrl" type="text" class="w-4/5 lg:w-full text-black hidden">
         </div>
 
     </div>
 
-
-    <div class="w-1/2 flex items-start flex-col justify-center space-y-6">
+    <div class="w-full lg:w-1/2 flex items-center lg:items-start flex-col justify-center space-y-6">
 
 
         <div class="flex flex-col items-start justify-center w-4/5  space-y-2">
             <label asp-for="Name" class="text-left w-full ">Enter Product Name</label>
-            <input type="text" asp-for="Name" class="w-full px-2 py-2 rounded-xl text-black">
+            <input type="text" asp-for="Name" class="w-full px-2 py-2  text-black">
             <span asp-validation-for="Name" class="text-red-400"></span>
         </div>
 
         <div class="flex flex-col items-start justify-center w-4/5  space-y-2">
             <label asp-for="Brand" class="text-left w-full ">Enter Brand Name</label>
-            <input type="text" asp-for="Brand" class="w-full px-2 py-2 rounded-xl text-black">
+            <input type="text" asp-for="Brand" class="w-full px-2 py-2  text-black">
             <span asp-validation-for="Brand" class="text-red-400"></span>
         </div>
 
         <div class="flex flex-col items-start justify-center w-4/5 space-y-2">
             <label asp-for="Price" class="text-left w-full">Enter Product Price</label>
-            <input type="number" asp-for="Price" class="w-full px-2 py-2 rounded-xl text-black">
+            <input type="number" asp-for="Price" class="w-full px-2 py-2  text-black">
             <span asp-validation-for="Price" class="text-red-400"></span>
         </div>
 
         <div class="flex flex-col items-start justify-center w-4/5 space-y-2">
             <label asp-for="Description" class="text-left w-full">Enter Product Description</label>
-            <textarea type="text" rows="4" asp-for="Description" class="w-full px-2 py-2 rounded-xl text-black"></textarea>
+            <textarea type="text" rows="4" asp-for="Description" class="w-full px-2 py-2  text-black"></textarea>
             <span asp-validation-for="Description" class="text-red-400"></span>
         </div>
 
         <div class="flex flex-col items-start justify-center w-4/5 space-y-2">
             <label asp-for="Discount" class="text-left w-full">Discount</label>
-            <input type="number" asp-for="Discount" class="w-full px-2 py-2 rounded-xl text-black">
+            <input type="number" asp-for="Discount" class="w-full px-2 py-2  text-black">
             <span asp-validation-for="Discount" class="text-red-400"></span>
         </div>
 
         <div class="flex flex-col items-start justify-center w-4/5  space-y-2">
             <label asp-for="ReturnExchangePolicyDays" class="text-left w-full ">Return Exchange Policy Days (if have)</label>
-            <input type="text" asp-for="ReturnExchangePolicyDays" class="w-full px-2 py-2 rounded-xl text-black">
+            <input type="text" asp-for="ReturnExchangePolicyDays" class="w-full px-2 py-2  text-black">
             <span asp-validation-for="ReturnExchangePolicyDays" class="text-red-400"></span>
         </div>
 
-        <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
+        <div class="flex flex-col items-start justify-center w-4/5 lg:w-[40%] space-y-2">
             <label for="Quantity" class="text-sm font-semibold">Quantity</label>
-            <input type="number" id="input" class="text-center w-16 text-xl text-black font-semibold bg-gray-100 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" asp-for="Quantity">
+            <input type="number" id="input" class="text-center w-16 text-xl text-black font-semibold bg-gray-100 -lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" asp-for="Quantity">
             <span asp-validation-for="Quantity" class="text-red-400"></span>
         </div>
 
-        <div class="flex flex-col items-start justify-center w-[40%] space-y-2">
-            <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="py-2 w-full rounded-lg px-2 cursor-pointer text-black">
+        <div class="flex flex-col items-start justify-center w-4/5 lg:w-[40%] space-y-2">
+            <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="py-2 w-full -lg px-2 cursor-pointer text-black">
                 <option value="">Select Category</option>
             </select>
 
             <span asp-validation-for="CategoryId" class="text-red-400"></span>
         </div>
 
-        <input type="submit" value="Submit" class="block bg-blue-500 hover:bg-blue-600 text-white py-3 w-44 rounded-md">
+        <input type="submit" value="Submit" class="block bg-blue-500 hover:bg-blue-600 text-white py-3 w-4/5 lg:w-44">
 
     </div>
 

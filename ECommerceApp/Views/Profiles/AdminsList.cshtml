@@ -5,18 +5,21 @@
 }
 
 
-<div class="flex items-center justify-between  mt-10 mb-4 px-6">
+<div class="flex items-center justify-between mt-10 mb-4 px-6">
 
-    <a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24  flex items-center justify-center">
+    <a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600 hover:text-white py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
-    <h1 class="font-semibold text-xl mr-40">Admins List</h1>
+    <!-- Centering the heading on large screens -->
+    <h1 class="font-semibold text-xl text-center lg:text-left mx-auto lg:flex-grow-0 ">Admins List</h1>
 
     <div></div>
 </div>
 
-<div class="bg-no-repeat border border-[1px] flex items-center justify-center w-1/2 px-3 space-x-2 mx-auto py-3">
+
+
+<div class="bg-no-repeat border border-[1px] flex items-center justify-center w-4/5 lg:w-1/2 px-3 space-x-2 mx-auto py-3">
     <img src="~/images/search.png" alt="Search" class="w-6 invert grayscale">
     <input id="SearchInput" type="search" placeholder="Search Profile..." class="text-gray-200 w-full bg-transparent outline-none">
 </div>
@@ -29,10 +32,12 @@
         {
             <a asp-controller="Profiles" asp-action="ProfileDetails" asp-route-id="@i.Id"
                data-profile-name="@i.Name?.ToLower()"
-               class="w-4/5 hover:opacity-70 border-[1px] border rounded-lg flex items-center justify-between px-6 py-3">
+               data-profile-username="@i.UserName?.ToLower()"
+               data-profile-email="@i.Email?.ToLower()"
+               class="w-4/5 hover:opacity-70 border-[1px] border  flex items-center justify-center lg:justify-between px-6 py-3">
                 <h1 class="font-medium">@i.UserName</h1>
-                <h5 class="font-medium">@i.Name</h5>
-                <h3 class="font-medium">@i.Email</h3>
+                <h5 class="hidden lg:block font-medium">@i.Name</h5>
+                <h3 class="hidden lg:block font-medium">@i.Email</h3>
             </a>
 
         }
@@ -44,3 +49,28 @@ else
 {
     <p>No Admins Registered</p>
 }
+
+<script>
+        const SearchInput = document.querySelector("#SearchInput");
+    const ProfileContainer = document.querySelector("#ProfileContainer");
+    const profiles = Array.from(ProfileContainer.querySelectorAll("a"));
+    const noProfileFoundMessage = document.querySelector("#NoProfileFoundMessage");
+
+    function search() {
+        const searchValue = SearchInput.value.toLowerCase();
+
+        profiles.forEach(profile => {
+            const profileName = profile.getAttribute("data-profile-name")
+            const profileUsername = profile.getAttribute("data-profile-username")
+            const profileEmail = profile.getAttribute("data-profile-email")
+            if (profileName.includes(searchValue) || profileUsername.includes(searchValue) || profileEmail.includes(searchValue)) {
+                profile.style.display = "flex";
+            } else {
+                profile.style.display = "none";
+            }
+        });
+
+    }
+
+    SearchInput.addEventListener("input", search);
+</script>

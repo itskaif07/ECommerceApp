@@ -8,7 +8,7 @@
 <div class="relative flex items-center mt-10 mb-10 lg:mb-4 px-6">
     <!-- Back Button -->
     <a asp-controller="Home" asp-action="Admin"
-       class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md inline-block py-1 w-24 flex items-center justify-center absolute left-6">
+       class="bg-blue-400 hover:bg-blue-600 hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center absolute left-6">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
@@ -38,7 +38,9 @@
         {
             <a asp-controller="Profiles" asp-action="ProfileDetails" asp-route-id="@i.Id"
                data-profile-name="@i.Name?.ToLower()"
-               class="w-4/5 hover:opacity-70 border-[1px] border rounded-lg flex items-center justify-center lg:justify-between px-6 py-3">
+               data-profile-username="@i.UserName?.ToLower()"
+               data-profile-email="@i.Email?.ToLower()"
+               class="w-4/5 hover:opacity-70 border-[1px] border flex items-center justify-center lg:justify-between px-6 py-3">
                 <h1 class="font-medium">@i.UserName</h1>
                 <h5 class="hidden lg:block font-medium">@i.Name</h5>
                 <h3 class="hidden lg:block font-medium">@i.Email</h3>

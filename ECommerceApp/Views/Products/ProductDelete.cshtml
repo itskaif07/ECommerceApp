@@ -5,7 +5,7 @@
 }
 
 <div class="flex items-center justify-between px-10 my-6">
-    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Id" class=" bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model.Id" class=" bg-blue-400 hover:bg-blue-600  hover:text-white  py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 </div>
@@ -18,8 +18,8 @@
         <input type="hidden" name="id" value="@Model.Id">
 
         <div class="flex lg:space-x-6 items-center justify-center flex-col lg:flex-row space-y-6 lg:space-y-0 w-full">
-            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center rounded-md">Yes, Delete it</button>
-            <a asp-controller="Home" asp-action="Index" class="bg-[#dddddd] text-black py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center rounded-md">Cancel</a>
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center ">Yes, Delete it</button>
+            <a asp-controller="Home" asp-action="Index" class="bg-[#dddddd] text-black py-2 max-[600px]:w-4/5 w-1/2 lg:w-40 flex items-center justify-center ">Cancel</a>
         </div>
     </form>
 </div>

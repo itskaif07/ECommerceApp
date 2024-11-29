@@ -1,32 +1,41 @@
-﻿@model ECommerceApp.Models.ApplicationUser;
-@{
-    ViewData["Title"] = "Profile Details";
-}
-
-<div class="flex items-center justify-between mt-10 mb-10 px-6">
+﻿<div class="flex flex-col lg:flex-row items-center justify-between mt-10 mb-10 px-6">
 
     <!-- Back Button (Left aligned) -->
-    <a asp-controller="Profiles" asp-action="AllProfiles" class="block bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Profiles" asp-action="AllProfiles"
+       class="block bg-blue-400 hover:bg-blue-600 hover:text-white py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
 
     <!-- Heading (Centered) -->
-    <h1 class="font-semibold text-2xl mx-auto">Details</h1>
+    <h1 class="font-semibold text-2xl mx-auto mb-4 lg:mb-0 lg:flex-grow text-center">Details</h1>
 
-    <!-- Conditional Button (Right aligned) -->
+    <!-- Conditional Button (Right aligned for large screens, inline for small screens) -->
     @if (User.IsInRole("SiteOwner") && ViewBag.UserRole == "SiteOwner")
     {
-        <a asp-controller="Profiles" asp-action="AssignUser" asp-route-id="@Model.Id" class="lg:block hidden bg-blue-500 hover:bg-blue-600 w-fit px-4 py-2.5 rounded-md">Remove Admin</a>
+        <a asp-controller="Profiles" asp-action="AssignUser" asp-route-id="@Model.Id"
+           class="bg-blue-500 hover:bg-blue-600 w-fit px-4 py-2 text-center mt-4 lg:mt-0 lg:ml-auto hidden lg:flex items-center justify-center">Remove Admin</a>
     }
     else if (ViewBag.UserRole != "SiteOwner")
     {
-        <a asp-controller="Profiles" asp-action="AssignAdmin" asp-route-id="@Model.Id" class="lg:block hidden bg-red-500 hover:bg-red-600 w-fit px-4 py-2.5 rounded-md">Assign Admin</a>
+        <a asp-controller="Profiles" asp-action="AssignAdmin" asp-route-id="@Model.Id"
+           class="bg-red-500 hover:bg-red-600 w-fit px-4 py-2 text-center mt-4 lg:mt-0 lg:ml-auto hidden lg:flex items-center justify-center">Assign Admin</a>
     }
 
+    <!-- Conditional Button (Below "Pin Code" for small screens) -->
+    @if (User.IsInRole("SiteOwner") && ViewBag.UserRole == "SiteOwner")
+    {
+        <a asp-controller="Profiles" asp-action="AssignUser" asp-route-id="@Model.Id"
+           class="bg-blue-500 hover:bg-blue-600 w-1/2 px-4 py-2 text-center lg:hidden">Remove Admin</a>
+    }
+    else if (ViewBag.UserRole != "SiteOwner")
+    {
+        <a asp-controller="Profiles" asp-action="AssignAdmin" asp-route-id="@Model.Id"
+           class="bg-red-500 hover:bg-red-600 w-1/2 px-4 py-2 text-center lg:hidden">Assign Admin</a>
+    }
 </div>
 
-
-<div class="w-full h-full flex items-center justify-center flex-col mx-auto space-y-10  max-[350px]:text-sm lg:text-xl">
+<!-- Profile Details Section -->
+<div class="w-full h-full flex items-center justify-center flex-col mx-auto space-y-10 max-[350px]:text-sm lg:text-xl pb-24 px-2">
 
     <div class="w-fit space-x-6 px-4 border border-[1px] py-2 flex items-center justify-between">
         <h1>Role:</h1>
@@ -73,13 +82,5 @@
         <h1>@Model.PinCode</h1>
     </div>
 
-</div>
 
-@if (User.IsInRole("SiteOwner") && ViewBag.UserRole == "SiteOwner")
-{
-    <a asp-controller="Profiles" asp-action="AssignUser" asp-route-id="@Model.Id" class="block lg:hidden text-center mx-auto mt-10  bg-blue-500 hover:bg-blue-600 w-1/2 px-4 py-2">Remove Admin</a>
-}
-else if (ViewBag.UserRole != "SiteOwner")
-{
-    <a asp-controller="Profiles" asp-action="AssignAdmin" asp-route-id="@Model.Id" class="block lg:hidden text-center mx-auto mt-10 bg-red-500 hover:bg-red-600 w-1/2 px-4 py-2">Assign Admin</a>
-}
+</div>

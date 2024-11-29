@@ -5,7 +5,7 @@
 }
 
 
-<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white  inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
@@ -39,20 +39,20 @@
 
     <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
         <label asp-for="@Model.UserName">Username</label>
-        <input asp-for="@Model.UserName" class="w-full py-1 rounded-md text-black px-2 text-center">
+        <input asp-for="@Model.UserName" class="w-full py-1  text-black px-2 text-center">
         <span asp-validation-for="@Model.UserName" class="text-red-500"></span>
     </div>
 
     <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
         <label asp-for="@Model.Email">Email</label>
-        <input asp-for="@Model.Email" class="w-full py-1 rounded-md text-black px-2 text-center">
+        <input asp-for="@Model.Email" class="w-full py-1  text-black px-2 text-center">
         <span asp-validation-for="@Model.Email" class="text-red-500"></span>
     </div>
 
     <div class="flex items-center justify-center flex-col w-[70%] space-y-2">
         <label asp-for="@Model.Password">Password</label>
         <div class="relative w-full">
-            <input asp-for="@Model.Password" id="password" class="w-full py-1 rounded-md text-black text-center px-2" type="password">
+            <input asp-for="@Model.Password" id="password" class="w-full py-1  text-black text-center px-2" type="password">
             <div class="flex items-center justify-center">
                 <img src="~/images/icons8-eye-50.png" alt="Show" id="openEye" class="absolute right-2 top-0 w-8">
                 <img src="~/images/icons8-closed-eye-50.png" alt="Show" id="closedEye" class="hidden absolute right-2 top-0 w-8">
@@ -66,7 +66,7 @@
         <label asp-for="@Model.RememberMe">Remember Me</label>
     </div>
 
-    <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2 rounded-md w-1/4">Login</button>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2  w-1/4">Login</button>
 
     <a asp-controller="SignUp" asp-action="SignUp" class="flex items-center justify-center hover:text-lg transition-all duration-200 ease-in">
         <h1>New User? Register Yourself</h1>

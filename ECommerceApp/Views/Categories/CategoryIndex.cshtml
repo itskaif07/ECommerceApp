@@ -4,23 +4,31 @@
     ViewData["Title"] = "Category";
 }
 
-<a asp-controller="Home" asp-action="Admin" class="absolute left-2 -top-4 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<div class="w-full flex items-center justify-between px-4 my-6">
+
+<a asp-controller="Home" asp-action="Admin" class=" bg-blue-400 hover:bg-blue-600  hover:text-white  py-1 w-24  hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
-<a asp-controller="Categories" asp-action="CategoryAdd" class="block w-36 h-12 absolute right-4 top-2 rounded-lg bg-green-500 hover:text-white text-black flex items-center justify-center">
+<h1 class="text-xl font-semibold max-lg:mx-auto text-center">Available Categories</h1>
+
+<a asp-controller="Categories" asp-action="CategoryAdd" class="hidden lg:flex items-center justify-center font-medium w-36 h-12 bg-green-500 hover:text-white text-black">
     Add Category
 </a>
+</div>
 
 
-<h1 class="text-xl font-semibold text-center mt-10 mb-16">Available Categories</h1>
-
-<div class="w-full h-full space-y-6 flex items-center justify-center flex-col">
+<div class="w-full h-full space-y-6 flex items-center justify-center flex-col pb-20 lg:pb-0">
 
 @foreach (var i in Model)
 {
-    <a class="border border-[1px] h-full w-1/4 rounded-md d-flex align-items-center justify-content-center py-3">
+        <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@i.Id" class="border border-[1px] h-full w-[90%] lg:w-1/2  d-flex align-items-center justify-content-center py-3 hover:bg-white hover:text-black transition-all duration-400 ease-in">
         <h1 class="text-center text-xl font-medium">@i.Name</h1>
     </a>
 }
+
+    <a asp-controller="Categories" asp-action="CategoryAdd" class="block lg:hidden w-[90%] h-12 font-medium  bg-green-500 hover:text-white text-black flex items-center justify-center">
+        Add Category
+    </a>
 </div>
+

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Add Category";
 }
 
-<a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600 hover:text-white rounded-md inline-block py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Admin" class="bg-blue-400 hover:bg-blue-600 hover:text-white py-1 w-24 mt-6 ml-6 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
@@ -17,9 +17,9 @@
 
 
         <label asp-for="Name" class="font-semibold">Enter Category Name</label>
-        <input type="text" asp-for="Name" class="w-full rounded-md text-black px-3 text-center py-1" />
+        <input type="text" asp-for="Name" class="w-full  text-black px-3 text-center py-1" />
         <span asp-validation-for="Name" class="text-red-500"></span>
 
-        <button type="submit" class="bg-blue-500 w-full lg:w-1/2 py-2 text-white rounded-md">Add</button>
+        <button type="submit" class="bg-blue-500 w-full lg:w-1/2 py-2 text-white ">Add</button>
     </form>
 </div>

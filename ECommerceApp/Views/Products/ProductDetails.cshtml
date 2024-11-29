@@ -5,7 +5,7 @@
 }
 
 <div class="flex items-center justify-between px-10 my-6">
-    <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@ViewData["CategoryId"]" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white rounded-md inline-block  py-1 w-24 flex items-center justify-center">
+    <a asp-controller="Products" asp-action="ProductsIndex" asp-route-categoryId="@ViewData["CategoryId"]" class="fixed top-6 left-6 bg-blue-400 hover:bg-blue-600  hover:text-white   py-1 w-24 hidden lg:flex items-center justify-center">
         <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
     </a>
     <div class="w-24"></div>
@@ -13,8 +13,8 @@
     @if (User.IsInRole("SiteOwner"))
     {
         <div class="flex items-center justify-end space-x-2">
-            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Edit</a>
-            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white rounded-md w-32 h-12 flex items-center justify-center">Delete</a>
+            <a asp-controller="Products" asp-action="ProductEdit" asp-route-productId="@Model.Product.Id" class="bg-blue-500 hover:bg-blue-600 text-white  w-32 h-12 flex items-center justify-center">Edit</a>
+            <a asp-controller="Products" asp-action="ProductDelete" asp-route-id="@Model.Product.Id" class="bg-red-500 hover:bg-red-600 text-white  w-32 h-12 flex items-center justify-center">Delete</a>
         </div>
     }
 </div>
@@ -219,13 +219,13 @@
 
             @if (Model.IsInWishlist)
             {
-                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 bg-white text-black border border-[1px] rounded-md  py-1.5  text-center ">
+                <form asp-controller="WishList" asp-action="RemoveItemWishList" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 bg-white text-black border border-[1px]   py-1.5  text-center ">
                     <button type="submit">Added to Wishlist</button>
                 </form>
             }
             else
             {
-                <form asp-controller="WishList" asp-action="AddToWishlist" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px] rounded-md  py-1.5  text-center ">
+                <form asp-controller="WishList" asp-action="AddToWishlist" asp-route-id="@Model.Product.Id" method="post" class="w-1/5 border border-[1px]   py-1.5  text-center ">
                     <button type="submit">Add to Wishlist</button>
                 </form>
             }

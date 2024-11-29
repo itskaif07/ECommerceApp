@@ -7,8 +7,10 @@ function search() {
     const searchValue = SearchInput.value.toLowerCase();
 
     profiles.forEach(profile => {
-        const profileName = profile.getAttribute("data-profile-name").toLowerCase();
-        if (profileName.includes(searchValue)) {
+        const profileName = profile.getAttribute("data-profile-name")
+        const profileUsername = profile.getAttribute("data-profile-username")
+        const profileEmail = profile.getAttribute("data-profile-email")
+        if (profileName.includes(searchValue) || profileUsername.includes(searchValue) || profileEmail.includes(searchValue)) {
             profile.style.display = "flex";
         } else {
             profile.style.display = "none";
