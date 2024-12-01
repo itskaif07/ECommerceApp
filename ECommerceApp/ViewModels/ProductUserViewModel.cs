@@ -20,5 +20,6 @@ namespace ECommerceApp.ViewModels
         public DateTime DeliveryDate { get; set; }
 
         public int DeliveryCharge { get; set; }
+
     }
 }

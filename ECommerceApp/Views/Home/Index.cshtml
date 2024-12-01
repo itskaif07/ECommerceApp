@@ -8,7 +8,7 @@
 <header class="w-full h-full sticky top-0 z-10 bg-blue-500 text-white">
 
     <!-- First Navigation Bar -->
-    <nav id="nav1" class="w-full h-full flex items-center justify-between px-2 lg:px-6 py-2">
+    <nav id="nav1" class="w-full h-full flex items-center justify-between px-2 lg:px-6 py-2 max-[300px]:flex-col ">
 
         <a asp-controller="Home" asp-action="Index" class="lg:hidden flex items-center justify-center space-x-2">
             <img src="~/images/logo.png" alt="Logo" class="w-16">
@@ -17,11 +17,17 @@
 
         @if (User.IsInRole("SiteOwner"))
         {
-            <div class="bg-[#222222] px-4 py-2">
+            <div class="bg-[#222222] px-4 py-2 max-[300px]:w-4/5">
 
-                <a asp-controller="Home" asp-action="Admin" class="font-medium">Admin</a>
+                <a asp-controller="Home" asp-action="Admin" class="font-medium max-[300px]:w-full  flex items-center justify-center">Admin Panel</a>
             </div>
         }
+        else
+        {
+
+            <div class="max-[300px]:w-4/5"></div>
+        }
+
 
         <div class="hidden lg:flex items-center space-x-6 text-base">
             <a asp-controller="WishList" asp-action="WishListIndex" class="text-white hover:text-blue-300">WishList</a>
@@ -134,7 +140,7 @@
 
 <div class="w-full h-screen lg:h-[80vh] flex items-center justify-center lg:my-6 lg:space-x-4 ">
 
-    <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black  overflow-auto hidden lg:block">
+    <div class="w-[15%] h-fit max-h-full bg-white border-[1px] border-black  overflow-auto hidden lg:block rounded-lg">
 
         <div class="text-xl text-black font-medium bg-yellow-300 py-2 border-[1px] border-black px-2">Categories</div>
 

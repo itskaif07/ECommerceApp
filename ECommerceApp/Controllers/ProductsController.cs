@@ -102,6 +102,8 @@ namespace ECommerceApp.Controllers
             var deliveryDate = DateTime.Now.AddDays(Random.Next(1, 8))
             .AddHours(Random.Next(11, 21)).AddMinutes(Random.Next(0, 60)).AddSeconds(-DateTime.Now.Second);
 
+            bool hasReviewed = await _context.Reviews.AnyAsync(u => u.UserId == user.Id && u.ProductId == id);
+            ViewBag.hasReviewed = hasReviewed;
            
             var viewModel = new ProductUserViewModel
             {
@@ -111,10 +113,11 @@ namespace ECommerceApp.Controllers
                 Category = product.Category,
                 Reviews = product.Reviews,
                 DeliveryDate = deliveryDate,
-                DeliveryCharge = deliveryCharge
+                DeliveryCharge = deliveryCharge,
             };
 
             ViewData["CategoryId"] = categoryId ?? product.CategoryId;
+
 
             return View("~/Views/Products/ProductDetails.cshtml", viewModel);
         }

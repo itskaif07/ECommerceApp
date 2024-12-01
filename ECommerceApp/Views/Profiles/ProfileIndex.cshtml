@@ -4,7 +4,7 @@
     ViewData["Title"] = "User Profile";
 }
 
-<div class="w-full flex items-center justify-between lg:justify-evenly my-6 px-2 lg:px-10">
+<div class="w-full flex items-center justify-between my-6 px-2 lg:px-10">
     <!-- Back Button -->
     <a asp-controller="Home" asp-action="Index"
        class="bg-blue-400 hover:bg-blue-600 hover:text-white py-1 w-24 hidden lg:flex items-center justify-center">
@@ -130,12 +130,22 @@
         </a>
     </div>
 
-    <a asp-controller="Profiles" asp-action="ProfileDelete" asp-route-id="@Model.Id" class="lg:hidden bg-red-500 hover:bg-red-600 w-full  hover:text-white   h-10 px-6 flex items-center justify-center">
-        Delete Account
-    </a>
+    <div class="flex items-center justify-start w-11/12 flex-col space-y-2 my-6">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-controller="LogIn" asp-action="LogOut" method="post" class="lg:hidden bg-transparent w-full font-medium flex items-center justify-start h-10 px-6 transition-all duration-400 ease-in">
+                <button type="submit">Log out</button>
+            </form>
+
+
+        }
+
+        <a asp-controller="Profiles" asp-action="ProfileDelete" asp-route-id="@Model.Id" class="lg:hidden bg-red-500 w-full hover:bg-red-600 flex items-center justify-start   hover:text-white   h-10 px-6">
+            Delete Account
+        </a>
+    </div>
 
 
 </div>
-
 
 
