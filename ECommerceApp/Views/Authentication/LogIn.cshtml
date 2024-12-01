@@ -5,7 +5,7 @@
 }
 
 
-<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white  inline-block  py-1 w-24 mt-6 ml-6 flex items-center justify-center">
+<a asp-controller="Home" asp-action="Index" class="bg-blue-400 hover:bg-blue-600  hover:text-white  py-1 w-24 mt-6 ml-6 hidden lg:flex items-center justify-center">
     <img src="~/images/back.png" alt="Back" class="invert grayscale w-8">
 </a>
 
@@ -22,7 +22,7 @@
 
 </div>
 
-<form asp-action="LogIn" method="post" class="w-full min-[500px]:w-4/5 lg:w-1/2 h-full py-4 mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white ">
+<form asp-action="LogIn" method="post" class="w-full min-[500px]:w-4/5 lg:w-1/2 max-lg:mt-10 rounded-lg h-full py-4 mx-auto flex items-center flex-col justify-center space-y-6 mt-2 border-[1px] border-white ">
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-red-500" })
 

@@ -21,6 +21,8 @@ namespace ECommerceApp.Data
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<userOtp> userOtps { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

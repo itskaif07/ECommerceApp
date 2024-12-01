@@ -1,4 +1,5 @@
 using ECommerceApp.Data;
+using ECommerceApp.Helpers;
 using ECommerceApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = false;
 });
+
+builder.Services.AddTransient<EmailService>();
+
 
 //controllers with views, using ReferenceHandler.Preserve to handle circular references
 

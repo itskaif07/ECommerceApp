@@ -36,10 +36,10 @@ namespace ECommerceApp.Controllers.Authentication
             ViewBag.EmailChangeWarning = TempData["EmailChangeWarning"];
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
+            if (user == null || !user.EmailConfirmed)
             {
-                ModelState.AddModelError(string.Empty, "User not registered. Please sign up first.");
-                return View("~/Views/Authentication/LogIn.cshtml", model);
+                ModelState.AddModelError(string.Empty, "Please verify your email to log in.");
+                return View("~/Views/Authentication/Login.cshtml", model);
             }
 
 
