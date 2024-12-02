@@ -84,9 +84,15 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ![signup](https://github.com/user-attachments/assets/85f14254-3c8f-4673-a958-576198799f4a)
 
+### Verification
+
+![image](https://github.com/user-attachments/assets/a109d596-0089-46f8-95e6-968cbbed49cf)
+
+
 ### Log in
 
 ![login](https://github.com/user-attachments/assets/9b228e76-c076-473f-a882-627ccc98eaf6)
+
 
 ### User Details
 
@@ -119,6 +125,17 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 ## Delete category
 
 ![categorydelete](https://github.com/user-attachments/assets/18c816fe-7141-4d7f-9852-f7489d339d84)
+
+### **Responsive design**  
+
+![image](https://github.com/user-attachments/assets/5339988d-3726-43bb-b473-3d5a712228a2)
+
+![image](https://github.com/user-attachments/assets/d227e238-654e-4d89-aa85-c3633d8026e6)
+
+![image](https://github.com/user-attachments/assets/6dd3f89e-a587-4364-b32e-62758869232f)
+
+![image](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
+
 
 ### And More...
 
