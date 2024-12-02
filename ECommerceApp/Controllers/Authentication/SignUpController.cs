@@ -7,6 +7,7 @@ using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ECommerceApp.Controllers.Authentication
 {
@@ -35,10 +36,25 @@ namespace ECommerceApp.Controllers.Authentication
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUp model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View("~/Views/Authentication/SignUp.cshtml", model);
+            }
+
+
+            // Check if the user already exists and is pending
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null && existingUser.IsPending)
+            {
+                // If the user is pending, redirect to OTP verification
+                return RedirectToAction("VerifyOtp", new { userId = existingUser.Id });
+            }
+
+            var existingUserName = await _userManager.FindByNameAsync(model.UserName);
+            if (existingUserName != null && existingUserName.IsPending)
+            {
+                // If the username is pending, redirect to OTP verification
+                return RedirectToAction("VerifyOtp", new { userId = existingUserName.Id });
             }
 
             var user = new ApplicationUser
@@ -51,15 +67,21 @@ namespace ECommerceApp.Controllers.Authentication
                 State = model.State,
                 PinCode = model.PinCode,
                 PhoneNumber = model.PhoneNumber,
-                EmailConfirmed = false
+                EmailConfirmed = false,
+                IsPending = true // Mark user as pending
             };
+
+            var existingPhoneUser = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+            if (existingPhoneUser != null)
+            {
+                ModelState.AddModelError(string.Empty, "Phone number is already registered.");
+                return View("~/Views/Authentication/SignUp.cshtml", model);
+            }
 
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
             if (result.Succeeded)
             {
-
                 var otp = new Random().Next(100000, 999999);  // Generate 6-digit OTP
                 var createdAt = DateTime.Now;
 
@@ -75,21 +97,17 @@ namespace ECommerceApp.Controllers.Authentication
 
                 string subject = "Your One Time Password for Sign Up";
                 string body = $@"
-                                <p><strong>{otp}</strong> is your one-time password for sign up.</p>
-                                <p>Do not share it with anyone.</p>
-                                <p><em>It is valid for only 5 minutes.</em></p>
-                                <p>Thank you for signing up with us!</p>
-                                <p>Best Regards,<br>ShopCart</p>
-                            ";
+                            <p><strong>{otp}</strong> is your one-time password for sign up.</p>
+                            <p>Do not share it with anyone.</p>
+                            <p><em>It is valid for only 5 minutes.</em></p>
+                            <p>Thank you for signing up with us!</p>
+                            <p>Best Regards,<br>ShopCart</p>
+                        ";
 
-                // Using the injected _emailService instance to send email
                 await _emailService.SendEmailAsync(user.Email, subject, body);
 
-
-                // Redirect to VerifyOtp
                 return RedirectToAction("VerifyOtp", new { userId = user.Id });
             }
-
 
             foreach (var error in result.Errors)
             {
@@ -98,6 +116,7 @@ namespace ECommerceApp.Controllers.Authentication
 
             return View("~/Views/Authentication/SignUp.cshtml", model);
         }
+
 
 
         public IActionResult VerifyOtp(string userId)
@@ -114,7 +133,6 @@ namespace ECommerceApp.Controllers.Authentication
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyOtp(VerifyOtpViewModel model)
         {
-
             var otpRecord = await _context.userOtps.FirstOrDefaultAsync(u => u.userId == model.UserId && u.otp == int.Parse(model.Otp));
 
             if (otpRecord == null)
@@ -123,14 +141,11 @@ namespace ECommerceApp.Controllers.Authentication
                 return View("~/Views/Authentication/VerifyOtp.cshtml", model);
             }
 
-            
-
             if (otpRecord.createdAt.AddMinutes(5) < DateTime.Now)
             {
                 ModelState.AddModelError(string.Empty, "Expired OTP.");
                 return View("~/Views/Authentication/VerifyOtp.cshtml", model);
             }
-
 
             var user = await _userManager.FindByIdAsync(model.UserId);
 
@@ -141,6 +156,7 @@ namespace ECommerceApp.Controllers.Authentication
             }
 
             user.EmailConfirmed = true;
+            user.IsPending = false;  
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
@@ -149,7 +165,6 @@ namespace ECommerceApp.Controllers.Authentication
                 return View("~/Views/Authentication/VerifyOtp.cshtml", model);
             }
 
-
             // Sign in the user only if EmailConfirmed is true
             if (!user.EmailConfirmed)
             {
@@ -157,11 +172,11 @@ namespace ECommerceApp.Controllers.Authentication
                 return View("~/Views/Authentication/VerifyOtp.cshtml", model);
             }
 
-
             await _signInManager.SignInAsync(user, isPersistent: true);
 
             return RedirectToAction("Index", "Home");
         }
+
 
     }
 }

@@ -12,5 +12,7 @@ namespace ECommerceApp.Models
 
         [StringLength(10, MinimumLength = 5)]
         public string PinCode { get; set; }
+
+        public bool IsPending { get; set; }
     }
 }
