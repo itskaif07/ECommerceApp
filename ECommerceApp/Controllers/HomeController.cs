@@ -11,12 +11,10 @@ namespace ECommerceApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
         public async Task<IActionResult> Index(int? categoryId)
@@ -73,7 +71,7 @@ namespace ECommerceApp.Controllers
             try
             {
                 var products = await _context.Products
-                    .Where(p => p.Name.Contains(query) || (p.Description ?? "").Contains(query))
+                    .Where(p => p.Name.Contains(query) || (p.Description ?? "").Contains(query) || (p.Brand ?? "").Contains(query))
                     .Select(p => new
                     {
                         p.Id,
@@ -84,18 +82,11 @@ namespace ECommerceApp.Controllers
                     })
                     .ToListAsync();
 
-                foreach (var product in products)
-                {
-                    _logger.LogInformation($"Product {product.Name} ImageUrl: {product.ImageUrl}");
-                }
 
                 return Json(new { success = true, data = products });
             }
             catch (Exception ex)
             {
-                // Log the exception (you can replace Console.WriteLine with proper logging in a real app)
-                _logger.LogError("Error fetching search results: " + ex.Message);
-
                 return Json(new { success = false, message = "An error occurred while processing the request." });
             }
         }

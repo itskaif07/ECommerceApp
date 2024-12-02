@@ -1,6 +1,5 @@
 ﻿
 //Slideshow
-console.log("Script loaded!");
 
 const images = [
     "/images/bg3.jpg",
@@ -146,6 +145,19 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     };
 
+    searchBox.addEventListener("input", (e) => {
+
+        const inputValue = e.target.value.trim();
+
+        if (inputValue) {
+            console.log("User is typing: " + inputValue);
+            performSearch();
+        }
+        else {
+            searchResults.innerHTML = "";
+        }
+    })
+
     searchButton.addEventListener("click", performSearch);
 
     searchBox.addEventListener("keydown", (event) => {
@@ -155,6 +167,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-});
+    let homeBackground = document.querySelector("#homeBackground");
 
+    homeBackground.addEventListener('click', () => {
+        console.log(homeBackground)
+
+        searchBox.value = '';
+        searchResults.innerText = ""
+
+    })
+});
 

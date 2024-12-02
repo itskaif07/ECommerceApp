@@ -10,65 +10,73 @@
     </a>
 
     <h1 class="text-xl font-medium text-center max-lg:mx-auto mb-6 lg:mb-0">Orders</h1>
-    
-@*     <form asp-controller="Orders" asp-action="DeleteAll" method="post" class="bg-red-500 w-32 py-2 hidden lg:flex items-center justify-center">
+
+    @*     <form asp-controller="Orders" asp-action="DeleteAll" method="post" class="bg-red-500 w-32 py-2 hidden lg:flex items-center justify-center">
         <button type="submit">Delete All</button>
         </form> *@
-        <div class="w-32 hidden lg:block"></div>
+    <div class="w-32 hidden lg:block"></div>
 </div>
 
 
 
+@if (Model.Any())
+{
 
-<div class="w-full h-full flex flex-col items-center space-y-10 px-4 flex-wrap mb-20 lg:mb-0">
-    @foreach (var i in Model)
-    {
-        <div class="flex w-11/12 lg:w-1/2 h-full items-center lg:items-start flex-col lg:flex-row justify-center lg:space-x-10  space-y-6 lg:space-y-0">
+    <div class="w-full h-full flex flex-col items-center space-y-10 px-4 flex-wrap mb-20 lg:mb-0">
+        @foreach (var i in Model)
+        {
+            <div class="flex w-11/12 lg:w-1/2 h-full items-center lg:items-start flex-col lg:flex-row justify-center lg:space-x-10  space-y-6 lg:space-y-0">
 
-            <!-- First Div with Image -->
-            <div class="w-4/5 lg:w-1/2 h-full flex items-center justify-center">
-                <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-contain">
+                <!-- First Div with Image -->
+                <div class="w-4/5 lg:w-1/2 h-full flex items-center justify-center">
+                    <img src="@(i.Product.ImageUrl ?? Url.Content("~/images/noImage.jpg"))" alt="Product Image" class="max-w-full max-h-full object-contain">
+                </div>
+
+                <!-- Second Div with Product Details -->
+                <div class="w-4/5 lg:w-1/2 flex flex-col justify-between space-y-2">
+                    <h1 class="text-xl font-semibold">@i.Product.Name</h1>
+                    <h1>Total Price: <span class="text-green-500 font-medium">&#x20B9; @Math.Round(@i.TotalPrice, 0, MidpointRounding.AwayFromZero)</span></h1>
+                    <h1 class="text-lg">Quantity: <span class="text-yellow-500 font-medium">@i.Quantity</span></h1>
+
+
+
+                    <!-- Delete Button -->
+                    <a asp-controller="Orders" asp-action="DeleteOrder" asp-route-orderId="@i.OrderId"
+                       class="block bg-red-500 hover:bg-red-600 py-2 font-medium px-3 text-white text-center w-full 2xl:w-3/5">
+                        Delete
+                    </a>
+
+                    <!-- Details Button -->
+                    <a asp-controller="Orders" asp-action="ProductOrderDetails" asp-route-orderId="@i.OrderId"
+                       class="block bg-gray-300 hover:bg-gray-400 py-2 font-medium px-3 text-black hover:text-black text-center w-full 2xl:w-3/5">
+                        View Details
+                    </a>
+                </div>
             </div>
+        }
+    </div>
 
-            <!-- Second Div with Product Details -->
-            <div class="w-4/5 lg:w-1/2 flex flex-col justify-between space-y-2">
-                <h1 class="text-xl font-semibold">@i.Product.Name</h1>
-                <h1>Total Price: <span class="text-green-500 font-medium">&#x20B9; @Math.Round(@i.TotalPrice, 0, MidpointRounding.AwayFromZero)</span></h1>
-                <h1 class="text-lg">Quantity: <span class="text-yellow-500 font-medium">@i.Quantity</span></h1>
+    <div id="totalAmount" class="h-20 w-11/12 sm:w-9/12 md:w-8/12 mx-auto mt-6 lg:mt-0 lg:w-60 bg-transparent lg:fixed right-5 top-1/2 transform -translate-y-1/2 border border-white pt-2">
+        <h1 class="text-center">Total Amount:</h1>
+        <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
+        <h1 class="text-green-500 text-center mt-2 font-medium">
+            ₹ @Math.Round((decimal)ViewBag.TotalAmount, 0, MidpointRounding.AwayFromZero)
+        </h1>
+    </div>
 
-              
-
-                <!-- Delete Button -->
-                <a asp-controller="Orders" asp-action="DeleteOrder" asp-route-orderId="@i.OrderId"
-                   class="block bg-red-500 hover:bg-red-600 py-2 font-medium px-3 text-white text-center w-full 2xl:w-3/5">
-                    Delete
-                </a>
-
-                <!-- Details Button -->
-                <a asp-controller="Orders" asp-action="ProductOrderDetails" asp-route-orderId="@i.OrderId"
-                   class="block bg-gray-300 hover:bg-gray-400 py-2 font-medium px-3 text-black hover:text-black text-center w-full 2xl:w-3/5">
-                    View Details
-                </a>
-            </div>
-        </div>
-    }
-</div>
-
-<div id="totalAmount" class="h-20 w-11/12 sm:w-9/12 md:w-8/12 mx-auto mt-6 lg:mt-0 lg:w-60 bg-transparent lg:fixed right-5 top-1/2 transform -translate-y-1/2 border border-white pt-2">
-    <h1 class="text-center">Total Amount:</h1>
-    <div class="bg-white w-4/5 h-[1px] mx-auto"></div>
-    <h1 class="text-green-500 text-center mt-2 font-medium">
-        ₹ @Math.Round((decimal)ViewBag.TotalAmount, 0, MidpointRounding.AwayFromZero)
-    </h1>
-</div>
+}
+else
+{
+    <p class="font-medium text-center">No Orders Yet</p>
+}
 
 
 @if (TempData["Notification"] != null)
 {
-<div id="notification" class="fixed inset-0 z-10 flex items-center justify-center
+    <div id="notification" class="fixed inset-0 z-10 flex items-center justify-center
                 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-    @Html.Raw(TempData["Notification"])
-</div>
+        @Html.Raw(TempData["Notification"])
+    </div>
 }
 
 
