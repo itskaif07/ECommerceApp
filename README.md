@@ -120,6 +120,17 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 
 ![categorydelete](https://github.com/user-attachments/assets/18c816fe-7141-4d7f-9852-f7489d339d84)
 
+### **Responsive design**  
+
+![image](https://github.com/user-attachments/assets/5339988d-3726-43bb-b473-3d5a712228a2)
+
+![image](https://github.com/user-attachments/assets/d227e238-654e-4d89-aa85-c3633d8026e6)
+
+![image](https://github.com/user-attachments/assets/6dd3f89e-a587-4364-b32e-62758869232f)
+
+![image](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
+
+
 ### And More...
 
 ## 🤝 Contribution  
