@@ -1,6 +1,7 @@
 using ECommerceApp.Data;
 using ECommerceApp.Helpers;
 using ECommerceApp.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ builder.Services.AddControllersWithViews()
 
 var app = builder.Build();
 
-
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 // Middleware configuration
 if (app.Environment.IsDevelopment())

@@ -1,6 +1,5 @@
 ﻿using ECommerceApp.Data;
 using ECommerceApp.Models;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +8,10 @@ namespace ECommerceApp.Controllers
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(ApplicationDbContext context, ILogger<CategoriesController> logger)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
         public IActionResult CategoryIndex()
         {
@@ -45,7 +42,7 @@ namespace ECommerceApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error saving category to database.");
+                    Console.WriteLine(ex.Message);
                 }
             }
             else
@@ -54,7 +51,7 @@ namespace ECommerceApp.Controllers
                 {
                     foreach (var error in modelState.Value.Errors)
                     {
-                        _logger.LogWarning("Property: {Property}, Error: {ErrorMessage}", modelState.Key, error.ErrorMessage);
+                        Console.WriteLine("Property: {Property}, Error: {ErrorMessage}", modelState.Key, error.ErrorMessage);
                     }
                 }
             }
