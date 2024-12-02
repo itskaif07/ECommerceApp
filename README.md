@@ -1,157 +1,126 @@
 # E-Commerce App  
 
-A **full-featured e-commerce application** designed to provide a seamless shopping experience with responsive design while enabling efficient management through an admin panel.  
+A **full-featured e-commerce application** designed to provide a seamless shopping experience with a responsive design. It also enables efficient management through an intuitive admin panel.
 
 ## 🌟 Features  
 
 ### **User Features**  
-- **Product Browsing**: View products categorized into different categories.  
+- **Product Browsing**: View products categorized into various categories.  
 - **Search & Filter**: Easily search and filter products based on preferences.  
 - **Wishlist**: Add your favorite items to the wishlist for later.  
-- **Cart Management**: Add, update, or remove items in the cart.  
+- **Cart Management**: Add, update, or remove items from the cart.  
 - **Order Placement**: Place orders seamlessly with a user-friendly interface.  
 - **User Authentication**:  
-  - Secure sign-up and login functionality.  
-  - Password encryption for enhanced security.  
+  - Secure sign-up and login functionality with password encryption.  
+  - **OTP Validation**: Extra layer of security during user authentication.
 
 ### **Admin Features**  
 - **Product Management**: Add, update, and delete products.  
 - **Category Management**: Create and manage product categories.  
 - **Order Management**: View and update the status of orders.  
-- **User Role Management**: Assign admin or regular user roles.  
+- **User Role Management**: Assign admin or regular user roles for access control.  
+
 ---
 
 ## 💻 Tech Stack  
 
-### **Frontend**   
+### **Frontend**  
 - **HTML5, CSS3**: Structure and styling of the application.  
-- **TailwindCSS: For pre-styled components and layouts.  
+- **TailwindCSS**: For pre-styled components and layouts, enabling responsive design.  
 
 ### **Backend**  
-- **ASP.NET Core**: For handling business logic and backend functionality.  
-- **Entity Framework Core**: Database management and ORM.  
+- **ASP.NET Core**: Backend framework handling business logic and functionality.  
+- **Entity Framework Core**: ORM for database management and interaction.  
 
 ### **Database**  
-- **Microsoft SQL Server**: Efficient data storage and retrieval.
+- **Microsoft SQL Server**: Efficient data storage and retrieval system.
 
+---
 
-## 📷 Screenshots 
+## 📷 Screenshots  
 
-### **For Users** 
+### **For Users**  
 
-### Index Page
+#### Index Page  
+![Index Page](https://github.com/user-attachments/assets/9416e15e-5049-44c7-86e9-bd3d969e2b04)
 
-![index](https://github.com/user-attachments/assets/9416e15e-5049-44c7-86e9-bd3d969e2b04)
+#### Product Search  
+![Search Results](https://github.com/user-attachments/assets/8a01c70b-1010-4786-8308-a11b1206a650)
 
-### Search
+#### Product List  
+![Product List](https://github.com/user-attachments/assets/e3895792-59d7-4b82-a014-d844717def5d)
 
-![image](https://github.com/user-attachments/assets/8a01c70b-1010-4786-8308-a11b1206a650)
+#### Product Details  
+![Product Details](https://github.com/user-attachments/assets/b3dd7c32-9e7f-47b7-b001-2b50658c53a4)
 
+#### Cart  
+![Cart](https://github.com/user-attachments/assets/c1c86978-6d09-44ca-b245-3563f7e6cd82)
 
-### Products list
+#### Order Placement  
+![Order Placement](https://github.com/user-attachments/assets/ac3ddbdc-86cc-44e1-a308-7cd917b44244)
 
-![productIndex](https://github.com/user-attachments/assets/e3895792-59d7-4b82-a014-d844717def5d)
+#### Order Details  
+![Order Details](https://github.com/user-attachments/assets/9049c8de-a68f-4ef3-95e2-ce359c2eea51)
 
-### Product Details
+#### Sign Up  
+![Sign Up](https://github.com/user-attachments/assets/85f14254-3c8f-4673-a958-576198799f4a)
 
-![productDetails](https://github.com/user-attachments/assets/b3dd7c32-9e7f-47b7-b001-2b50658c53a4)
+#### OTP Verification  
+![OTP Verification](https://github.com/user-attachments/assets/a109d596-0089-46f8-95e6-968cbbed49cf)
 
-### Cart
+#### Log In  
+![Log In](https://github.com/user-attachments/assets/9b228e76-c076-473f-a882-627ccc98eaf6)
 
-![image](https://github.com/user-attachments/assets/c1c86978-6d09-44ca-b245-3563f7e6cd82)
+#### User Details  
+![User Details](https://github.com/user-attachments/assets/b716637c-fe1e-4b5b-a7cd-af8eeddbbbfc)
 
+#### Wishlist  
+![Wishlist](https://github.com/user-attachments/assets/0de5ed3f-4700-4512-8cad-d2ab2dd7c372)
 
-### Order Placement
+### **For Admin**  
 
-![image](https://github.com/user-attachments/assets/ac3ddbdc-86cc-44e1-a308-7cd917b44244)
+#### Admin Dashboard  
+![Admin Dashboard](https://github.com/user-attachments/assets/f7f35f05-047a-470e-a066-dfe4acc61280)
 
+#### Add Product (Admin)  
+![Add Product](https://github.com/user-attachments/assets/a029e827-1132-4f60-8890-8f15b2d51450)
 
-![image](https://github.com/user-attachments/assets/e6d1377b-7239-4f6c-ad9f-1a657dfa7211)
+#### User List (Admin)  
+![User List](https://github.com/user-attachments/assets/d079f97a-419f-4141-9901-69266bf8278d)
 
+#### User Details (Admin)  
+![User Details Admin](https://github.com/user-attachments/assets/31d86e8b-0bcc-4bb5-86e7-5f32c69f8502)
 
+#### Delete Category (Admin)  
+![Delete Category](https://github.com/user-attachments/assets/18c816fe-7141-4d7f-9852-f7489d339d84)
 
-### Order List
+---
 
-![image](https://github.com/user-attachments/assets/18d91ff2-7e81-45b2-ad2d-b365b6477c90)
+## 📱 Responsive Design  
 
+The app is fully responsive and optimized for various screen sizes, providing a seamless experience across devices.  
 
-### Order Details
+- ![Mobile View 1](https://github.com/user-attachments/assets/5339988d-3726-43bb-b473-3d5a712228a2)  
+- ![Mobile View 2](https://github.com/user-attachments/assets/d227e238-654e-4d89-aa85-c3633d8026e6)  
+- ![Mobile View 3](https://github.com/user-attachments/assets/6dd3f89e-a587-4364-b32e-62758869232f)  
+- ![Mobile View 4](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
 
-![orderDetails](https://github.com/user-attachments/assets/9049c8de-a68f-4ef3-95e2-ce359c2eea51)
-
-
-### Sign Up
-
-![signup](https://github.com/user-attachments/assets/85f14254-3c8f-4673-a958-576198799f4a)
-
-### Verification
-
-![image](https://github.com/user-attachments/assets/a109d596-0089-46f8-95e6-968cbbed49cf)
-
-
-### Log in
-
-![login](https://github.com/user-attachments/assets/9b228e76-c076-473f-a882-627ccc98eaf6)
-
-
-### User Details
-
-![image](https://github.com/user-attachments/assets/b716637c-fe1e-4b5b-a7cd-af8eeddbbbfc)
-
-### Wishlist
-
-![wishlist](https://github.com/user-attachments/assets/0de5ed3f-4700-4512-8cad-d2ab2dd7c372)
-
-
-### **For Admin** 
-
-### Index page with admin login
-
-![indexwithadmin](https://github.com/user-attachments/assets/f7f35f05-047a-470e-a066-dfe4acc61280)
-
-### Add Product
-
-![addproductthroughadmin](https://github.com/user-attachments/assets/a029e827-1132-4f60-8890-8f15b2d51450)
-
-### Users list
-
-![userlist through admin](https://github.com/user-attachments/assets/d079f97a-419f-4141-9901-69266bf8278d)
-
-## Users details
-
-![image](https://github.com/user-attachments/assets/31d86e8b-0bcc-4bb5-86e7-5f32c69f8502)
-
-
-## Delete category
-
-![categorydelete](https://github.com/user-attachments/assets/18c816fe-7141-4d7f-9852-f7489d339d84)
-
-### **Responsive design**  
-
-![image](https://github.com/user-attachments/assets/5339988d-3726-43bb-b473-3d5a712228a2)
-
-![image](https://github.com/user-attachments/assets/d227e238-654e-4d89-aa85-c3633d8026e6)
-
-![image](https://github.com/user-attachments/assets/6dd3f89e-a587-4364-b32e-62758869232f)
-
-![image](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
-
-
-### And More...
+---
 
 ## 🤝 Contribution  
 
 Feel free to fork this repository and contribute by submitting pull requests.  
-To contribute:
 
-- Fork the repo  
-- Make your changes in a separate branch  
-- Submit a pull request for review  
+To contribute:  
+1. Fork the repository  
+2. Create a new branch  
+3. Make your changes  
+4. Submit a pull request  
 
 ---
 
 ## 📬 Contact  
 
-If you have any questions or suggestions, reach out me.
+For any questions or suggestions, feel free to reach out to me!
 
-
+---
