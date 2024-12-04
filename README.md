@@ -75,7 +75,7 @@ A **full-featured e-commerce application** designed to provide a seamless shoppi
 ![User Details](https://github.com/user-attachments/assets/b716637c-fe1e-4b5b-a7cd-af8eeddbbbfc)
 
 #### Wishlist  
-![Wishlist](https://github.com/user-attachments/assets/0de5ed3f-4700-4512-8cad-d2ab2dd7c372)
+- ![Wishlist](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
 
 ### **For Admin**  
 
@@ -103,7 +103,6 @@ The app is fully responsive and optimized for various screen sizes, providing a 
 - ![Mobile View 1](https://github.com/user-attachments/assets/5339988d-3726-43bb-b473-3d5a712228a2)  
 - ![Mobile View 2](https://github.com/user-attachments/assets/d227e238-654e-4d89-aa85-c3633d8026e6)  
 - ![Mobile View 3](https://github.com/user-attachments/assets/6dd3f89e-a587-4364-b32e-62758869232f)  
-- ![Mobile View 4](https://github.com/user-attachments/assets/dc75bc43-d4b6-4ce9-bc25-fc41e5e73fcf)
 
 ---
 
