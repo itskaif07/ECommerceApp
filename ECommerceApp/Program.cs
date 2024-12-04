@@ -46,7 +46,7 @@ builder.Services.AddControllersWithViews()
 
 var app = builder.Build();
 
-app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+//app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 // Middleware configuration
 if (app.Environment.IsDevelopment())
@@ -112,7 +112,9 @@ async Task SeedRolesAndAdminUser(RoleManager<IdentityRole> roleManager, UserMana
             Address = "B.M Das Road, Purandarpur gali, Devi Asthan",
             City = "Patna",
             State = "Bihar",
-            PinCode = "800004"
+            PinCode = "800004",
+            EmailConfirmed = true, // Mark as confirmed
+            IsPending = false
         };
         var createAdminUser = await userManager.CreateAsync(adminUser, "ErenJaeger@10");
         if (createAdminUser.Succeeded)
@@ -126,6 +128,16 @@ async Task SeedRolesAndAdminUser(RoleManager<IdentityRole> roleManager, UserMana
             {
                 logger.LogError("Error creating user: {Error}", error.Description);
             }
+        }
+    }
+    else
+    {
+        if (!adminUser.EmailConfirmed || adminUser.IsPending)
+        {
+            adminUser.EmailConfirmed = true;
+            adminUser.IsPending = false;
+            await userManager.UpdateAsync(adminUser);
+            logger.LogInformation("Existing admin user updated with EmailConfirmed and IsPending set to false.");
         }
     }
 }

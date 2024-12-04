@@ -36,10 +36,18 @@ namespace ECommerceApp.Controllers.Authentication
             ViewBag.EmailChangeWarning = TempData["EmailChangeWarning"];
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || !user.EmailConfirmed)
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Login attempt");
+                return View(model);
+            }
+
+
+            if (!user.EmailConfirmed)
             {
                 ModelState.AddModelError(string.Empty, "Please verify your email to log in.");
-                return View("~/Views/Authentication/Login.cshtml", model);
+                return View(model);
             }
 
 
@@ -49,6 +57,7 @@ namespace ECommerceApp.Controllers.Authentication
             {
                 return RedirectToAction("Index", "Home");
             }
+
 
             // Handle specific login failure cases
             if (result.IsLockedOut)
@@ -66,9 +75,6 @@ namespace ECommerceApp.Controllers.Authentication
 
             return View("~/Views/Authentication/LogIn.cshtml", model); 
         }
-
-
-
 
 
         public async Task<IActionResult> LogOut()
