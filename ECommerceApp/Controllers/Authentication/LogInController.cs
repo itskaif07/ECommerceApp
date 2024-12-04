@@ -40,14 +40,14 @@ namespace ECommerceApp.Controllers.Authentication
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt");
-                return View(model);
+                return View("~/Views/Authentication/LogIn.cshtml", model);
             }
 
 
             if (!user.EmailConfirmed)
             {
                 ModelState.AddModelError(string.Empty, "Please verify your email to log in.");
-                return View(model);
+                return View("~/Views/Authentication/LogIn.cshtml", model);
             }
 
 
